@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Passwords need to be more than eight letter", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!email.contains("@"){
+            if (!email.contains("@")) {
                 Toast.makeText(this, "Email is invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
