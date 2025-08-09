@@ -1,36 +1,70 @@
 package com.example.smartparkparkingsystem;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-// Starting file. Use this file for SIGN UP
 
-    Button verifyBtn, signinBtn;
+    EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    Button signUpButton, googleBtn, appleBtn, facebookBtn;
+    CheckBox rememberMeCheckBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        verifyBtn = findViewById(R.id.verifyBtn);
-        signinBtn = findViewById(R.id.signinBtn);
+        fullNameEditText = findViewById(R.id.fullNameEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
+        signUpButton = findViewById(R.id.signUpButton);
+        rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
+        googleBtn = findViewById(R.id.googleBtn);
+        appleBtn = findViewById(R.id.appleBtn); // <- changed here
+        facebookBtn = findViewById(R.id.facebookBtn);
 
-        // test button to proceed sign up. Nanti tukar nama la biar tak confuse.
-        // since once sign up successful, kena verify email dulu kan thats why pergi page verify email
-        verifyBtn.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, VerifyEmailActivity.class));
+        signUpButton.setOnClickListener(v -> {
+            String name = fullNameEditText.getText().toString().trim();
+            String email = emailEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString().trim();
+            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (password.length() < 8) {
+                Toast.makeText(this, "Passwords need to be more than eight letter", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!email.contains("@"){
+                Toast.makeText(this, "Email is invalid", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            boolean remember = rememberMeCheckBox.isChecked();
+            Toast.makeText(this, "Signed up " + (remember ? "with Remember Me" : ""), Toast.LENGTH_SHORT).show();
+
+            // Proceed to verification or dashboard
         });
 
-        // switch to sign up page
-        signinBtn.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        });
+        googleBtn.setOnClickListener(v -> Toast.makeText(this, "Google sign in", Toast.LENGTH_SHORT).show());
+        appleBtn.setOnClickListener(v -> Toast.makeText(this, "Apple sign in", Toast.LENGTH_SHORT).show()); // <- changed here
+        facebookBtn.setOnClickListener(v -> Toast.makeText(this, "Facebook sign in", Toast.LENGTH_SHORT).show());
     }
 }
+
+

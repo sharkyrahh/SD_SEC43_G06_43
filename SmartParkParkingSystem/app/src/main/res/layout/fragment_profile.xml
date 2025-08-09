@@ -1,21 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".ui.profile.ProfileFragment">
+    android:background="@android:color/white">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-    <Button
-        android:id="@+id/editBtn"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit profile" />
-</FrameLayout>
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Profile Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Profile Picture -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@android:drawable/sym_def_app_icon"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="Profile Picture" />
+
+        <!-- Full Name -->
+        <TextView
+            android:id="@+id/fullNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NURHAZIM HAKIMI BIN MUHAMAD SHAH"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Course -->
+        <TextView
+            android:id="@+id/courseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bachelor of Computer Science"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Profile Info Box -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F0F0F0"
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:elevation="4dp"
+            android:layout_marginBottom="24dp">
+
+            <!-- Each field below -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Matric Number:"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/matricNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="A22CS1234"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Programme Code:"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/programmeCodeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CS230"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Faculty:"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/facultyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Faculty of Computing"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Primary Email:"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/primaryEmailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="johndoe@utm.my"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Secondary Email:"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/secondaryEmailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="johndoe@gmail.com"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone Number:"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/phoneNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="012-3456789"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+        <!-- Edit Button -->
+        <Button
+            android:id="@+id/editBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2196F3"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:text="Edit Profile"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>
+

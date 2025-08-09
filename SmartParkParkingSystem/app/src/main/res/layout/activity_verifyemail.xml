@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".VerifyEmailActivity">
+    android:padding="24dp"
+    android:gravity="center">
 
-    <!-- Layout for VERIFY EMAIL. -->
-    <Button
-        android:id="@+id/loginBtn"
+    <TextView
+        android:id="@+id/verifyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go back to login page" />
+        android:text="VERIFY YOUR EMAIL"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" />
+
+    <TextView
+        android:id="@+id/verifyMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A verification link has been sent to your email address.\nPlease check your inbox or spam folder."
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proceed to Login"
+        android:backgroundTint="#2196F3"
+        android:textColor="@color/white" />
 </LinearLayout>
