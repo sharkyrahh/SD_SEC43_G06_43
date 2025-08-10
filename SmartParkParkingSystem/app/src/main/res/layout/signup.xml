@@ -12,28 +12,29 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/mainTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:gravity="center"
-            android:text="UTM SmartPark Parking System"
-            android:textSize="24sp" />
-
-        <TextView
             android:id="@+id/signupTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="SIGN IN"
+            android:text="SIGN UP"
             android:textSize="28sp"
             android:textStyle="bold" />
 
-
+        <EditText
+            android:id="@+id/fullNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:backgroundTint="#004AAD"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#888888" />
 
         <EditText
-            android:id="@+id/emaileditText"
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -46,7 +47,7 @@
             android:textColorHint="#888888" />
 
         <EditText
-            android:id="@+id/passwordeditText"
+            android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -58,13 +59,24 @@
             android:textColor="#000000"
             android:textColorHint="#888888" />
 
-
-
-        <Button
-            android:id="@+id/signInButton"
+        <EditText
+            android:id="@+id/confirmPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:layout_marginTop="12dp"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:backgroundTint="#004AAD"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#888888" />
+
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
             android:layout_marginTop="24dp"
             android:textColor="#FFFFFF"
             android:backgroundTint="#2196F3"
@@ -72,11 +84,19 @@
             android:textAllCaps="false"
             android:textSize="16sp" />
 
+        <CheckBox
+            android:id="@+id/rememberMeCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"
+            android:textColor="#444444"
+            android:layout_marginTop="8dp" />
+
         <TextView
-            android:id="@+id/msgLabel"
+            android:id="@+id/accessQuicklyLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Having Issue?"
+            android:text="——— ACCESS QUICKLY ———"
             android:gravity="center"
             android:textStyle="bold"
             android:layout_marginTop="24dp"
@@ -87,28 +107,41 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="24dp"
-            android:weightSum="2">
+            android:layout_marginTop="8dp"
+            android:weightSum="3">
 
             <Button
-                android:id="@+id/signupBtn"
+                android:id="@+id/googleBtn"
                 android:layout_weight="1"
-                android:layout_width="90dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Sign Up"
+                android:text="GOOGLE"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#2196F3"
                 android:padding="12dp"
                 android:textAllCaps="false"
                 android:textSize="14sp" />
 
+            <Button
+                android:id="@+id/appleBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#2196F3"
+                android:padding="12dp"
+                android:text="APPLE"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
 
             <Button
-                android:id="@+id/PasswordBtn"
+                android:id="@+id/facebookBtn"
                 android:layout_weight="1"
-                android:layout_width="90dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Forgot Password"
+                android:text="FACEBOOK"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#2196F3"
                 android:padding="12dp"

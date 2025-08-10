@@ -1,124 +1,81 @@
 package com.example.smartparkparkingsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
-    Button signUpButton, googleBtn, appleBtn, facebookBtn;
-    CheckBox rememberMeCheckBox;
+    private EditText emailEditText, passwordEditText;
+    private Button signInButton, signupBtn, passwordBtn;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // Make sure this matches your XML file
 
-        // Initialize Firebase Auth & Database
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        fullNameEditText = findViewById(R.id.fullNameEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-        signUpButton = findViewById(R.id.signUpButton);
-        rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
-        googleBtn = findViewById(R.id.googleBtn);
-        appleBtn = findViewById(R.id.appleBtn); // <- changed here
-        facebookBtn = findViewById(R.id.facebookBtn);
+        emailEditText = findViewById(R.id.emaileditText);
+        passwordEditText = findViewById(R.id.passwordeditText);
+        signInButton = findViewById(R.id.signInButton);
+        signupBtn = findViewById(R.id.signupBtn);
+        passwordBtn = findViewById(R.id.PasswordBtn);
 
-        signUpButton.setOnClickListener(v -> {
-            String name = fullNameEditText.getText().toString().trim();
+        signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
-            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            if (email.isEmpty()) {
+                emailEditText.setError("Email is required");
+                emailEditText.requestFocus();
                 return;
             }
 
-            if (!password.equals(confirmPassword)) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditText.setError("Please enter a valid email");
+                emailEditText.requestFocus();
                 return;
             }
 
-            if (password.length() < 8) {
-                Toast.makeText(this, "Passwords need to be more than eight letter", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!email.contains("@")) {
-                Toast.makeText(this, "Email is invalid", Toast.LENGTH_SHORT).show();
+            if (password.isEmpty()) {
+                passwordEditText.setError("Password is required");
+                passwordEditText.requestFocus();
                 return;
             }
 
-
-            boolean remember = rememberMeCheckBox.isChecked();
-            // Daftar pengguna dengan Firebase Auth
-            mAuth.createUserWithEmailAndPassword(email, password)
+            mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            if (firebaseUser != null) {
-                                String userId = firebaseUser.getUid();
-
-                                // Simpan data pengguna di Realtime Database
-                                User newUser = new User(name, email);
-                                mDatabase.child("users").child(userId).setValue(newUser)
-                                        .addOnCompleteListener(dbTask -> {
-                                            if (dbTask.isSuccessful()) {
-                                                Toast.makeText(MainActivity.this,
-                                                        "Signed up " + (remember ? "with Remember Me" : ""),
-                                                        Toast.LENGTH_SHORT).show();
-
-                                                // TODO: Boleh terus ke halaman seterusnya (contoh: Main Dashboard)
-                                            } else {
-                                                Toast.makeText(MainActivity.this,
-                                                        "Failed to save user data", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
+                            Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
                         } else {
-                            Toast.makeText(MainActivity.this,
-                                    "Sign up failed: " + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Login failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
         });
 
-        googleBtn.setOnClickListener(v -> Toast.makeText(this, "Google sign in", Toast.LENGTH_SHORT).show());
-        appleBtn.setOnClickListener(v -> Toast.makeText(this, "Apple sign in", Toast.LENGTH_SHORT).show());
-        facebookBtn.setOnClickListener(v -> Toast.makeText(this, "Facebook sign in", Toast.LENGTH_SHORT).show());
-    }
+        signupBtn.setOnClickListener(v -> {
+            // Navigate to SignUp page (maybe your previous MainActivity code for SignUp)
+            startActivity(new Intent(MainActivity.this, SignUp.class));
+        });
 
-    // Class model untuk user data
-    public static class User {
-        public String fullName;
-        public String email;
-
-        public User() {
-        }
-
-        public User(String fullName, String email) {
-            this.fullName = fullName;
-            this.email = email;
-        }
+        passwordBtn.setOnClickListener(v -> {
+            // Navigate to Forgot Password page
+            startActivity(new Intent(MainActivity.this, ForgotPassActivity.class));
+        });
     }
 }
-
-
-
