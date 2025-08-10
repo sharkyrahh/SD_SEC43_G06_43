@@ -8,16 +8,28 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     Button signUpButton, googleBtn, appleBtn, facebookBtn;
     CheckBox rememberMeCheckBox;
 
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize Firebase Auth & Database
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         fullNameEditText = findViewById(R.id.fullNameEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -56,15 +68,57 @@ public class MainActivity extends AppCompatActivity {
 
 
             boolean remember = rememberMeCheckBox.isChecked();
-            Toast.makeText(this, "Signed up " + (remember ? "with Remember Me" : ""), Toast.LENGTH_SHORT).show();
+            // Daftar pengguna dengan Firebase Auth
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            if (firebaseUser != null) {
+                                String userId = firebaseUser.getUid();
 
-            // Proceed to verification or dashboard
+                                // Simpan data pengguna di Realtime Database
+                                User newUser = new User(name, email);
+                                mDatabase.child("users").child(userId).setValue(newUser)
+                                        .addOnCompleteListener(dbTask -> {
+                                            if (dbTask.isSuccessful()) {
+                                                Toast.makeText(MainActivity.this,
+                                                        "Signed up " + (remember ? "with Remember Me" : ""),
+                                                        Toast.LENGTH_SHORT).show();
+
+                                                // TODO: Boleh terus ke halaman seterusnya (contoh: Main Dashboard)
+                                            } else {
+                                                Toast.makeText(MainActivity.this,
+                                                        "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    "Sign up failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
         googleBtn.setOnClickListener(v -> Toast.makeText(this, "Google sign in", Toast.LENGTH_SHORT).show());
-        appleBtn.setOnClickListener(v -> Toast.makeText(this, "Apple sign in", Toast.LENGTH_SHORT).show()); // <- changed here
+        appleBtn.setOnClickListener(v -> Toast.makeText(this, "Apple sign in", Toast.LENGTH_SHORT).show());
         facebookBtn.setOnClickListener(v -> Toast.makeText(this, "Facebook sign in", Toast.LENGTH_SHORT).show());
     }
+
+    // Class model untuk user data
+    public static class User {
+        public String fullName;
+        public String email;
+
+        public User() {
+        }
+
+        public User(String fullName, String email) {
+            this.fullName = fullName;
+            this.email = email;
+        }
+    }
 }
+
 
 
