@@ -1,32 +1,47 @@
 package com.example.smartparkparkingsystem.ui.profile;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.example.smartparkparkingsystem.HomeActivity;
-import com.example.smartparkparkingsystem.LoginActivity;
-import com.example.smartparkparkingsystem.R;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    Button backBtn;
+    import com.example.smartparkparkingsystem.R;
 
+
+EditText editFullName, editEmail, editPassword;
+    Button btnSaveProfile;
+
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editprofile);
+        setContentView(android.R.attr.layout);
 
-        // Back button pergi balik Profile Fragment. Code ni boleh stay/gunakan je
-        backBtn = findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(v-> onBackPressed());
+        editFullName = findViewById(android.R.attr.id);
+        editEmail = findViewById(android.R.attr.id);
+        editPassword = findViewById(android.R.attr.id);
+        btnSaveProfile = findViewById(android.R.attr.id);
 
+        btnSaveProfile.setOnClickListener(v -> {
+            String fullName = editFullName.getText().toString().trim();
+            String email = editEmail.getText().toString().trim();
+            String password = editPassword.getText().toString().trim();
 
+            if (fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(EditProfileActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            } else {
+                // TODO: Save changes to database
+                Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
+
+
+
+

@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
         googleBtn = findViewById(R.id.googleBtn);
-        appleBtn = findViewById(R.id.appleBtn); // <- changed here
         facebookBtn = findViewById(R.id.facebookBtn);
 
         signUpButton.setOnClickListener(v -> {

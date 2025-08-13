@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +20,8 @@
             android:text="Profile"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            tools:ignore="HardcodedText" />
 
         <!-- Profile Picture -->
         <ImageView
@@ -27,17 +29,19 @@
             android:layout_height="100dp"
             android:src="@android:drawable/sym_def_app_icon"
             android:layout_marginBottom="12dp"
-            android:contentDescription="Profile Picture" />
+            android:contentDescription="Profile Picture"
+            tools:ignore="HardcodedText" />
 
         <!-- Full Name -->
         <TextView
             android:id="@+id/fullNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="NURHAZIM HAKIMI BIN MUHAMAD SHAH"
             android:textSize="19dp"
             android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
+            tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
 
         <!-- Course -->
         <TextView
@@ -46,7 +50,8 @@
             android:layout_height="wrap_content"
             android:text="Bachelor of Computer Science"
             android:textSize="16sp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            tools:ignore="HardcodedText" />
 
         <!-- Profile Info Box -->
         <LinearLayout
@@ -63,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Matric Number:"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/matricNumberText"
                 android:layout_width="match_parent"
@@ -71,13 +77,15 @@
                 android:text="A22CS1234"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Programme Code:"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/programmeCodeText"
                 android:layout_width="match_parent"
@@ -85,13 +93,15 @@
                 android:text="CS230"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Faculty:"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/facultyText"
                 android:layout_width="match_parent"
@@ -99,13 +109,15 @@
                 android:text="Faculty of Computing"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Primary Email:"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/primaryEmailText"
                 android:layout_width="match_parent"
@@ -113,13 +125,15 @@
                 android:text="johndoe@utm.my"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Secondary Email:"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/secondaryEmailText"
                 android:layout_width="match_parent"
@@ -127,13 +141,15 @@
                 android:text="johndoe@gmail.com"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Phone Number:"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/phoneNumberText"
                 android:layout_width="match_parent"
@@ -141,7 +157,8 @@
                 android:text="012-3456789"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <!-- Edit Button -->
@@ -153,7 +170,8 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:text="Edit Profile"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
     </LinearLayout>
 </ScrollView>
