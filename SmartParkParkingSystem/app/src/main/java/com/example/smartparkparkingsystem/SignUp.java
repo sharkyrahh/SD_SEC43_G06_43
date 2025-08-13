@@ -1,6 +1,8 @@
 package com.example.smartparkparkingsystem;
 
 import android.os.Bundle;
+import android.content.Intent;
+
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -85,7 +87,9 @@ public class SignUp extends AppCompatActivity {
                                                         "Signed up " + (remember ? "with Remember Me" : ""),
                                                         Toast.LENGTH_SHORT).show();
 
-                                                // TODO: Boleh terus ke halaman seterusnya (contoh: Main Dashboard)
+                                                // Go back to login page (activity_main)
+                                                startActivity(new Intent(SignUp.this, MainActivity.class));
+                                                finish(); // close SignUp activity
                                             } else {
                                                 Toast.makeText(SignUp.this,
                                                         "Failed to save user data", Toast.LENGTH_SHORT).show();
