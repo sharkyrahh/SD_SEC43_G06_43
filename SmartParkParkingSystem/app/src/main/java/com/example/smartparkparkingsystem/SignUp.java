@@ -1,14 +1,17 @@
 package com.example.smartparkparkingsystem;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.content.Intent;
 
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +24,7 @@ public class SignUp extends AppCompatActivity {
     Button signUpButton, googleBtn, appleBtn, facebookBtn;
     CheckBox rememberMeCheckBox;
 
+    TextView loginLabel;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -28,10 +32,15 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
         // Initialize Firebase Auth & Database
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        loginLabel = findViewById(R.id.loginLabel);
+        loginLabel.setPaintFlags(loginLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         fullNameEditText = findViewById(R.id.fullNameEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -39,10 +48,11 @@ public class SignUp extends AppCompatActivity {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         signUpButton = findViewById(R.id.signUpButton);
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
-        googleBtn = findViewById(R.id.googleBtn);
-        appleBtn = findViewById(R.id.appleBtn); // <- changed here
-        facebookBtn = findViewById(R.id.facebookBtn);
 
+        loginLabel.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUp.this, MainActivity.class);
+            startActivity(intent);
+        });
         signUpButton.setOnClickListener(v -> {
             String name = fullNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
@@ -106,10 +116,6 @@ public class SignUp extends AppCompatActivity {
                         }
                     });
         });
-
-        googleBtn.setOnClickListener(v -> Toast.makeText(this, "Google sign in", Toast.LENGTH_SHORT).show());
-        appleBtn.setOnClickListener(v -> Toast.makeText(this, "Apple sign in", Toast.LENGTH_SHORT).show());
-        facebookBtn.setOnClickListener(v -> Toast.makeText(this, "Facebook sign in", Toast.LENGTH_SHORT).show());
     }
 
     // Class model untuk user data

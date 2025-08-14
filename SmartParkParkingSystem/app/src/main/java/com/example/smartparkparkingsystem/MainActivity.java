@@ -1,32 +1,49 @@
 package com.example.smartparkparkingsystem;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button signInButton, signupBtn, passwordBtn;
+    private Button signInButton;
+
+    private TextView msgLabel;
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // Make sure this matches your XML file
+        setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
         mAuth = FirebaseAuth.getInstance();
 
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
+        msgLabel = findViewById(R.id.msgLabel);
+
+        msgLabel.setPaintFlags(msgLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        msgLabel.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SignUp.class);
+            startActivity(intent);
+        });
 
         signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
@@ -63,16 +80,6 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-        });
-
-        signupBtn.setOnClickListener(v -> {
-            // Navigate to SignUp page (maybe your previous MainActivity code for SignUp)
-            startActivity(new Intent(MainActivity.this, SignUp.class));
-        });
-
-        passwordBtn.setOnClickListener(v -> {
-            // Navigate to Forgot Password page
-            startActivity(new Intent(MainActivity.this, ForgotPassActivity.class));
         });
     }
 }

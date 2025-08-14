@@ -3,22 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#F0F6FF"> <!-- Light blueish background for modern look -->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F0F6FF"
+    tools:context=".MainActivity"
+    android:orientation="vertical"><!-- Light blueish background for modern look -->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2196F3"
+        app:title="UTM SmartPark Parking System"
+        app:titleTextColor="@android:color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/mainTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:gravity="center"
-            android:text="UTM SmartPark Parking System"
-            android:textSize="24sp" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/signupTitle"
@@ -36,7 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textColor="#000000"
-            android:textColorHint="#888888" />
+            android:textColorHint="#888888"
+            android:hint="Email"
+            android:backgroundTint="#004AAD"/>
 
         <EditText
             android:id="@+id/passwordeditText"
@@ -44,7 +49,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textColor="#000000"
-            android:textColorHint="#888888" />
+            android:textColorHint="#888888"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:backgroundTint="#004AAD"/>
 
         <Button
             android:id="@+id/signInButton"
@@ -54,13 +62,14 @@
             android:layout_marginTop="24dp"
             android:textColor="#FFFFFF"
             android:backgroundTint="#2196F3"
-        android:textAllCaps="false"
-        android:textSize="16sp" />
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:padding="14dp"/>
 
         <TextView
             android:id="@+id/msgLabel"
             android:layout_width="match_parent"
-            android:text="Having Issue?"
+            android:text="New user? Sign Up instead"
             android:textStyle="bold"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
