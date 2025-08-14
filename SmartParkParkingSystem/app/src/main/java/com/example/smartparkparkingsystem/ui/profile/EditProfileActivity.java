@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.smartparkparkingsystem.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    import com.example.smartparkparkingsystem.R;
+
 
 
 EditText editFullName, editEmail, editPassword;

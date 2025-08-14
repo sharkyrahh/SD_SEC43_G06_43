@@ -2,21 +2,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_search"
         android:title="Search"
         android:showAsAction="always"
         tools:ignore="AppCompatResource" />
 
     <item
         android:id="@+id/action_notifications"
-        android:icon="@drawable/ic_notifications"
         android:title="Notifications"
         android:showAsAction="always"
         tools:ignore="AppCompatResource" />
 
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/ic_profile"
         android:title="Profile"
         android:showAsAction="always"
         tools:ignore="AppCompatResource" />

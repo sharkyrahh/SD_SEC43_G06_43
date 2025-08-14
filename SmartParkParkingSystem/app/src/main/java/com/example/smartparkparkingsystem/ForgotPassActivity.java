@@ -20,8 +20,8 @@ public class ForgotPassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgotpassword);
 
         //Login button. Bila dah reset/forgot password, pergi balik Login Page.
-        loginBtn = findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(v -> onBackPressed());
+        //loginBtn = findViewById(R.id.loginBtn);
+       // loginBtn.setOnClickListener(v -> onBackPressed());
         //onBackPressed basically just Back function
     }
 }

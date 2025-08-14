@@ -17,7 +17,7 @@ public class VerifyEmailActivity extends AppCompatActivity {
 
         loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(v -> {
-            startActivity(new Intent(VerifyEmailActivity.this, LoginActivity.class));
+            startActivity(new Intent(VerifyEmailActivity.this, MainActivity.class));
             finish(); // optional, so user can't go back
         });
     }

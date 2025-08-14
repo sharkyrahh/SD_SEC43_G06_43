@@ -22,22 +22,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // Make sure this matches your XML file
-
-        fullNameEditText = findViewById(R.id.fullNameEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-        signUpButton = findViewById(R.id.signUpButton);
-        rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
-        googleBtn = findViewById(R.id.googleBtn);
-        facebookBtn = findViewById(R.id.facebookBtn);
         mAuth = FirebaseAuth.getInstance();
 
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
-        signupBtn = findViewById(R.id.signupBtn);
-        passwordBtn = findViewById(R.id.PasswordBtn);
 
         signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();

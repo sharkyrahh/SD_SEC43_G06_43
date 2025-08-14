@@ -30,9 +30,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home); // pastikan XML anda betul
 
-        welcomeText = findViewById(R.id.welcomeText);
-        infoText = findViewById(R.id.infoText);
-
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -43,10 +40,8 @@ public class HomeActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 String fullName = task.getResult().getValue(String.class);
                 welcomeText.setText("Welcome, " + fullName + "!");
-                infoText.setText("This is your SmartPark dashboard. Tap the menu to get started.");
             } else {
                 welcomeText.setText("Welcome!");
-                infoText.setText("Failed to load user data.");
             }
         });
 

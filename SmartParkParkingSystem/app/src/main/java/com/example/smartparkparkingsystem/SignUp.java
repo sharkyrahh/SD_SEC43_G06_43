@@ -95,6 +95,9 @@ public class SignUp extends AppCompatActivity {
                                                         "Failed to save user data", Toast.LENGTH_SHORT).show();
                                             }
                                         });
+
+                                //code untuk send email
+                                // intent pegi emailverify java
                             }
                         } else {
                             Toast.makeText(SignUp.this,
