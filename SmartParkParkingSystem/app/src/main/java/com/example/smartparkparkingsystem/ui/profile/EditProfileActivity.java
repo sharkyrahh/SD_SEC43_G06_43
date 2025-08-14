@@ -4,29 +4,30 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.smartparkparkingsystem.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditProfileActivity extends AppCompatActivity {
-
-
-
-
 EditText editFullName, editEmail, editPassword;
     Button btnSaveProfile;
+    ImageView backButton;
 
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.R.attr.layout);
+        setContentView(R.layout.activity_editprofile);
 
-        editFullName = findViewById(android.R.attr.id);
-        editEmail = findViewById(android.R.attr.id);
-        editPassword = findViewById(android.R.attr.id);
-        btnSaveProfile = findViewById(android.R.attr.id);
+        editFullName = findViewById(R.id.editFullName);
+        editEmail = findViewById(R.id.editEmail);
+        editPassword = findViewById(R.id.editPassword);
+        btnSaveProfile = findViewById(R.id.btnSaveProfile);
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> finish());
 
         btnSaveProfile.setOnClickListener(v -> {
             String fullName = editFullName.getText().toString().trim();
@@ -42,8 +43,3 @@ EditText editFullName, editEmail, editPassword;
         });
     }
 }
-
-
-
-
-// hi

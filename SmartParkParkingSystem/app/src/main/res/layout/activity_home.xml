@@ -12,7 +12,7 @@
     <!-- FILE FOR NAVIGATION ONLY!!!-->
     <!-- If nak code layout untuk homepage, please pergi dekat fragment_home.xml-->
     <!-- Thankyou -->
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
