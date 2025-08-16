@@ -3,25 +3,60 @@ package com.example.smartparkparkingsystem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPassActivity extends AppCompatActivity {
-// File for FORGOT PASSWORD
+    // File for FORGOT PASSWORD
+    //Login button. Bila dah reset/forgot password, pergi balik Login Page.
+    //loginBtn = findViewById(R.id.loginBtn);
+    // loginBtn.setOnClickListener(v -> onBackPressed());
+    //onBackPressed basically just Back function
 
-    Button loginBtn;
+    private EditText emailInput;
+    private Button resetButton;
+    Button loginBtn; // (This stays as you wrote)
+
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgotpassword);
 
-        //Login button. Bila dah reset/forgot password, pergi balik Login Page.
-        //loginBtn = findViewById(R.id.loginBtn);
-       // loginBtn.setOnClickListener(v -> onBackPressed());
-        //onBackPressed basically just Back function
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize views
+        emailInput = findViewById(R.id.emailInput);
+        resetButton = findViewById(R.id.resetButton);
+
+        // Reset password button logic
+        resetButton.setOnClickListener(v -> {
+            String email = emailInput.getText().toString().trim();
+
+            if (email.isEmpty()) {
+                Toast.makeText(ForgotPassActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Firebase send password reset email
+            mAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(ForgotPassActivity.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
+
+                    // After success → go back to login page
+                    Intent intent = new Intent(ForgotPassActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(ForgotPassActivity.this, "No account found with this email", Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 }

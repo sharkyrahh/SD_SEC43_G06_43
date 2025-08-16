@@ -28,12 +28,14 @@ public class HomeFragment extends Fragment {
     private DatabaseReference mDatabase;
 
 
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        welcomeText = view.findViewById(R.id.welcomeText);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
 
         String userId = mAuth.getCurrentUser().getUid();
 

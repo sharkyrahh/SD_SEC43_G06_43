@@ -3,12 +3,12 @@ package com.example.smartparkparkingsystem;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.content.Intent;
-
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +23,7 @@ public class SignUp extends AppCompatActivity {
     EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     Button signUpButton, googleBtn, appleBtn, facebookBtn;
     CheckBox rememberMeCheckBox;
+    ToggleButton roleToggle; // NEW
 
     TextView loginLabel;
     private FirebaseAuth mAuth;
@@ -32,7 +33,8 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
         // Initialize Firebase Auth & Database
@@ -48,11 +50,13 @@ public class SignUp extends AppCompatActivity {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         signUpButton = findViewById(R.id.signUpButton);
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
+        roleToggle = findViewById(R.id.exampleToggle); // get toggle button
 
         loginLabel.setOnClickListener(v -> {
             Intent intent = new Intent(SignUp.this, MainActivity.class);
             startActivity(intent);
         });
+
         signUpButton.setOnClickListener(v -> {
             String name = fullNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
@@ -70,17 +74,18 @@ public class SignUp extends AppCompatActivity {
             }
 
             if (password.length() < 8) {
-                Toast.makeText(this, "Passwords need to be more than eight letter", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if (!email.contains("@")) {
                 Toast.makeText(this, "Email is invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-
             boolean remember = rememberMeCheckBox.isChecked();
-            // Daftar pengguna dengan Firebase Auth
+
+            // Sign up with Firebase Auth
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -88,26 +93,27 @@ public class SignUp extends AppCompatActivity {
                             if (firebaseUser != null) {
                                 String userId = firebaseUser.getUid();
 
-                                // Simpan data pengguna di Realtime Database
+                                // Check role from toggle
+                                String rolePath = roleToggle.isChecked() ? "admins" : "users";
+
+                                // Save user data under chosen role
                                 User newUser = new User(name, email);
-                                mDatabase.child("users").child(userId).setValue(newUser)
+                                mDatabase.child(rolePath).child(userId).setValue(newUser)
                                         .addOnCompleteListener(dbTask -> {
                                             if (dbTask.isSuccessful()) {
                                                 Toast.makeText(SignUp.this,
-                                                        "Signed up " + (remember ? "with Remember Me" : ""),
+                                                        "Signed up as " + (roleToggle.isChecked() ? "Admin" : "User"),
                                                         Toast.LENGTH_SHORT).show();
 
-                                                // Go back to login page (activity_main)
-                                                startActivity(new Intent(SignUp.this, MainActivity.class));
-                                                finish(); // close SignUp activity
+                                                // After sign up go to verify email page
+                                                Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
+                                                startActivity(intent);
+                                                finish();
                                             } else {
                                                 Toast.makeText(SignUp.this,
                                                         "Failed to save user data", Toast.LENGTH_SHORT).show();
                                             }
                                         });
-
-                                //code untuk send email
-                                // intent pegi emailverify java
                             }
                         } else {
                             Toast.makeText(SignUp.this,
@@ -118,7 +124,7 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    // Class model untuk user data
+    // Model class
     public static class User {
         public String fullName;
         public String email;
@@ -132,6 +138,3 @@ public class SignUp extends AppCompatActivity {
         }
     }
 }
-
-
-

@@ -112,6 +112,34 @@
             android:textStyle="bold"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:id="@+id/msgLabel2"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Are you an:"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <ToggleButton
+                android:id="@+id/exampleToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3"
+                android:textOff="User"
+                android:textOn="Admin"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
 
