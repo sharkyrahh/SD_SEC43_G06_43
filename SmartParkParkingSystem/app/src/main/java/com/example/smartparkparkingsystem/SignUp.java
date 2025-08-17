@@ -9,9 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -84,63 +89,56 @@ public class SignUp extends AppCompatActivity {
 
             // Firebase Auth SignUp
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            if (firebaseUser != null) {
-                                String userId = firebaseUser.getUid();
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                                // Save user under "users"
-                                User newUser = new User(name, email);
-                                mDatabase.child("users").child(userId).setValue(newUser)
-                                        .addOnCompleteListener(dbTask -> {
-                                            if (dbTask.isSuccessful()) {
-                                                // 🔑 Send verification email
-                                                firebaseUser.sendEmailVerification()
-                                                        .addOnCompleteListener(verifyTask -> {
-                                                            if (verifyTask.isSuccessful()) {
-                                                                Toast.makeText(SignUp.this,
-                                                                        "Sign up successful! Please verify your email.",
-                                                                        Toast.LENGTH_LONG).show();
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                                                                // Move to VerifyEmailActivity
-                                                                Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
-                                                                startActivity(intent);
-                                                                finish();
-                                                            } else {
-                                                                Toast.makeText(SignUp.this,
-                                                                        "Failed to send verification email: "
-                                                                                + verifyTask.getException().getMessage(),
-                                                                        Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
-                                            } else {
-                                                Toast.makeText(SignUp.this,
-                                                        "Failed to save user data",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                if (firebaseUser != null) {
+                                    String userId = firebaseUser.getUid();
+
+                                    User newUser = new User(name, email, userId);
+                                    mDatabase.child("users").child(userId).setValue(newUser);
+
+                                    firebaseUser.sendEmailVerification()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(SignUp.this,
+                                                                "Sign up successful!", Toast.LENGTH_LONG).show();
+                                                        // Move to VerifyEmailActivity
+                                                        Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }
+                                            });
+                                }
+                            } else {
+                                Toast.makeText(SignUp.this,
+                                        "Sign up failed: " + task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(SignUp.this,
-                                    "Sign up failed: " + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         });
     }
-
     // Model class
     public static class User {
         public String fullName;
         public String email;
+        public String userId;
 
         public User() {
         }
 
-        public User(String fullName, String email) {
+        public User(String fullName, String email, String userId) {
             this.fullName = fullName;
             this.email = email;
+            this.userId = userId;
         }
     }
 }
