@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,11 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUp extends AppCompatActivity {
 
     EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
-    Button signUpButton, googleBtn, appleBtn, facebookBtn;
+    Button signUpButton;
     CheckBox rememberMeCheckBox;
-    ToggleButton roleToggle; // NEW
-
     TextView loginLabel;
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -50,13 +48,14 @@ public class SignUp extends AppCompatActivity {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         signUpButton = findViewById(R.id.signUpButton);
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
-        roleToggle = findViewById(R.id.exampleToggle); // get toggle button
 
+        // Navigate to login page
         loginLabel.setOnClickListener(v -> {
             Intent intent = new Intent(SignUp.this, MainActivity.class);
             startActivity(intent);
         });
 
+        // Sign up logic
         signUpButton.setOnClickListener(v -> {
             String name = fullNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
@@ -83,9 +82,7 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
-            boolean remember = rememberMeCheckBox.isChecked();
-
-            // Sign up with Firebase Auth
+            // Firebase Auth SignUp
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -93,25 +90,34 @@ public class SignUp extends AppCompatActivity {
                             if (firebaseUser != null) {
                                 String userId = firebaseUser.getUid();
 
-                                // Check role from toggle
-                                String rolePath = roleToggle.isChecked() ? "admins" : "users";
-
-                                // Save user data under chosen role
+                                // Save user under "users"
                                 User newUser = new User(name, email);
-                                mDatabase.child(rolePath).child(userId).setValue(newUser)
+                                mDatabase.child("users").child(userId).setValue(newUser)
                                         .addOnCompleteListener(dbTask -> {
                                             if (dbTask.isSuccessful()) {
-                                                Toast.makeText(SignUp.this,
-                                                        "Signed up as " + (roleToggle.isChecked() ? "Admin" : "User"),
-                                                        Toast.LENGTH_SHORT).show();
+                                                // 🔑 Send verification email
+                                                firebaseUser.sendEmailVerification()
+                                                        .addOnCompleteListener(verifyTask -> {
+                                                            if (verifyTask.isSuccessful()) {
+                                                                Toast.makeText(SignUp.this,
+                                                                        "Sign up successful! Please verify your email.",
+                                                                        Toast.LENGTH_LONG).show();
 
-                                                // After sign up go to verify email page
-                                                Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
-                                                startActivity(intent);
-                                                finish();
+                                                                // Move to VerifyEmailActivity
+                                                                Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            } else {
+                                                                Toast.makeText(SignUp.this,
+                                                                        "Failed to send verification email: "
+                                                                                + verifyTask.getException().getMessage(),
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                             } else {
                                                 Toast.makeText(SignUp.this,
-                                                        "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                                        "Failed to save user data",
+                                                        Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
