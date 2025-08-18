@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_person" />
+    <item
+        android:id="@+id/nav_parking"
+        android:title="Parking"
+        android:icon="@drawable/ic_local_parking" />
+    <item
+        android:id="@+id/nav_payment"
+        android:title="Payment"
+        android:icon="@drawable/ic_payment" />
+    <item
+        android:id="@+id/nav_history"
+        android:title="History"
+        android:icon="@drawable/ic_history" />
+</menu>
