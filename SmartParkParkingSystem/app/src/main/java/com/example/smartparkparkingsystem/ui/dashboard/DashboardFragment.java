@@ -1,5 +1,6 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.smartparkparkingsystem.MainActivity;
 import com.example.smartparkparkingsystem.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import android.widget.Toast;
 
 public class DashboardFragment extends Fragment {
@@ -53,9 +57,23 @@ public class DashboardFragment extends Fragment {
             // startActivity(new Intent(getActivity(), EditProfileActivity.class));
         });
 
+        // Logout Button
         cardLogout.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Logged Out", Toast.LENGTH_SHORT).show();
-            // Add logout logic here (e.g., clear session, go back to LoginActivity)
+            // Sign out from Firebase
+            FirebaseAuth.getInstance().signOut();
+
+            // Toast message
+            Toast.makeText(getContext(), "Logout successful", Toast.LENGTH_SHORT).show();
+
+            // Redirect to MainActivity (login screen)
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+            // Close current activity so user cannot go back
+            if (getActivity() != null) {
+                getActivity().finish();
+            }
         });
 
         return view;
