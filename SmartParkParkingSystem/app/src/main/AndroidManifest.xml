@@ -15,6 +15,9 @@
         android:theme="@style/Theme.SmartParkParkingSystem"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.ResetPassActivity"
+            android:exported="false" />
+        <activity
             android:name=".ScanActivity"
             android:exported="false" />
         <activity
