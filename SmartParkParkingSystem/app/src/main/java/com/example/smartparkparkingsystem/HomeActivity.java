@@ -1,6 +1,7 @@
 package com.example.smartparkparkingsystem;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.smartparkparkingsystem.databinding.ActivityHomeBinding;
@@ -75,4 +77,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();  // ✅ log out from Firebase
+
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
+        boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+        binding.drawerLayout.closeDrawers();
+        return handled;
+    }
+
 }

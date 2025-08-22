@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button signInButton, forgotPassButton, signUpButton;
+    private Button signInButton, forgotPassButton, signUpButton, signInAdminButton; // added admin button
     private TextView msgLabel;
 
     private FirebaseAuth mAuth;
@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        // UI elements
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
         msgLabel = findViewById(R.id.msgLabel);
         signUpButton = findViewById(R.id.signupButton);
         forgotPassButton = findViewById(R.id.forgotpass);
+        signInAdminButton = findViewById(R.id.signInAdminButton); // bind admin button
 
         // underline "New user? Sign Up instead"
         msgLabel.setPaintFlags(msgLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ForgotPassActivity.class));
         });
 
-        // Sign In button
+        // ===================== USER LOGIN =====================
         signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -65,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                // ✅ Terus masuk HomeActivity tanpa check database
                                 Toast.makeText(MainActivity.this,
                                         "Login successful",
                                         Toast.LENGTH_SHORT).show();
@@ -80,6 +81,24 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
         });
+        // ======================================================
+
+        // ===================== ADMIN LOGIN AREA =====================
+        // This section is ONLY for Admin Login.
+        // For now → It simply navigates to AdminActivity (which will load modify_xml.xml layout).
+        // Later → You should add Firestore check to verify that the user has "role = admin".
+        //
+        // Example Firestore schema (users collection):
+        // users -> userId -> { email: "admin@gmail.com", fullName: "System Admin", role: "admin" }
+        //
+        // Then, before navigating, query Firestore:
+        // if role == "admin" → allow access
+        // else → block with Toast ("Not authorized as Admin").
+        signInAdminButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+            startActivity(intent);
+        });
+        // ============================================================
     }
 
     private boolean validateInputs(String email, String password) {
