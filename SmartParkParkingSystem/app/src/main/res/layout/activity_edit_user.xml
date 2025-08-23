@@ -26,47 +26,36 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit User Data"
+            android:text="User Data"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"
             tools:ignore="HardcodedText" />
 
         <!-- Full Name -->
-        <EditText
+        <TextView
             android:id="@+id/editFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@android:drawable/edit_text"
-            android:hint="Full Name"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+            android:text="Name: Name"
+            android:padding="12dp" />
 
-        <!-- Email -->
-        <EditText
+        <TextView
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@android:drawable/edit_text"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="12dp"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+            android:text="Email: Email"
+            android:padding="12dp" />
 
-        <!-- Change Password -->
-        <EditText
-            android:id="@+id/editPassword"
+        <TextView
+            android:id="@+id/cardUID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@android:drawable/edit_text"
-            android:hint="Change Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+            android:text="Card UID: Not Registered"
+            android:padding="12dp" />
 
         <Button
             android:id="@+id/btnRegisterRFID"

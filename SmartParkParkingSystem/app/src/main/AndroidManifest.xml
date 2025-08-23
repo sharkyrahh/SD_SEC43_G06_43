@@ -18,13 +18,13 @@
             android:name=".ui.profile.ResetPassActivity"
             android:exported="false" />
         <activity
-            android:name=".ScanActivity"
+            android:name=".ui.dashboard.ScanActivity"
             android:exported="false" />
         <activity
-            android:name=".EditUserActivity"
+            android:name=".ui.dashboard.EditUserActivity"
             android:exported="false" />
         <activity
-            android:name=".UserListActivity"
+            android:name=".ui.dashboard.UserListActivity"
             android:exported="false" />
         <activity
             android:name=".DashboardActivity"

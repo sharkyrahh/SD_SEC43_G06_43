@@ -43,8 +43,7 @@ public class DashboardFragment extends Fragment {
         // Click Listeners
         cardViewUser.setOnClickListener(v -> {
             Toast.makeText(getContext(), "View User clicked", Toast.LENGTH_SHORT).show();
-            // Example: open UserActivity
-            // startActivity(new Intent(getActivity(), UserActivity.class));
+            startActivity(new Intent(getActivity(), UserListActivity.class));
         });
 
         cardViewPortfolio.setOnClickListener(v -> {

@@ -81,7 +81,6 @@ public class SignUp extends AppCompatActivity {
                 Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (!email.contains("@")) {
                 Toast.makeText(this, "Email is invalid", Toast.LENGTH_SHORT).show();
                 return;
