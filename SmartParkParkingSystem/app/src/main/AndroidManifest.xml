@@ -44,6 +44,9 @@
             android:name=".ForgotPassActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.dashboard.Adminprofile"
+            android:exported="false" />
+        <activity
             android:name=".AdminActivity"
             android:exported="false" />
         <activity

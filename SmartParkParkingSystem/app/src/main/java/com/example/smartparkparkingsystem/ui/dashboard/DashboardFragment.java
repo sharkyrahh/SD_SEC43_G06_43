@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.smartparkparkingsystem.MainActivity;
 import com.example.smartparkparkingsystem.R;
+import com.example.smartparkparkingsystem.ui.profile.EditProfileActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,12 +45,12 @@ public class DashboardFragment extends Fragment {
 
         cardViewPortfolio.setOnClickListener(v -> {
             Toast.makeText(getContext(), "View Portfolio clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(getActivity(), PortfolioActivity.class));
+            startActivity(new Intent(getActivity(), Adminprofile.class));
         });
 
         cardEditProfile.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(getActivity(), EditProfileActivity.class));
+            startActivity(new Intent(getActivity(), EditProfileActivity.class));
         });
 
         // Logout Button

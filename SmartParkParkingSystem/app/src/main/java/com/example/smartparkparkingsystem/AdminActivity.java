@@ -10,8 +10,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,8 +19,7 @@ public class AdminActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button signInButton, forgotPassButton, signInUserButton;
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference roleRef;
+    private DatabaseReference roleRef; // reference to Role/ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +29,22 @@ public class AdminActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        mAuth = FirebaseAuth.getInstance();
-
-        // Database reference to Role node
-        roleRef = FirebaseDatabase.getInstance(
-                "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
-        ).getReference("Role");
+        // Reference ke node Role/ID
+        roleRef = FirebaseDatabase
+                .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("Role")
+                .child("ID");
 
         // UI elements
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
         forgotPassButton = findViewById(R.id.forgotpass);
-        signInUserButton = findViewById(R.id.signInUserButton); // optional navigation
+        signInUserButton = findViewById(R.id.signInUserButton);
 
         // Forgot password navigation
-        forgotPassButton.setOnClickListener(v -> {
-            startActivity(new Intent(AdminActivity.this, ForgotPassActivity.class));
-        });
+        forgotPassButton.setOnClickListener(v ->
+                startActivity(new Intent(AdminActivity.this, ForgotPassActivity.class)));
 
         // ===================== ADMIN LOGIN =====================
         signInButton.setOnClickListener(v -> {
@@ -58,52 +53,52 @@ public class AdminActivity extends AppCompatActivity {
 
             if (!validateInputs(email, password)) return;
 
-            // Login with Firebase Authentication
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                // Check admin role in Realtime Database
-                                roleRef.orderByChild("email").equalTo(email)
-                                        .get().addOnCompleteListener(roleTask -> {
-                                            if (roleTask.isSuccessful() && roleTask.getResult().exists()) {
-                                                for (DataSnapshot ds : roleTask.getResult().getChildren()) {
-                                                    String role = ds.child("role").getValue(String.class);
-                                                    if ("admin".equals(role)) {
-                                                        Toast.makeText(AdminActivity.this,
-                                                                "Login successful as Admin",
-                                                                Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(AdminActivity.this, DashboardActivity.class));
-                                                        finish();
-                                                    } else {
-                                                        Toast.makeText(AdminActivity.this,
-                                                                "Not authorized as Admin",
-                                                                Toast.LENGTH_LONG).show();
-                                                        mAuth.signOut();
-                                                    }
-                                                }
-                                            } else {
-                                                Toast.makeText(AdminActivity.this,
-                                                        "Admin email not found",
-                                                        Toast.LENGTH_LONG).show();
-                                                mAuth.signOut();
-                                            }
-                                        });
-                            }
+            // Direct ambil data dari Role/ID
+            roleRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    DataSnapshot snapshot = task.getResult();
+
+                    String dbEmail = snapshot.child("email").getValue(String.class);
+                    String dbPassword = snapshot.child("password").getValue(String.class);
+                    String dbRole = snapshot.child("role").getValue(String.class);
+
+                    if (dbEmail != null && dbPassword != null && dbRole != null) {
+                        if (dbEmail.equalsIgnoreCase(email)
+                                && dbPassword.equals(password)
+                                && dbRole.equalsIgnoreCase("admin")) {
+
+                            Toast.makeText(AdminActivity.this,
+                                    "Login successful", Toast.LENGTH_SHORT).show();
+
+                            // go to Dashboard
+                            startActivity(new Intent(AdminActivity.this, DashboardActivity.class));
+                            finish();
                         } else {
                             Toast.makeText(AdminActivity.this,
-                                    "Login failed: " + task.getException().getMessage(),
+                                    "Invalid credentials or not admin",
                                     Toast.LENGTH_LONG).show();
                         }
-                    });
+                    } else {
+                        Toast.makeText(AdminActivity.this,
+                                "Admin data incomplete in database",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(AdminActivity.this,
+                            "No admin record found",
+                            Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(e ->
+                    Toast.makeText(AdminActivity.this,
+                            "Database error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show()
+            );
         });
         // ======================================================
 
-        // Optional: Navigate to User login area
-        signInUserButton.setOnClickListener(v -> {
-            startActivity(new Intent(AdminActivity.this, MainActivity.class));
-        });
+        // Button to go back to normal user login
+        signInUserButton.setOnClickListener(v ->
+                startActivity(new Intent(AdminActivity.this, MainActivity.class)));
     }
 
     private boolean validateInputs(String email, String password) {
