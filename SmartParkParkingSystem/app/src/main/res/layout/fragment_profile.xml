@@ -6,22 +6,7 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- Header -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2196F3"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Profile"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
     <!-- Scrollable Content -->
     <ScrollView

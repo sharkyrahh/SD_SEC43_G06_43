@@ -8,17 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <!-- HEADER -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2196F3"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:title="DASHBOARD"
-        app:titleCentered="true"
-        app:titleTextColor="@android:color/white" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -202,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="View Portfolio"
+                        android:text="View Profile"
                         android:textColor="#0D47A1"
                         android:textSize="18sp"
                         android:textStyle="bold" />

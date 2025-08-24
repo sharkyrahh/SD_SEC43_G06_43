@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back_icon"
-            android:tint="@android:color/white" />
+            app:tint="@android:color/white" />
 
         <TextView
             android:id="@+id/headerTitle"
@@ -60,24 +60,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Name: Name"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"/>
 
         <TextView
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Email: Email"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="E-mail"
+            android:inputType="textPersonName"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"/>
 
         <TextView
             android:id="@+id/cardUID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Card UID: Not Registered"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="Card UID"
+            android:inputType="textPersonName"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
         <Button
             android:id="@+id/btnRegisterRFID"

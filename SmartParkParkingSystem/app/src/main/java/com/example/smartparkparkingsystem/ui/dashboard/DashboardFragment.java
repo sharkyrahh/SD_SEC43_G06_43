@@ -28,17 +28,13 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        // Bind Views
-        MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
         MaterialCardView cardViewUser = view.findViewById(R.id.card_view_user);
         MaterialCardView cardViewPortfolio = view.findViewById(R.id.card_view_portfolio);
         MaterialCardView cardEditProfile = view.findViewById(R.id.card_edit_profile);
         MaterialCardView cardLogout = view.findViewById(R.id.card_logout);
 
         // Setup Toolbar (if needed)
-        toolbar.setNavigationOnClickListener(v ->
-                Toast.makeText(getContext(), "Toolbar navigation clicked", Toast.LENGTH_SHORT).show()
-        );
+      
 
         // Click Listeners
         cardViewUser.setOnClickListener(v -> {

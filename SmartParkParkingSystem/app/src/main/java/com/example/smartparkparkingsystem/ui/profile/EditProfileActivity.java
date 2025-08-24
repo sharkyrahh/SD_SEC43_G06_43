@@ -23,7 +23,6 @@ EditText editFullName, editEmail, editPassword;
 
         editFullName = findViewById(R.id.editFullName);
         editEmail = findViewById(R.id.editEmail);
-        editPassword = findViewById(R.id.editPassword);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         backButton = findViewById(R.id.backButton);
 

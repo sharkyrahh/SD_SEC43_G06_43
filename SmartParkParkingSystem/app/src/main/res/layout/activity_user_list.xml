@@ -8,21 +8,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.dashboard.UserListActivity"
-    android:padding="25dp">
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User List"
-        android:textStyle="bold"
-        android:layout_gravity="center">
-    </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2196F3"
+        android:gravity="center_vertical|start"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" User List"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/editUser"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Edit user"
+        android:text="Edit User"
         android:backgroundTint="#2196F3"
-        android:layout_gravity="center"></Button>
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"></Button>
 </LinearLayout>
