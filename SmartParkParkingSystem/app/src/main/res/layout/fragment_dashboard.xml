@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -28,10 +28,120 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:spacing="16dp">
+            android:gravity="center">
 
-            <!-- VIEW USER -->
+            <!-- TOP STATS ROW -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginBottom="16dp">
+
+                <!-- Users -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="#E1F5FE"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="#0D47A1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Users"
+                            android:textSize="14sp"
+                            android:textColor="#555"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Staff -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="#E1F5FE"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="#0D47A1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Staff"
+                            android:textSize="14sp"
+                            android:textColor="#555"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Parking -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="#E1F5FE"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="#0D47A1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Parking"
+                            android:textSize="14sp"
+                            android:textColor="#555"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- VIEW USER CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_view_user"
                 android:layout_width="match_parent"
@@ -65,7 +175,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- VIEW PORTFOLIO -->
+            <!-- VIEW PORTFOLIO CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_view_portfolio"
                 android:layout_width="match_parent"
@@ -92,14 +202,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="View Profile"
+                        android:text="View Portfolio"
                         android:textColor="#0D47A1"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- EDIT PROFILE -->
+            <!-- EDIT PROFILE CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_edit_profile"
                 android:layout_width="match_parent"
@@ -133,7 +243,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- LOG OUT -->
+            <!-- LOG OUT CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_logout"
                 android:layout_width="match_parent"
@@ -166,6 +276,7 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

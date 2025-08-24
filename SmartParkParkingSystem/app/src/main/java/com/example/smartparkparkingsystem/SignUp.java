@@ -72,19 +72,21 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
-            if (!password.equals(confirmPassword)) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             if (password.length() < 8) {
                 Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!email.contains("@")) {
-                Toast.makeText(this, "Email is invalid", Toast.LENGTH_SHORT).show();
+
+            if (!password.matches(".*[A-Z].*")) {
+                Toast.makeText(this, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            if (!password.matches(".*[!@#$%^&*+=?-].*")) {
+                Toast.makeText(this, "Password must contain at least one symbol (!@#$%^&*+=?-)", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             // Firebase Auth SignUp
             mAuth.createUserWithEmailAndPassword(email, password)

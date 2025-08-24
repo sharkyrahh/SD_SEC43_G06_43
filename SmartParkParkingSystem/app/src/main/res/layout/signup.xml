@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F0F6FF"
-    android:orientation="vertical"> <!-- Light blueish background for modern look -->
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#2196F3"
-        app:title="UTM SmartPark Parking System"
+        app:title="SIGN UP"
         app:titleTextColor="@android:color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -83,6 +83,60 @@
             android:textColor="#000000"
             android:textColorHint="#888888" />
 
+        <!-- NEW FIELDS -->
+        <EditText
+            android:id="@+id/matricCardEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Matric Card Number"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:backgroundTint="#004AAD"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#888888" />
+
+        <EditText
+            android:id="@+id/facultyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Faculty"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:backgroundTint="#004AAD"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#888888" />
+
+        <EditText
+            android:id="@+id/plateNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Plate Number"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:backgroundTint="#004AAD"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#888888" />
+
+        <EditText
+            android:id="@+id/programCodeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Program Code"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:backgroundTint="#004AAD"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#888888" />
+
+        <!-- Sign Up Button -->
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
@@ -112,8 +166,6 @@
             android:textStyle="bold"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="12dp" />
-
-
 
     </LinearLayout>
 </LinearLayout>

@@ -15,12 +15,23 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#2196F3"
-            app:title="UTM SmartPark Parking System"
-            app:titleTextColor="@android:color/white"
+            app:cardBackgroundColor="#E1F5FE"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Title below the header (left aligned like Verify Email & Edit Profile) -->
+    <TextView
+        android:id="@+id/homeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UTM SmartPark Parking System"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp" />
+
     <include layout="@layout/content_home" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

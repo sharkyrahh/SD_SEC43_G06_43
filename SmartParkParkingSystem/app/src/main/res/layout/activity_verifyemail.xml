@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:padding="0dp">
 
     <!-- Header -->
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="#2196F3"
-        android:gravity="center"
+        android:gravity="center_vertical|start"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
@@ -21,7 +20,7 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SmartPark Parking System"
+            android:text="VERIFY EMAIL"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -30,9 +29,9 @@
     <!-- Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:padding="24dp">
 
         <TextView
