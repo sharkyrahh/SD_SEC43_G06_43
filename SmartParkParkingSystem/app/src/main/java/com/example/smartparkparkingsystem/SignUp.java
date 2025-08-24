@@ -1,5 +1,7 @@
 package com.example.smartparkparkingsystem;
 
+
+
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.content.Intent;
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUp extends AppCompatActivity {
 
     EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    EditText matricCardEditText, facultyEditText, plateNumberEditText, programCodeEditText;
     Button signUpButton;
     CheckBox rememberMeCheckBox;
     TextView loginLabel;
@@ -42,7 +45,10 @@ public class SignUp extends AppCompatActivity {
 
         // Initialize Firebase Auth & Database
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase
+                .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference();
+
 
         loginLabel = findViewById(R.id.loginLabel);
         loginLabel.setPaintFlags(loginLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -51,8 +57,12 @@ public class SignUp extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-        signUpButton = findViewById(R.id.signUpButton);
-        rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
+        matricCardEditText = findViewById(R.id.matricCardEditText);
+        facultyEditText = findViewById(R.id.facultyEditText);
+        plateNumberEditText = findViewById(R.id.plateNumberEditText);
+        programCodeEditText = findViewById(R.id.programCodeEditText);
+        signUpButton = findViewById(R.id.signupButton);
+
 
         // Navigate to login page
         loginLabel.setOnClickListener(v -> {
@@ -66,9 +76,20 @@ public class SignUp extends AppCompatActivity {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
             String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+            String matricCard = matricCardEditText.getText().toString().trim();
+            String faculty = facultyEditText.getText().toString().trim();
+            String plateNumber = plateNumberEditText.getText().toString().trim();
+            String programCode = programCodeEditText.getText().toString().trim();
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()
+                    || matricCard.isEmpty() || faculty.isEmpty() || plateNumber.isEmpty() || programCode.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -88,19 +109,19 @@ public class SignUp extends AppCompatActivity {
             }
 
 
+
             // Firebase Auth SignUp
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-
                                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
                                 if (firebaseUser != null) {
                                     String userId = firebaseUser.getUid();
 
-                                    User newUser = new User(name, email, userId);
+                                    User newUser = new User(name, email, userId, matricCard, faculty, plateNumber, programCode);
                                     mDatabase.child("users").child(userId).setValue(newUser);
 
                                     firebaseUser.sendEmailVerification()
@@ -109,7 +130,8 @@ public class SignUp extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(SignUp.this,
-                                                                "Sign up successful!", Toast.LENGTH_LONG).show();
+                                                                "Sign up successful! Please verify your email.",
+                                                                Toast.LENGTH_LONG).show();
                                                         // Move to VerifyEmailActivity
                                                         Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
                                                         startActivity(intent);
@@ -127,19 +149,33 @@ public class SignUp extends AppCompatActivity {
                     });
         });
     }
+
+
     // Model class
     public static class User {
         public String fullName;
         public String email;
         public String userId;
+        public String matricCard;
+        public String faculty;
+        public String plateNumber;
+        public String programCode;
 
         public User() {
         }
 
-        public User(String fullName, String email, String userId) {
+        public User(String fullName, String email, String userId,
+                    String matricCard, String faculty, String plateNumber, String programCode) {
             this.fullName = fullName;
             this.email = email;
             this.userId = userId;
+            this.matricCard = matricCard;
+            this.faculty = faculty;
+            this.plateNumber = plateNumber;
+            this.programCode = programCode;
         }
     }
+
+
+
 }

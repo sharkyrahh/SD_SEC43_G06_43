@@ -141,21 +141,6 @@
                     android:layout_marginBottom="8dp"
                     tools:ignore="HardcodedText" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Phone Number:"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
-                <TextView
-                    android:id="@+id/phoneNumberText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="012-3456789"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
             <!-- Edit Button -->

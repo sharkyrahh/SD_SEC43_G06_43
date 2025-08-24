@@ -138,7 +138,7 @@
 
         <!-- Sign Up Button -->
         <Button
-            android:id="@+id/signUpButton"
+            android:id="@+id/signupButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"
@@ -149,13 +149,6 @@
             android:textAllCaps="false"
             android:textSize="16sp" />
 
-        <CheckBox
-            android:id="@+id/rememberMeCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remember Me"
-            android:textColor="#444444"
-            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/loginLabel"
