@@ -2,6 +2,7 @@
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
 #include <MFRC522Debug.h>
+#include <LiquidCrystal_I2C.h>
 
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
@@ -15,6 +16,11 @@
 #define WIFI_PASSWORD "54145414"
 #define API_KEY "AIzaSyA2H51yaBq0Gt2UmnmZhGiSarJz0DU5LJo"
 #define DATABASE_URL "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
+
+#define SS_PIN 5
+#define RST_PIN 2
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 FirebaseData fbdo;
 FirebaseAuth auth;
@@ -32,6 +38,7 @@ MFRC522DriverPinSimple ss_pin(5);
 MFRC522DriverSPI driver{ss_pin};
 MFRC522 mfrc522{driver};
 
+
 void setup() {
   Serial.begin(115200);
   while (!Serial);
@@ -39,6 +46,14 @@ void setup() {
   mfrc522.PCD_Init(); // Initialize RFID reader
   MFRC522Debug::PCD_DumpVersionToSerial(mfrc522, Serial);
   Serial.println(F("Scan PICC to see UID"));
+
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Please tap your");
+  lcd.setCursor(0, 1);
+  lcd.print("card.");
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
@@ -107,6 +122,10 @@ void loop() {
 
   // Only proceed if new card
   if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+    lcd.setCursor(0, 0);
+    lcd.print("Please tap your");
+    lcd.setCursor(0, 1);
+   lcd.print("card.");
     delay(50);
     return;
   }
@@ -121,6 +140,18 @@ void loop() {
   // Get timestamp
   String timestamp = getFormattedTime();
   mfrc522.PICC_HaltA();
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Card Scanned:");
+  lcd.setCursor(0, 1);
+  
+  // Display first 16 characters of UID
+  if (uidString.length() > 16) {
+    lcd.print(uidString.substring(0, 16));
+  } else {
+    lcd.print(uidString);
+  }
 
   Serial.println("Scanned UID: " + uidString);
 
@@ -142,5 +173,7 @@ void loop() {
   while (mfrc522.PICC_IsNewCardPresent()) {
     delay(100);
   }
+
+  lcd.clear();
   delay(500);
 }

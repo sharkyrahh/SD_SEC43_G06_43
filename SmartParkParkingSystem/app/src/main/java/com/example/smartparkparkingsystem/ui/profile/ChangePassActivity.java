@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class ChangePassActivity extends AppCompatActivity {
     private EditText emailInput;
     private Button resetButton;
     private FirebaseAuth mAuth;
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class ChangePassActivity extends AppCompatActivity {
         // Initialize views
         emailInput = findViewById(R.id.emailInput);
         resetButton = findViewById(R.id.resetButton);
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> finish());
 
         // Reset password button logic
         resetButton.setOnClickListener(v -> {
