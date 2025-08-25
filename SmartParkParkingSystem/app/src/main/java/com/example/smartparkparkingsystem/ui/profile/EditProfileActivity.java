@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    EditText editFullName, editEmail;
+    EditText editFullName, editMatric, editProgramCode, editFaculty, editPlateNum;
     Button btnSaveProfile, btnChangePassword;
     ImageView backButton;
 
@@ -36,65 +36,73 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Initialize views
         editFullName = findViewById(R.id.editFullName);
-        editEmail = findViewById(R.id.editEmail);
+        editMatric = findViewById(R.id.editmatric);
+        editProgramCode = findViewById(R.id.programcode);
+        editFaculty = findViewById(R.id.faculty);
+        editPlateNum = findViewById(R.id.platenum);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
-        backButton = findViewById(R.id.backButton);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+        backButton = findViewById(R.id.backButton);
 
         // Firebase initialization
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(
                 "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
-        ).getReference("users");
+        ).getReference("users"); // assuming your user nodes are under "users"
 
-        // Load current data from database for this user
+        // Load current data for logged-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
             mDatabase.child(uid).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult().exists()) {
-                    String currentName = task.getResult().child("fullName").getValue(String.class);
-                    String currentEmail = task.getResult().child("email").getValue(String.class);
-                    editFullName.setText(currentName != null ? currentName : "");
-                    editEmail.setText(currentEmail != null ? currentEmail : "");
+                    editFullName.setText(task.getResult().child("fullName").getValue(String.class));
+                    editMatric.setText(task.getResult().child("matricCard").getValue(String.class));
+                    editProgramCode.setText(task.getResult().child("programCode").getValue(String.class));
+                    editFaculty.setText(task.getResult().child("faculty").getValue(String.class));
+                    editPlateNum.setText(task.getResult().child("plateNumber").getValue(String.class));
+                } else {
+                    Toast.makeText(EditProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
-        // Back button click
+        // Back button
         backButton.setOnClickListener(v -> finish());
 
-        // Save changes click
+        // Save profile changes
         btnSaveProfile.setOnClickListener(v -> {
             String fullName = editFullName.getText().toString().trim();
-            String email = editEmail.getText().toString().trim();
+            String matric = editMatric.getText().toString().trim();
+            String programCode = editProgramCode.getText().toString().trim();
+            String faculty = editFaculty.getText().toString().trim();
+            String plateNum = editPlateNum.getText().toString().trim();
 
-            if (fullName.isEmpty() || email.isEmpty()) {
+            if (fullName.isEmpty() || matric.isEmpty() || programCode.isEmpty() || faculty.isEmpty() || plateNum.isEmpty()) {
                 Toast.makeText(EditProfileActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            } else {
-                if (currentUser != null) {
-                    String uid = currentUser.getUid();
-                    Map<String, Object> updates = new HashMap<>();
-                    updates.put("fullName", fullName);
-                    updates.put("email", email);
+            } else if (currentUser != null) {
+                String uid = currentUser.getUid();
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("fullName", fullName);
+                updates.put("matricCard", matric);
+                updates.put("programCode", programCode);
+                updates.put("faculty", faculty);
+                updates.put("plateNumber", plateNum);
 
-                    mDatabase.child(uid).updateChildren(updates).addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(EditProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                mDatabase.child(uid).updateChildren(updates).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(EditProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
-        // Change Password button click
-        if (btnChangePassword != null) {
-            btnChangePassword.setOnClickListener(v -> {
-                Intent intent = new Intent(EditProfileActivity.this, ChangePassActivity.class);
-                startActivity(intent);
-            });
-        }
+        // Change password button
+        btnChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(EditProfileActivity.this, ChangePassActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -62,14 +62,48 @@
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
-            <!-- Email -->
+
             <EditText
-                android:id="@+id/editEmail"
+                android:id="@+id/editmatric"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@android:drawable/edit_text"
-                android:hint="Email"
+                android:hint="Matric Num"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+
+            <EditText
+                android:id="@+id/programcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="program code"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+
+            <EditText
+                android:id="@+id/faculty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Faculty"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+
+
+            <EditText
+                android:id="@+id/platenum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Plate Number"
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
