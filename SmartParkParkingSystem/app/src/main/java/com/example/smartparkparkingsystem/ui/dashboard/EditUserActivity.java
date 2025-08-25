@@ -16,6 +16,8 @@ public class EditUserActivity extends AppCompatActivity {
     Button registerRFID;
     ImageView backButton;
     TextView cardUID;
+
+    Button btnSaveProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
         registerRFID = findViewById(R.id.btnRegisterRFID);
+        btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
         registerRFID.setOnClickListener(v-> {
                 Intent intent = new Intent(EditUserActivity.this, ScanActivity.class);
@@ -38,5 +41,10 @@ public class EditUserActivity extends AppCompatActivity {
             currentUID = intent.getStringExtra("CARD_UID");
             String string = "Card UID: " + currentUID;
             cardUID.setText(string); }
+
+        btnSaveProfile.setOnClickListener(v-> {
+            Intent intent2 = new Intent(EditUserActivity.this, UserListActivity.class);
+            startActivity(intent2);});
+
     }
 }

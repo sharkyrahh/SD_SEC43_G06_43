@@ -50,7 +50,7 @@ public class ChangePassActivity extends AppCompatActivity {
                     Toast.makeText(ChangePassActivity.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
 
                     // After success → go back to main page
-                    Intent intent = new Intent(ChangePassActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ChangePassActivity.this, EditProfileActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smartparkparkingsystem.DashboardActivity;
 import com.example.smartparkparkingsystem.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +49,10 @@ public class UserListActivity extends AppCompatActivity {
         userListView.setAdapter(adapter);
 
         // Back button
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(UserListActivity.this, DashboardActivity.class);
+            startActivity(intent);
+        });
 
         // Edit User button → buka page lain
         editUser.setOnClickListener(v -> {
