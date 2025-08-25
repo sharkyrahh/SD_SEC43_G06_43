@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         forgotPassButton = findViewById(R.id.forgotpass);
         signInAdminText = findViewById(R.id.signInAdminText); // now TextView
 
-        // underline "New user? Sign Up instead"
-        msgLabel.setPaintFlags(msgLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        signInAdminText.setPaintFlags(signInAdminText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 
         // Navigate to SignUp page
         signUpButton.setOnClickListener(v -> {

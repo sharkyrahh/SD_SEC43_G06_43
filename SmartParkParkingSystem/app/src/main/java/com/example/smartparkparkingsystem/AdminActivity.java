@@ -1,10 +1,12 @@
 package com.example.smartparkparkingsystem;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ public class AdminActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button signInButton, forgotPassButton, signInUserButton;
 
+    TextView signInUserText;
     private DatabaseReference roleRef; // reference to Role/ID
 
     @Override
@@ -39,8 +42,11 @@ public class AdminActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
-        forgotPassButton = findViewById(R.id.forgotpass);
-        signInUserButton = findViewById(R.id.signInUserButton);
+        forgotPassButton = findViewById(R.id.forgotPass);
+        signInUserText = findViewById(R.id.signinusertext);
+
+        signInUserText.setPaintFlags(signInUserText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 
         // Forgot password navigation
         forgotPassButton.setOnClickListener(v ->
@@ -97,7 +103,7 @@ public class AdminActivity extends AppCompatActivity {
         // ======================================================
 
         // Button to go back to normal user login
-        signInUserButton.setOnClickListener(v ->
+        signInUserText.setOnClickListener(v ->
                 startActivity(new Intent(AdminActivity.this, MainActivity.class)));
     }
 
