@@ -1,13 +1,16 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 import android.os.Bundle;
-import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
 import com.google.firebase.database.DataSnapshot;
@@ -16,35 +19,43 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Adminprofile extends AppCompatActivity {
+
+public class AdminProfileFragment extends Fragment {
 
     private TextView adminNameText, courseText, Adminemail, phonenum, primaryEmailText, secondaryEmailText;
     private DatabaseReference roleRef;
-
-    ImageView backButton;
+    private ImageView backButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_profile);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        // Initialize views
-        adminNameText = findViewById(R.id.adminNameText);
-        courseText = findViewById(R.id.courseText);
-        Adminemail = findViewById(R.id.Adminemail);
-        phonenum = findViewById(R.id.phonenum);
-        primaryEmailText = findViewById(R.id.primaryEmailText);
-        secondaryEmailText = findViewById(R.id.secondaryEmailText);
-        backButton = findViewById(R.id.backButton);
+        View view = inflater.inflate(R.layout.fragment_admin_profile, container, false);
 
-        backButton.setOnClickListener(v -> finish());
+        adminNameText = view.findViewById(R.id.adminNameText);
+        courseText = view.findViewById(R.id.courseText);
+        Adminemail = view.findViewById(R.id.Adminemail);
+        phonenum = view.findViewById(R.id.phonenum);
+        primaryEmailText = view.findViewById(R.id.primaryEmailText);
+        secondaryEmailText = view.findViewById(R.id.secondaryEmailText);
+        backButton = view.findViewById(R.id.backButton);
 
-        // ✅ Initialize Database with your project URL
+        // Set click listener for back button
+        backButton.setOnClickListener(v -> {
+            // Go back to previous fragment
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        // Initialize Database with your project URL
         roleRef = FirebaseDatabase.getInstance(
-                "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
+                "https://utm-smartparkparkingsystem-default-rtdb.asia-southeast1.firebasedatabase.app/"
         ).getReference("Role");
 
         loadAdminProfile();
+
+        return view;
     }
 
     private void loadAdminProfile() {
@@ -59,14 +70,14 @@ public class Adminprofile extends AppCompatActivity {
                         String phone = child.child("Phonenumber").getValue(String.class);
                         String gender = child.child("Gender").getValue(String.class);
 
-                        // ✅ Handle employeeid safely (could be Long or String)
+                        // Handle employeeid safely (could be Long or String)
                         String employeeId = "";
                         Object empIdObj = child.child("employeeid").getValue();
                         if (empIdObj != null) {
                             employeeId = String.valueOf(empIdObj);
                         }
 
-                        // ✅ Set values to UI
+                        // Set values to UI
                         adminNameText.setText(fullname != null ? fullname : "N/A");
                         courseText.setText(role != null ? role : "N/A");
                         Adminemail.setText(email != null ? email : "N/A");
@@ -75,13 +86,13 @@ public class Adminprofile extends AppCompatActivity {
                         secondaryEmailText.setText(employeeId);
                     }
                 } else {
-                    Toast.makeText(Adminprofile.this, "No admin record found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No admin record found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Adminprofile.this, "Database Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Database Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

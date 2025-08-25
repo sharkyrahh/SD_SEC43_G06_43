@@ -9,12 +9,12 @@
             android:icon="@drawable/dashboard_icon"
             android:title="@string/menu_dashboard" />
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/nav_profile2"
             android:icon="@drawable/profile_icon"
             android:title="@string/menu_profile" />
 
         <item
-            android:id="@+id/nav_logout"
+            android:id="@+id/nav_logout2"
             android:icon="@drawable/logout_icon"
             android:title="@string/menu_logout" />
     </group>

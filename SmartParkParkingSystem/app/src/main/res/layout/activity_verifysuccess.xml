@@ -38,7 +38,7 @@
             android:id="@+id/verifyTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VERIFY YOUR EMAIL"
+            android:text="Verification Successful!"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="22dp"
@@ -48,7 +48,7 @@
             android:id="@+id/verifyMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A verification link has been sent to your email address.\nPlease check your inbox or spam folder."
+            android:text="You can now log in to SmartPark Parking System."
             android:textAlignment="center"
             android:gravity="center"
             android:layout_marginBottom="32dp"
@@ -57,25 +57,15 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/email"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Didn't recieve email?"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            tools:ignore="HardcodedText"
-            android:textStyle="bold"/>
+            android:src="@drawable/verified"
+            android:layout_marginBottom="22dp"/>
 
         <Button
-            android:id="@+id/resendBtn"
+            android:id="@+id/loginBtn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#2196F3"
-            android:text="Resend E-mail"
+            android:text="Back to Login"
             android:textColor="@color/white"
             tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
     </LinearLayout>

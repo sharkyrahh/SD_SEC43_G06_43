@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.smartparkparkingsystem.R;
@@ -42,13 +43,11 @@ public class ProfileFragment extends Fragment {
 
         // Initialize Views
         fullNameText = view.findViewById(R.id.fullNameText);
-        courseText = view.findViewById(R.id.courseText);
         matricNumberText = view.findViewById(R.id.matricNumberText);
         programmeCodeText = view.findViewById(R.id.programmeCodeText);
         facultyText = view.findViewById(R.id.facultyText);
         primaryEmailText = view.findViewById(R.id.primaryEmailText);
         plateNumberText = view.findViewById(R.id.secondaryEmailText); // reuse XML id for plate number
-        userIdText = view.findViewById(R.id.courseText); // temporarily using courseText id to show User ID prefix
 
         editBtn = view.findViewById(R.id.editBtn);
 
@@ -73,7 +72,6 @@ public class ProfileFragment extends Fragment {
                     if (snapshot.exists()) {
                         // Retrieve values from database
                         String fullName = snapshot.child("fullName").getValue(String.class);
-                        String course = snapshot.child("course").getValue(String.class);
                         String matricCard = snapshot.child("matricCard").getValue(String.class);
                         String programCode = snapshot.child("programCode").getValue(String.class);
                         String faculty = snapshot.child("faculty").getValue(String.class);
@@ -82,13 +80,11 @@ public class ProfileFragment extends Fragment {
 
                         // Set values to TextViews
                         fullNameText.setText(fullName != null ? fullName : "N/A");
-                        courseText.setText(course != null ? course : "N/A");
                         matricNumberText.setText(matricCard != null ? matricCard : "N/A");
                         programmeCodeText.setText(programCode != null ? programCode : "N/A");
                         facultyText.setText(faculty != null ? faculty : "N/A");
                         primaryEmailText.setText(email != null ? email : "N/A");
                         plateNumberText.setText(plateNumber != null ? plateNumber : "N/A");
-                        userIdText.setText("User ID: " + uid);
                     }
                 }
 
@@ -99,4 +95,11 @@ public class ProfileFragment extends Fragment {
             });
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadProfileData();
+    }
+
 }

@@ -7,7 +7,6 @@
     android:background="@android:color/white">
 
 
-
     <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
@@ -31,17 +30,24 @@
 
             <!-- Full Name -->
             <TextView
-                android:id="@+id/fullNameText"
+                android:id="@+id/adminNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:text="HAZIM HAKIMI"
+                android:layout_marginBottom="4dp"
+                android:text="fullname"
                 android:textSize="19sp"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
-                />
+                tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
 
             <!-- Course -->
+            <TextView
+                android:id="@+id/courseText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="role"
+                android:textSize="16sp"
+                android:layout_marginBottom="20dp"
+                tools:ignore="HardcodedText" />
 
             <!-- Profile Info Box -->
             <LinearLayout
@@ -57,14 +63,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Matric Number:"
+                    android:text="Admin Email:"
                     android:textSize="14sp"
                     tools:ignore="HardcodedText" />
                 <TextView
-                    android:id="@+id/matricNumberText"
+                    android:id="@+id/Adminemail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A22CS1234"
+                    android:text="EMAIL.COM"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -73,14 +79,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Programme Code:"
+                    android:text="Phonenumber:"
                     android:textSize="14sp"
                     tools:ignore="HardcodedText" />
                 <TextView
-                    android:id="@+id/programmeCodeText"
+                    android:id="@+id/phonenum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="DDWD"
+                    android:text="0167777777"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -89,30 +95,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Faculty:"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
-                <TextView
-                    android:id="@+id/facultyText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Faculty of Computing"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Primary Email:"
+                    android:text="Gender"
                     android:textSize="14sp"
                     tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/primaryEmailText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="hzmhkmii@gmail.com"
+                    android:text="hzmhkm"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -121,14 +111,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Plate Number:"
+                    android:text="Employee ID:"
                     android:textSize="14sp"
                     tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/secondaryEmailText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="JQF 6170"
+                    android:text="1216"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -136,17 +126,7 @@
 
             </LinearLayout>
 
-            <!-- Edit Button -->
-            <Button
-                android:id="@+id/editBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#2196F3"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:text="Edit Profile"
-                android:textColor="@android:color/white"
-                tools:ignore="HardcodedText,TextContrastCheck" />
+
 
         </LinearLayout>
     </ScrollView>
