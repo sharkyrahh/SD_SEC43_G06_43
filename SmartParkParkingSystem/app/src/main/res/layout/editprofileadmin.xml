@@ -62,6 +62,7 @@
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
+            <!-- Matric Number (NOT editable) -->
             <EditText
                 android:id="@+id/editmatric"
                 android:layout_width="match_parent"
@@ -70,9 +71,12 @@
                 android:background="@android:drawable/edit_text"
                 android:hint="Matric Num"
                 android:inputType="textEmailAddress"
+                android:focusable="false"
+                android:clickable="false"
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
+            <!-- Program Code -->
             <EditText
                 android:id="@+id/programcode"
                 android:layout_width="match_parent"
@@ -84,6 +88,7 @@
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
+            <!-- Faculty (NOT editable) -->
             <EditText
                 android:id="@+id/faculty"
                 android:layout_width="match_parent"
@@ -92,9 +97,12 @@
                 android:background="@android:drawable/edit_text"
                 android:hint="Faculty"
                 android:inputType="textEmailAddress"
+                android:focusable="false"
+                android:clickable="false"
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
+            <!-- Plate Number -->
             <EditText
                 android:id="@+id/platenum"
                 android:layout_width="match_parent"

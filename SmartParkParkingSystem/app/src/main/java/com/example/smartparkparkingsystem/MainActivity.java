@@ -18,8 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button signInButton, forgotPassButton, signUpButton, signInAdminButton; // added admin button
-    private TextView msgLabel;
+    private Button signInButton, forgotPassButton, signUpButton;
+    private TextView msgLabel, signInAdminText; // changed to TextView
 
     private FirebaseAuth mAuth;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         msgLabel = findViewById(R.id.msgLabel);
         signUpButton = findViewById(R.id.signupButton);
         forgotPassButton = findViewById(R.id.forgotpass);
-        signInAdminButton = findViewById(R.id.signInAdminButton); // bind admin button
+        signInAdminText = findViewById(R.id.signInAdminText); // now TextView
 
         // underline "New user? Sign Up instead"
         msgLabel.setPaintFlags(msgLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -84,17 +84,7 @@ public class MainActivity extends AppCompatActivity {
         // ======================================================
 
         // ===================== ADMIN LOGIN AREA =====================
-        // This section is ONLY for Admin Login.
-        // For now → It simply navigates to AdminActivity (which will load modify_xml.xml layout).
-        // Later → You should add Firestore check to verify that the user has "role = admin".
-        //
-        // Example Firestore schema (users collection):
-        // users -> userId -> { email: "admin@gmail.com", fullName: "System Admin", role: "admin" }
-        //
-        // Then, before navigating, query Firestore:
-        // if role == "admin" → allow access
-        // else → block with Toast ("Not authorized as Admin").
-        signInAdminButton.setOnClickListener(v -> {
+        signInAdminText.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AdminActivity.class);
             startActivity(intent);
         });
@@ -120,3 +110,4 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 }
+
