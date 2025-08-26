@@ -18,9 +18,6 @@
         <activity
             android:name=".ui.VerifySuccessActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.EdietProfile"
-            android:exported="false" />
 
         <activity
             android:name=".ui.profile.ChangePassActivity"
@@ -28,6 +25,10 @@
 
         <activity
             android:name=".ui.dashboard.Editprofile"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.changeadminpass"
             android:exported="false" />
 
         <activity

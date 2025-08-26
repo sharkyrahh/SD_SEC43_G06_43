@@ -21,13 +21,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.smartparkparkingsystem.databinding.ActivityDashboardBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DashboardActivity extends AppCompatActivity { /* implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    */private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
-
+/*
     // CODE JAVA DEKAT DASHBOARDFRAGMENT BUKAN SINI
     // jangan ubah file ni
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +37,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        /*
         setSupportActionBar(binding.appBarDashboard.toolbar);
 
-        DrawerLayout drawer = binding.drawerLayout;
+        /*DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_dashboard,
@@ -76,6 +78,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_dashboard);
         boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
         binding.drawerLayout.closeDrawers();
-        return handled;
-    }
+        return handled;*/
+}
 }
