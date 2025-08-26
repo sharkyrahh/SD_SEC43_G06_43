@@ -198,6 +198,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+
             <!-- EDIT PROFILE CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_edit_profile"

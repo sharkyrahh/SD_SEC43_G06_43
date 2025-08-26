@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,10 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 public class AdminActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button signInButton, forgotPassButton, signInUserButton;
+    private Button signInButton, forgotPassButton;
+    private TextView signInUserText;
 
-    TextView signInUserText;
-    private DatabaseReference roleRef; // reference to Role/ID
+    private FirebaseAuth auth;
+    private DatabaseReference roleRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class AdminActivity extends AppCompatActivity {
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+
+        auth = FirebaseAuth.getInstance();
 
         // Reference ke node Role/ID
         roleRef = FirebaseDatabase
@@ -47,7 +52,6 @@ public class AdminActivity extends AppCompatActivity {
 
         signInUserText.setPaintFlags(signInUserText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-
         // Forgot password navigation
         forgotPassButton.setOnClickListener(v ->
                 startActivity(new Intent(AdminActivity.this, ForgotPassActivity.class)));
@@ -59,46 +63,62 @@ public class AdminActivity extends AppCompatActivity {
 
             if (!validateInputs(email, password)) return;
 
-            // Direct ambil data dari Role/ID
-            roleRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult().exists()) {
-                    DataSnapshot snapshot = task.getResult();
+            // Sign in with FirebaseAuth
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            if (user != null) {
+                                if (user.isEmailVerified()) {
+                                    // Now check Role in database
+                                    roleRef.get().addOnCompleteListener(roleTask -> {
+                                        if (roleTask.isSuccessful() && roleTask.getResult().exists()) {
+                                            DataSnapshot snapshot = roleTask.getResult();
+                                            String dbEmail = snapshot.child("email").getValue(String.class);
+                                            String dbRole = snapshot.child("role").getValue(String.class);
 
-                    String dbEmail = snapshot.child("email").getValue(String.class);
-                    String dbPassword = snapshot.child("password").getValue(String.class);
-                    String dbRole = snapshot.child("role").getValue(String.class);
+                                            if (dbEmail != null && dbRole != null &&
+                                                    dbEmail.equalsIgnoreCase(email) &&
+                                                    dbRole.equalsIgnoreCase("admin")) {
 
-                    if (dbEmail != null && dbPassword != null && dbRole != null) {
-                        if (dbEmail.equalsIgnoreCase(email)
-                                && dbPassword.equals(password)
-                                && dbRole.equalsIgnoreCase("admin")) {
-
-                            Toast.makeText(AdminActivity.this,
-                                    "Login successful", Toast.LENGTH_SHORT).show();
-
-                            // go to Dashboard
-                            startActivity(new Intent(AdminActivity.this, DashboardActivity.class));
-                            finish();
+                                                Toast.makeText(AdminActivity.this,
+                                                        "Login successful", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(AdminActivity.this, DashboardActivity.class));
+                                                finish();
+                                            } else {
+                                                Toast.makeText(AdminActivity.this,
+                                                        "Not authorized as admin",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(AdminActivity.this,
+                                                    "Admin record not found",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                } else {
+                                    // Not verified yet → send verification email
+                                    user.sendEmailVerification()
+                                            .addOnCompleteListener(sendTask -> {
+                                                if (sendTask.isSuccessful()) {
+                                                    Toast.makeText(AdminActivity.this,
+                                                            "Please verify your email. Verification link sent to: " + user.getEmail(),
+                                                            Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    Toast.makeText(AdminActivity.this,
+                                                            "Failed to send verification: " +
+                                                                    sendTask.getException().getMessage(),
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                }
+                            }
                         } else {
                             Toast.makeText(AdminActivity.this,
-                                    "Invalid credentials or not admin",
+                                    "Authentication failed: " + task.getException().getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        Toast.makeText(AdminActivity.this,
-                                "Admin data incomplete in database",
-                                Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(AdminActivity.this,
-                            "No admin record found",
-                            Toast.LENGTH_LONG).show();
-                }
-            }).addOnFailureListener(e ->
-                    Toast.makeText(AdminActivity.this,
-                            "Database error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show()
-            );
+                    });
         });
         // ======================================================
 

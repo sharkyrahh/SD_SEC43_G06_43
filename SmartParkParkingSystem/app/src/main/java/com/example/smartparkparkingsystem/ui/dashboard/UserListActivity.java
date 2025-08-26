@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,23 +65,24 @@ public class UserListActivity extends AppCompatActivity {
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                userList.clear(); // clear list sebelum tambah semula
+                userList.clear();
 
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
-                    String id = userSnap.getKey(); // Key = ID user
-                    String fullname = userSnap.child("fullname").getValue(String.class);
+                    // Make sure fields exist
+                    String fullName = userSnap.child("fullName").getValue(String.class);
+                    String userId = userSnap.child("userId").getValue(String.class);
 
-                    if (fullname != null) {
-                        userList.add("ID: " + id + " | Name: " + fullname);
+                    if (fullName != null && userId != null) {
+                        userList.add("UserID: " + userId + " | Name: " + fullName);
                     }
                 }
 
-                adapter.notifyDataSetChanged(); // refresh listview
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // boleh tambah error handling kalau nak
+                Toast.makeText(UserListActivity.this, "Failed to load users", Toast.LENGTH_SHORT).show();
             }
         });
     }

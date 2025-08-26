@@ -38,7 +38,7 @@ public class AdminProfileFragment extends Fragment {
         phonenum = view.findViewById(R.id.phonenum);
         primaryEmailText = view.findViewById(R.id.primaryEmailText);
         secondaryEmailText = view.findViewById(R.id.secondaryEmailText);
-        backButton = view.findViewById(R.id.backButton);
+
 
         // Set click listener for back button
         backButton.setOnClickListener(v -> {

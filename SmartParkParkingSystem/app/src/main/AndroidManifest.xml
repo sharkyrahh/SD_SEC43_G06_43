@@ -19,13 +19,26 @@
             android:name=".ui.VerifySuccessActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.dashboard.EdietProfile"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.profile.ChangePassActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.Editprofile"
+            android:exported="false" />
+
         <activity
             android:name=".ui.dashboard.ScanActivity"
             android:exported="false" />
         <activity
             android:name=".ui.dashboard.EditUserActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.Adminprofile"
             android:exported="false" />
         <activity
             android:name=".ui.dashboard.UserListActivity"
@@ -41,11 +54,10 @@
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".ForgotPassActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.Adminprofile"
             android:exported="false" />
         <activity
             android:name=".AdminActivity"

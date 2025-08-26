@@ -46,8 +46,9 @@ public class DashboardFragment extends Fragment {
             startActivity(new Intent(getActivity(), Adminprofile.class));
         });
 
+
         cardEditProfile.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), EditProfileActivity.class));
+            startActivity(new Intent(getActivity(), Editprofile.class));
         });
 
         // Logout Button
