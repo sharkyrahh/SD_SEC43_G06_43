@@ -16,28 +16,35 @@
         android:theme="@style/Theme.SmartParkParkingSystem"
         tools:targetApi="31">
         <activity
+            android:name=".ui.dashboard.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.EditParkingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.AddParkingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dashboard.ParkingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.VerifySuccessActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.profile.ChangePassActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.dashboard.Editprofile"
             android:exported="false" />
-
         <activity
             android:name=".ui.dashboard.changeadminpass"
             android:exported="false" />
-
         <activity
             android:name=".ui.dashboard.ScanActivity"
             android:exported="false" />
         <activity
             android:name=".ui.dashboard.EditUserActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.dashboard.Adminprofile"
             android:exported="false" />
@@ -55,8 +62,6 @@
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".ForgotPassActivity"
             android:exported="false" />
