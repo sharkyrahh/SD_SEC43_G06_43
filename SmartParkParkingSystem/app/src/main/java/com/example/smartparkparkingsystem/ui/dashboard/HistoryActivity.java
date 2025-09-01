@@ -1,6 +1,7 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +13,14 @@ import com.example.smartparkparkingsystem.R;
 
 public class HistoryActivity extends AppCompatActivity {
 
+    private ImageView backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        backButton        = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
     }
 }
