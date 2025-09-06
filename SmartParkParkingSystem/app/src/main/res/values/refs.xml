@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="ic_person" />
+    <drawable name="circle_bg" />
+    <drawable name="ic_delete" />
+</resources>

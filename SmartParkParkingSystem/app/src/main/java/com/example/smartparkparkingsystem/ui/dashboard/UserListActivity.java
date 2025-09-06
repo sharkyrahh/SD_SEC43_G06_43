@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartparkparkingsystem.DashboardActivity;
 import com.example.smartparkparkingsystem.R;
@@ -22,12 +22,12 @@ import java.util.ArrayList;
 public class UserListActivity extends AppCompatActivity {
 
     ImageView backButton;
-    ListView userListView;
+    RecyclerView userRecyclerView;
     Button editUser;
 
     private DatabaseReference usersRef;
-    private ArrayList<String> userList;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<User> userList;
+    private UserAdapter userAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class UserListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_list);
 
         backButton = findViewById(R.id.backButton);
-        userListView = findViewById(R.id.userListView);
+        userRecyclerView = findViewById(R.id.userRecyclerView);
         editUser = findViewById(R.id.editUser);
 
         // Firebase reference ke "Users" node
@@ -43,10 +43,23 @@ public class UserListActivity extends AppCompatActivity {
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Users");
 
-        // Setup list
+        // Setup RecyclerView
+        userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, userList);
-        userListView.setAdapter(adapter);
+        userAdapter = new UserAdapter(this, userList, new UserAdapter.OnUserActionListener() {
+            @Override
+            public void onEdit(User user) {
+                Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
+                intent.putExtra("userId", user.getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDelete(User user) {
+                usersRef.child(user.getId()).removeValue();
+            }
+        });
+        userRecyclerView.setAdapter(userAdapter);
 
         // Back button
         backButton.setOnClickListener(v -> {
@@ -69,13 +82,14 @@ public class UserListActivity extends AppCompatActivity {
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
                     String id = userSnap.getKey(); // Key = ID user
                     String fullname = userSnap.child("fullname").getValue(String.class);
+                    String email = userSnap.child("email").getValue(String.class);
 
-                    if (fullname != null) {
-                        userList.add("ID: " + id + " | Name: " + fullname);
+                    if (fullname != null && email != null) {
+                        userList.add(new User(id, fullname, email));
                     }
                 }
 
-                adapter.notifyDataSetChanged(); // refresh listview
+                userAdapter.notifyDataSetChanged(); // refresh RecyclerView
             }
 
             @Override
@@ -85,3 +99,5 @@ public class UserListActivity extends AppCompatActivity {
         });
     }
 }
+
+
