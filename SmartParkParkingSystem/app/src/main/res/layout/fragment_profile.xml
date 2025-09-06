@@ -34,21 +34,14 @@
                 android:id="@+id/fullNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="20dp"
                 android:text="HAZIM HAKIMI"
                 android:textSize="19sp"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
+                tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
+                />
 
             <!-- Course -->
-            <TextView
-                android:id="@+id/courseText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bachelor of Computer Science"
-                android:textSize="16sp"
-                android:layout_marginBottom="20dp"
-                tools:ignore="HardcodedText" />
 
             <!-- Profile Info Box -->
             <LinearLayout

@@ -30,7 +30,9 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         MaterialCardView cardViewUser = view.findViewById(R.id.card_view_user);
-        MaterialCardView cardViewPortfolio = view.findViewById(R.id.card_view_portfolio);
+        MaterialCardView cardViewProfile = view.findViewById(R.id.card_view_profile);
+        MaterialCardView cardViewParking = view.findViewById(R.id.card_parking);
+        MaterialCardView cardLogs = view.findViewById(R.id.card_logs);
         MaterialCardView cardEditProfile = view.findViewById(R.id.card_edit_profile);
         MaterialCardView cardLogout = view.findViewById(R.id.card_logout);
 
@@ -39,18 +41,24 @@ public class DashboardFragment extends Fragment {
 
         // Click Listeners
         cardViewUser.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "View User clicked", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), UserListActivity.class));
         });
 
-        cardViewPortfolio.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "View Portfolio clicked", Toast.LENGTH_SHORT).show();
+        cardViewParking.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ParkingActivity.class));
+        });
+
+        cardLogs.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), HistoryActivity.class));
+        });
+
+        cardViewProfile.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), Adminprofile.class));
         });
 
+
         cardEditProfile.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getActivity(), EditProfileActivity.class));
+            startActivity(new Intent(getActivity(), Editprofile.class));
         });
 
         // Logout Button

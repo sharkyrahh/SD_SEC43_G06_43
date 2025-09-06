@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -77,7 +78,7 @@ public class UserListActivity extends AppCompatActivity {
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                userList.clear(); // clear list sebelum tambah semula
+                userList.clear();
 
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
                     String id = userSnap.getKey(); // Key = ID user
@@ -94,10 +95,8 @@ public class UserListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // boleh tambah error handling kalau nak
+                Toast.makeText(UserListActivity.this, "Failed to load users", Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
-
-

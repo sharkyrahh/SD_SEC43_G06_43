@@ -1,9 +1,11 @@
 package com.example.smartparkparkingsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -17,14 +19,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.databinding.ActivityDashboardBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DashboardActivity extends AppCompatActivity { /* implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    */private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
-
+/*
     // CODE JAVA DEKAT DASHBOARDFRAGMENT BUKAN SINI
     // jangan ubah file ni
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +37,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        /*
         setSupportActionBar(binding.appBarDashboard.toolbar);
 
-        DrawerLayout drawer = binding.drawerLayout;
+        /*DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home)
+                R.id.nav_dashboard,
+                R.id.nav_profile2)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_dashboard);
@@ -55,6 +61,23 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
+        int id = item.getItemId();
+
+        if (id == R.id.nav_logout2) {
+            FirebaseAuth.getInstance().signOut();  // ✅ log out from Firebase
+
+            Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_dashboard);
+        boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+        binding.drawerLayout.closeDrawers();
+        return handled;*/
+}
 }

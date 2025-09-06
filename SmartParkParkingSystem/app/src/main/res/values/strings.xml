@@ -17,4 +17,7 @@
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_logout">Log out</string>
+    <string name="menu_history">History</string>
+    <string name="menu_entry">Entry Logs</string>
+    <string name="menu_exit">Exit Logs</string>
 </resources>

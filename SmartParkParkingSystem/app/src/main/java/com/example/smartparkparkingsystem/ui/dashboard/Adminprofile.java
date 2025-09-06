@@ -1,11 +1,14 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.example.smartparkparkingsystem.R;
 import com.google.firebase.database.DataSnapshot;
@@ -16,8 +19,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Adminprofile extends AppCompatActivity {
 
-    private TextView adminNameText, courseText, Adminemail, phonenum, lastlogintime, primaryEmailText, secondaryEmailText;
+    private TextView adminNameText, courseText, Adminemail, phonenum, primaryEmailText, secondaryEmailText;
     private DatabaseReference roleRef;
+
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +34,11 @@ public class Adminprofile extends AppCompatActivity {
         courseText = findViewById(R.id.courseText);
         Adminemail = findViewById(R.id.Adminemail);
         phonenum = findViewById(R.id.phonenum);
-        lastlogintime = findViewById(R.id.lastlogintime);
         primaryEmailText = findViewById(R.id.primaryEmailText);
         secondaryEmailText = findViewById(R.id.secondaryEmailText);
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> finish());
 
         // ✅ Initialize Database with your project URL
         roleRef = FirebaseDatabase.getInstance(
@@ -51,7 +58,6 @@ public class Adminprofile extends AppCompatActivity {
                         String role = child.child("role").getValue(String.class);
                         String email = child.child("email").getValue(String.class);
                         String phone = child.child("Phonenumber").getValue(String.class);
-                        String lastLogin = child.child("lastlogintime").getValue(String.class);
                         String gender = child.child("Gender").getValue(String.class);
 
                         // ✅ Handle employeeid safely (could be Long or String)
@@ -66,7 +72,6 @@ public class Adminprofile extends AppCompatActivity {
                         courseText.setText(role != null ? role : "N/A");
                         Adminemail.setText(email != null ? email : "N/A");
                         phonenum.setText(phone != null ? phone : "N/A");
-                        lastlogintime.setText(lastLogin != null ? lastLogin : "N/A");
                         primaryEmailText.setText(gender != null ? gender : "N/A");
                         secondaryEmailText.setText(employeeId);
                     }

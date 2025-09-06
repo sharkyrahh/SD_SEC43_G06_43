@@ -17,4 +17,21 @@
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.example.smartparkparkingsystem.ui.history.HistoryFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/nav_entry"
+        android:name="com.example.smartparkparkingsystem.ui.history.EntryFragment"
+        android:label="@string/menu_entry"
+        tools:layout="@layout/fragment_entry" />
+
+    <fragment
+        android:id="@+id/nav_exit"
+        android:name="com.example.smartparkparkingsystem.ui.history.ExitFragment"
+        android:label="@string/menu_exit"
+        tools:layout="@layout/fragment_exit" />
 </navigation>

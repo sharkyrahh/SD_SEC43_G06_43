@@ -6,6 +6,34 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2196F3"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon"
+            android:tint="@android:color/white"
+            tools:ignore="ContentDescription,UseAppTint" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Profile"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
 
 
     <!-- Scrollable Content -->
@@ -88,22 +116,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="0167777777"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="lastLogin time:"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
-                <TextView
-                    android:id="@+id/lastlogintime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="date"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
