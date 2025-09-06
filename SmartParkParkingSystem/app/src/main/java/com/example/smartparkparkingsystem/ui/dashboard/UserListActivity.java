@@ -47,16 +47,16 @@ public class UserListActivity extends AppCompatActivity {
         // Setup RecyclerView
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userList = new ArrayList<>();
-        userAdapter = new UserAdapter(this, userList, new UserAdapter.OnUserActionListener() {
+        userAdapter = new UserAdapter(this, userList, new UserAdapter.OnUserClickListener() {
             @Override
-            public void onEdit(User user) {
+            public void onEditClick(User user) {
                 Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
                 intent.putExtra("userId", user.getId());
                 startActivity(intent);
             }
 
             @Override
-            public void onDelete(User user) {
+            public void onDeleteClick(User user) {
                 usersRef.child(user.getId()).removeValue();
             }
         });
