@@ -42,7 +42,7 @@ public class UserListActivity extends AppCompatActivity {
         // Firebase reference ke "Users" node
         usersRef = FirebaseDatabase
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Users");
+                .getReference("users");
 
         // Setup RecyclerView
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -82,7 +82,7 @@ public class UserListActivity extends AppCompatActivity {
 
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
                     String id = userSnap.getKey(); // Key = ID user
-                    String fullname = userSnap.child("fullname").getValue(String.class);
+                    String fullname = userSnap.child("fullName").getValue(String.class);
                     String email = userSnap.child("email").getValue(String.class);
 
                     if (fullname != null && email != null) {
