@@ -55,6 +55,11 @@ public class changeadminpass extends AppCompatActivity {
             return;
         }
 
+        if (newPass.equals(oldPass)) {
+            Toast.makeText(this, "New password cannot be the same as old password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         FirebaseUser admin = mAuth.getCurrentUser();
         if (admin == null || admin.getEmail() == null) {
             Toast.makeText(this, "No admin logged in", Toast.LENGTH_SHORT).show();

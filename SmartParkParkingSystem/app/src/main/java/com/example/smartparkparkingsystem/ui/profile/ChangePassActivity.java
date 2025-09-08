@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
@@ -53,6 +52,11 @@ public class ChangePassActivity extends AppCompatActivity {
 
         if (!newPass.equals(confirmPass)) {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newPass.equals(oldPass)) {
+            Toast.makeText(this, "New password cannot be the same as old password", Toast.LENGTH_SHORT).show();
             return;
         }
 
