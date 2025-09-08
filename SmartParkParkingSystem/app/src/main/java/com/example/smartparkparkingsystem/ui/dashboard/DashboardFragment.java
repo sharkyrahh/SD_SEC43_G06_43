@@ -33,7 +33,6 @@ public class DashboardFragment extends Fragment {
         MaterialCardView cardViewProfile = view.findViewById(R.id.card_view_profile);
         MaterialCardView cardViewParking = view.findViewById(R.id.card_parking);
         MaterialCardView cardLogs = view.findViewById(R.id.card_logs);
-        MaterialCardView cardEditProfile = view.findViewById(R.id.card_edit_profile);
         MaterialCardView cardLogout = view.findViewById(R.id.card_logout);
 
         // Setup Toolbar (if needed)
@@ -54,11 +53,6 @@ public class DashboardFragment extends Fragment {
 
         cardViewProfile.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), Adminprofile.class));
-        });
-
-
-        cardEditProfile.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), Editprofile.class));
         });
 
         // Logout Button

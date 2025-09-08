@@ -1,5 +1,6 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
+    private Context context;
     private List<User> userList;
     private final OnUserClickListener listener;
 
@@ -24,7 +26,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         void onDeleteClick(User user);
     }
 
-    public UserAdapter(UserListActivity userListActivity, List<User> userList, OnUserClickListener listener) {
+    public UserAdapter(Context context, List<User> userList, OnUserClickListener listener) {
+        this.context = context;
         this.userList = userList;
         this.listener = listener;
     }
@@ -32,7 +35,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_user, parent, false);
         return new UserViewHolder(view);
     }

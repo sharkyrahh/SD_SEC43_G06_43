@@ -60,7 +60,8 @@
                 android:hint="Full Name"
                 android:inputType="textPersonName"
                 android:padding="12dp"
-                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+                android:digits="QWERTYUIOPASDFGHJKLZXCVBNM qwertyuiopasdfghjklzxcvbnm"/>
 
             <EditText
                 android:id="@+id/platenum"
@@ -71,9 +72,21 @@
                 android:hint="Phone Number"
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
-                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+                android:digits="+-1234567890"
+                android:maxLength="12"/>
 
 
+            <Button
+                android:id="@+id/btnSaveProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3"
+                android:padding="12dp"
+
+                android:text="Save Changes"
+                android:textColor="@android:color/white"
+                tools:ignore="ButtonStyle,HardcodedText,TextContrastCheck,VisualLintButtonSize" />
             <Button
                 android:id="@+id/btnChangePassword"
                 android:layout_width="match_parent"
@@ -82,18 +95,10 @@
                 android:padding="12dp"
                 android:text="Change Password"
                 android:textColor="@android:color/white"
+                android:layout_marginTop="5dp"
                 tools:ignore="ButtonStyle,HardcodedText,TextContrastCheck,VisualLintButtonSize" />
 
-            <Button
-                android:id="@+id/btnSaveProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#2196F3"
-                android:padding="12dp"
-                android:layout_marginTop="5dp"
-                android:text="Save Changes"
-                android:textColor="@android:color/white"
-                tools:ignore="ButtonStyle,HardcodedText,TextContrastCheck,VisualLintButtonSize" />
+
 
         </LinearLayout>
     </ScrollView>

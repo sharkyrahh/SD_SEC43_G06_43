@@ -133,6 +133,41 @@ public class AdminActivity extends AppCompatActivity {
             emailEditText.requestFocus();
             return false;
         }
+
+
+        if (!email.contains("@")) {
+            emailEditText.setError("Missing '@'");
+            emailEditText.requestFocus();
+            return false;
+        }
+
+        if (!email.contains(".com") && !email.contains(".my")) {
+            emailEditText.setError("Missing '.com'");
+            emailEditText.requestFocus();
+            return false;
+        }
+
+        int atCount = email.length() - email.replace("@", "").length();
+
+        if (atCount > 1) {
+            emailEditText.setError("Too many '@'s");
+            emailEditText.requestFocus();
+            return false;
+        }
+
+
+        if (email.lastIndexOf(".") < email.indexOf("@")) {
+            emailEditText.setError("Invalid email format");
+            emailEditText.requestFocus();
+            return false;
+        }
+
+        if (email.indexOf(".") - email.indexOf("@") <= 1) {
+            emailEditText.setError("Invalid email format");
+            emailEditText.requestFocus();
+            return false;
+        }
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("Please enter a valid email");
             emailEditText.requestFocus();
