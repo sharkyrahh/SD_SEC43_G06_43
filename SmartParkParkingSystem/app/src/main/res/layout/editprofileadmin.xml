@@ -60,7 +60,9 @@
                 android:hint="Full Name"
                 android:inputType="textPersonName"
                 android:padding="12dp"
-                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/editphonenum"
@@ -73,7 +75,9 @@
                 android:focusable="false"
                 android:clickable="false"
                 android:padding="12dp"
-                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+                tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"/>
 
             <Button
                 android:id="@+id/btnChangePassword"

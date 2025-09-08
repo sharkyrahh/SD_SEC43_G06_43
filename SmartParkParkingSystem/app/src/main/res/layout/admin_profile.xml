@@ -66,7 +66,8 @@
                 android:text="fullname"
                 android:textSize="19sp"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
+                tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
+                android:textColor="@color/black"/>
 
             <!-- Course -->
             <TextView
@@ -76,7 +77,8 @@
                 android:text="role"
                 android:textSize="16sp"
                 android:layout_marginBottom="20dp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
 
             <!-- Profile Info Box -->
             <LinearLayout
@@ -94,7 +96,8 @@
                     android:layout_height="wrap_content"
                     android:text="Admin Email:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/Adminemail"
                     android:layout_width="match_parent"
@@ -103,14 +106,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Phonenumber:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/phonenum"
                     android:layout_width="match_parent"
@@ -119,14 +124,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Gender"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/primaryEmailText"
                     android:layout_width="match_parent"
@@ -135,14 +142,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Employee ID:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/secondaryEmailText"
                     android:layout_width="match_parent"
@@ -151,7 +160,8 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 

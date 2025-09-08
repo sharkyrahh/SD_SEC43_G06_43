@@ -52,7 +52,8 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            android:textColor="@color/black"/>
 
         <!-- Full Name -->
         <TextView
@@ -64,7 +65,9 @@
             android:background="@android:drawable/edit_text"
             android:hint="Full Name"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"/>
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"/>
 
         <TextView
             android:id="@+id/editEmail"
@@ -75,7 +78,9 @@
             android:background="@android:drawable/edit_text"
             android:hint="E-mail"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"/>
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"/>
 
         <TextView
             android:id="@+id/cardUID"
@@ -86,7 +91,9 @@
             android:background="@android:drawable/edit_text"
             android:hint="Card UID"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"/>
 
         <Button
             android:id="@+id/btnRegisterRFID"

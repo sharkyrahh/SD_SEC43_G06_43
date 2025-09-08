@@ -20,23 +20,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:layout_marginTop="50dp">
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/signupTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="SIGN UP"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:hint="Full Name"
+            app:hintTextColor="@color/black"
+            app:boxStrokeColor="@color/blue_500">
 
             <EditText
                 android:id="@+id/fullNameEditText"
@@ -49,14 +52,16 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888" />
+                android:textColorHint="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="4dp"
+            android:hint="Email"
+            app:boxStrokeColor="@color/blue_500">
 
             <EditText
                 android:id="@+id/emailEditText"
@@ -68,7 +73,7 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888"
+                android:textColorHint="@color/black"
                 android:digits="1234567890.@QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,7 +81,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="4dp"
+            android:hint="Password"
+            app:boxStrokeColor="@color/blue_500">
 
             <EditText
                 android:id="@+id/passwordEditText"
@@ -89,7 +96,7 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888" />
+                android:textColorHint="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +105,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="4dp"
+            android:hint="Confirm Password"
+            app:boxStrokeColor="@color/blue_500">
 
             <EditText
                 android:id="@+id/confirmPasswordEditText"
@@ -111,7 +120,7 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888" />
+                android:textColorHint="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,7 +129,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="4dp"
+            app:boxStrokeColor="@color/blue_500"
+            android:hint="Matric Card Number">
 
             <EditText
                 android:id="@+id/matricCardEditText"
@@ -135,7 +146,7 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888" />
+                android:textColorHint="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,8 +154,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp"
-            android:hint="Faculty">
+            android:layout_marginTop="4dp"
+            android:hint="Faculty"
+            app:boxStrokeColor="@color/blue_500">
 
             <EditText
                 android:id="@+id/facultyEditText"
@@ -159,7 +171,10 @@
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:minHeight="48dp"
-                android:padding="12dp" />
+                android:padding="12dp"
+                android:hint="Faculty"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,7 +182,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="4dp"
+            app:boxStrokeColor="@color/blue_500"
+            android:hint="Plate Number">
 
             <EditText
                 android:id="@+id/plateNumberEditText"
@@ -181,7 +198,7 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888"
+                android:textColorHint="@color/black"
                 android:maxLength="10"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -189,7 +206,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="4dp"
+            app:boxStrokeColor="@color/blue_500"
+            android:hint="Program Code"
+            >
 
             <EditText
                 android:id="@+id/programCodeEditText"
@@ -204,7 +224,7 @@
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:textColor="#000000"
-                android:textColorHint="#888888" />
+                android:textColorHint="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Sign Up Button -->

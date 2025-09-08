@@ -50,7 +50,8 @@
                 android:text="Change Your Password here !"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/emailInput"
@@ -60,7 +61,9 @@
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
                 android:background="@android:drawable/edit_text"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"/>
 
             <Button
                 android:id="@+id/resetButton"

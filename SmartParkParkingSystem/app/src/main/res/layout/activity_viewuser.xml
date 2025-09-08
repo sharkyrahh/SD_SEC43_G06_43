@@ -68,6 +68,7 @@
                 android:textSize="19sp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
+                android:textColor="@color/black"
                 />
 
             <!-- Course -->
@@ -88,7 +89,8 @@
                     android:layout_height="wrap_content"
                     android:text="Matric Number:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/matricNumberText"
                     android:layout_width="match_parent"
@@ -97,14 +99,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Programme Code:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/programmeCodeText"
                     android:layout_width="match_parent"
@@ -113,14 +117,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Faculty:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/facultyText"
                     android:layout_width="match_parent"
@@ -129,14 +135,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Primary Email:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/primaryEmailText"
                     android:layout_width="match_parent"
@@ -145,14 +153,16 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Plate Number:"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/secondaryEmailText"
                     android:layout_width="match_parent"
@@ -161,7 +171,8 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
