@@ -38,7 +38,7 @@
             tools:ignore="HardcodedText" />
     </LinearLayout>
 
-    <!-- EXISTING CONTENT -->
+    <!-- CONTENT -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,10 +54,11 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"
+            android:textColor="@color/black"
             tools:ignore="HardcodedText" />
 
         <!-- Full Name -->
-        <TextView
+        <EditText
             android:id="@+id/editFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,10 +67,12 @@
             android:background="@android:drawable/edit_text"
             android:hint="Full Name"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize"/>
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
         <!-- Email -->
-        <TextView
+        <EditText
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,11 +80,13 @@
             android:padding="12dp"
             android:background="@android:drawable/edit_text"
             android:hint="E-mail"
-            android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize"/>
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
         <!-- Card UID -->
-        <TextView
+        <EditText
             android:id="@+id/cardUID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,11 +94,13 @@
             android:padding="12dp"
             android:background="@android:drawable/edit_text"
             android:hint="Card UID"
-            android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize" />
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
         <!-- Plate Number -->
-        <TextView
+        <EditText
             android:id="@+id/editPlateNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,8 +111,11 @@
             android:inputType="textCapCharacters"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:maxLength="10"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
+        <!-- Button Register -->
         <Button
             android:id="@+id/btnRegisterRFID"
             android:layout_width="match_parent"
@@ -117,6 +127,7 @@
             android:textColor="@android:color/white"
             tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
 
+        <!-- Button Save -->
         <Button
             android:id="@+id/btnSaveProfile"
             android:layout_width="match_parent"

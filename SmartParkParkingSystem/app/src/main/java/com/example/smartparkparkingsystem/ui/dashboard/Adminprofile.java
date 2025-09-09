@@ -1,5 +1,6 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.smartparkparkingsystem.R;
+import com.example.smartparkparkingsystem.ui.profile.EditProfileActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +23,8 @@ public class Adminprofile extends AppCompatActivity {
 
     private TextView adminNameText, courseText, Adminemail, phonenum, primaryEmailText, secondaryEmailText;
     private DatabaseReference roleRef;
+
+    Button editBtn;
 
     ImageView backButton;
 
@@ -39,6 +43,14 @@ public class Adminprofile extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
 
         backButton.setOnClickListener(v -> finish());
+
+        editBtn = findViewById(R.id.editBtn);
+
+        // Set Edit button action
+        editBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Adminprofile.this, Editprofile.class);
+            startActivity(intent);
+        });
 
         // ✅ Initialize Database with your project URL
         roleRef = FirebaseDatabase.getInstance(

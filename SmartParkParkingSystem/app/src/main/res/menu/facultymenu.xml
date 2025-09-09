@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fc_space"
+        android:title="SPACE"
+        />
+
+    <item
+        android:id="@+id/fc_computing"
+        android:title="Faculty of Computing"
+        />
+
+    <item
+        android:id="@+id/fc_civ"
+        android:title="Faculty of Civil Engineering"
+        />
+
+    <item
+        android:id="@+id/fc_chem"
+        android:title="Faculty of Chemical Engineering"
+        />
+
+    <item
+        android:id="@+id/fc_mech"
+        android:title="Faculty of Mechanical Engineering"
+        />
+
+    <item
+        android:id="@+id/fc_elec"
+        android:title="Faculty of Electrical Engineering"
+        />
+
+    <item
+        android:id="@+id/fc_ai"
+        android:title="Faculty of Artificial Intelligence"
+        />
+
+    <item
+        android:id="@+id/fc_sc"
+        android:title="Faculty of Science"
+        />
+
+    <item
+        android:id="@+id/fc_built"
+        android:title="Faculty of Built Environment and Surveying"
+        />
+
+    <item
+        android:id="@+id/fc_soc"
+        android:title="Faculty of Social Sciences and Humanities"
+        />
+
+    <item
+        android:id="@+id/fc_man"
+        android:title="Faculty of Management"
+        />
+
+    <item
+        android:id="@+id/fc_ed"
+        android:title="Faculty of Educational Sciences and Technology"
+        />
+
+    <item
+        android:id="@+id/fc_az"
+        android:title="Azman Hashim International Business School"
+        />
+
+    <item
+        android:id="@+id/fc_mj"
+        android:title="MJIIT"
+        />
+
+</menu>

@@ -1,6 +1,5 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,54 +9,80 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
-import com.example.smartparkparkingsystem.ui.profile.ChangePassActivity;
-import com.example.smartparkparkingsystem.ui.profile.EditProfileActivity;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class changeadminpass extends AppCompatActivity {
 
-    private EditText emailInput;
+    private EditText oldPassInput, newPassInput, confirmPassInput;
     private Button resetButton;
     private FirebaseAuth mAuth;
-    ImageView backButton;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_pass);
+        setContentView(R.layout.activity_change_pass); // reuse pass.xml
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize views
-        emailInput = findViewById(R.id.emailInput);
+        // Match your pass.xml IDs
+        oldPassInput = findViewById(R.id.pass);
+        newPassInput = findViewById(R.id.newpass);
+        confirmPassInput = findViewById(R.id.newpass1);
         resetButton = findViewById(R.id.resetButton);
         backButton = findViewById(R.id.backButton);
 
         backButton.setOnClickListener(v -> finish());
 
-        // Reset password button logic
-        resetButton.setOnClickListener(v -> {
-            String email = emailInput.getText().toString().trim();
+        resetButton.setOnClickListener(v -> changePassword());
+    }
 
-            if (email.isEmpty()) {
-                Toast.makeText(changeadminpass.this, "Please enter your email", Toast.LENGTH_SHORT).show();
-                return;
+    private void changePassword() {
+        String oldPass = oldPassInput.getText().toString().trim();
+        String newPass = newPassInput.getText().toString().trim();
+        String confirmPass = confirmPassInput.getText().toString().trim();
+
+        if (oldPass.isEmpty() || newPass.isEmpty() || confirmPass.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!newPass.equals(confirmPass)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newPass.equals(oldPass)) {
+            Toast.makeText(this, "New password cannot be the same as old password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        FirebaseUser admin = mAuth.getCurrentUser();
+        if (admin == null || admin.getEmail() == null) {
+            Toast.makeText(this, "No admin logged in", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        AuthCredential credential = EmailAuthProvider.getCredential(admin.getEmail(), oldPass);
+        admin.reauthenticate(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                admin.updatePassword(newPass).addOnCompleteListener(updateTask -> {
+                    if (updateTask.isSuccessful()) {
+                        Toast.makeText(changeadminpass.this,
+                                "Admin password updated successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(changeadminpass.this,
+                                "Failed to update admin password", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(changeadminpass.this,
+                        "Old password is incorrect", Toast.LENGTH_LONG).show();
             }
-
-            // Send password reset email
-            mAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(changeadminpass.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
-
-                    // After success → go back to main page
-                    Intent intent = new Intent(changeadminpass.this, EditProfileActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(changeadminpass.this, "No account found with this email", Toast.LENGTH_LONG).show();
-                }
-            });
         });
     }
 }

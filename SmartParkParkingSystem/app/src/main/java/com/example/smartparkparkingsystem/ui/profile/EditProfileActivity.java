@@ -3,6 +3,7 @@ package com.example.smartparkparkingsystem.ui.profile;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +41,11 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         backButton = findViewById(R.id.backButton);
+
+        editPlateNum.setFilters(new InputFilter[]{
+                new InputFilter.AllCaps(),
+                new InputFilter.LengthFilter(10)
+        });
 
         // Firebase initialization
         mAuth = FirebaseAuth.getInstance();

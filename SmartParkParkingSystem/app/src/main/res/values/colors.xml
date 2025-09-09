@@ -3,4 +3,6 @@
     <color name="blue_500">#2196F3</color> <!-- Biru standard -->
     <color name="blue_200">#90CAF9</color> <!-- Biru lembut -->
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="grey">#7E2F2F2F</color>
 </resources>

@@ -265,40 +265,6 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-            <!-- EDIT PROFILE CARD -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_edit_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardBackgroundColor="#E3F2FD"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_edit"
-                        android:contentDescription="Edit Profile Icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Edit Profile"
-                        android:textColor="#0D47A1"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
             <!-- LOG OUT CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_logout"

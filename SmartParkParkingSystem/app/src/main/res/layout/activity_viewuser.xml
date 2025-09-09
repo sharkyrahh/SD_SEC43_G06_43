@@ -1,10 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.ViewUserActivity">
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2196F3"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon"
+            android:tint="@android:color/white"
+            tools:ignore="ContentDescription,UseAppTint" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Profile Picture -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@android:drawable/sym_def_app_icon"
+                android:layout_marginBottom="12dp"
+                android:contentDescription="Profile Picture"
+                tools:ignore="HardcodedText" />
+
+            <!-- Full Name -->
+            <TextView
+                android:id="@+id/fullNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="HAZIM HAKIMI"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
+                android:textColor="@color/black"
+                />
+
+            <!-- Course -->
+
+            <!-- Profile Info Box -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F0F0F0"
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:elevation="4dp"
+                android:layout_marginBottom="24dp">
+
+                <!-- Each field below -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Matric Number:"
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/matricNumberText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="A22CS1234"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Programme Code:"
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/programmeCodeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DDWD"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Faculty:"
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/facultyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Faculty of Computing"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Primary Email:"
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/primaryEmailText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="hzmhkmii@gmail.com"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Plate Number:"
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/secondaryEmailText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="JQF 6170"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="HardcodedText"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <!-- Edit Button -->
+            <Button
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:text="Edit Profile"
+                android:textColor="@android:color/white"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

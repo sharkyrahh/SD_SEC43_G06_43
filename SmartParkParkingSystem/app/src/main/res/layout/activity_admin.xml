@@ -23,19 +23,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:layout_marginTop="100dp">
 
         <TextView
             android:id="@+id/signupTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="50dp"
             android:gravity="center"
             android:text="ADMIN SIGN IN"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Email"
+            app:boxStrokeColor="@color/blue_500">
         <EditText
             android:id="@+id/emaileditText"
             android:layout_width="match_parent"
@@ -43,21 +51,31 @@
             android:layout_marginTop="70dp"
             android:hint="Email"
             android:textColor="#000000"
-            android:textColorHint="#888888"
-            android:backgroundTint="#004AAD" />
+            android:textColorHint="@color/black"
+            android:backgroundTint="#004AAD"
+            android:digits="1234567890.@QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            app:boxStrokeColor="@color/blue_500"
+            android:hint="Password">
         <EditText
             android:id="@+id/passwordeditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:backgroundTint="#004AAD"
             android:hint="Password"
             android:inputType="textPassword"
             android:textColor="#000000"
-            android:textColorHint="#888888"
-            android:backgroundTint="#004AAD" />
+            android:textColorHint="@color/black"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- ADMIN SIGN IN BUTTON -->
         <Button
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
