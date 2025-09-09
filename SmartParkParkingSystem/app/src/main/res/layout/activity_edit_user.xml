@@ -22,6 +22,7 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             android:src="@drawable/back_icon"
             app:tint="@android:color/white" />
 
@@ -33,7 +34,8 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 
     <!-- EXISTING CONTENT -->
@@ -64,8 +66,9 @@
             android:background="@android:drawable/edit_text"
             android:hint="Full Name"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"/>
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize"/>
 
+        <!-- Email -->
         <TextView
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
@@ -75,8 +78,9 @@
             android:background="@android:drawable/edit_text"
             android:hint="E-mail"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"/>
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize"/>
 
+        <!-- Card UID -->
         <TextView
             android:id="@+id/cardUID"
             android:layout_width="match_parent"
@@ -86,7 +90,21 @@
             android:background="@android:drawable/edit_text"
             android:hint="Card UID"
             android:inputType="textPersonName"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize" />
+
+        <!-- Plate Number -->
+        <TextView
+            android:id="@+id/editPlateNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="Plate Number"
+            android:inputType="textCapCharacters"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:maxLength="10"
+            tools:ignore="Autofill,HardcodedText,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize" />
 
         <Button
             android:id="@+id/btnRegisterRFID"
@@ -96,7 +114,8 @@
             android:backgroundTint="#2196F3"
             android:padding="12dp"
             android:text="Register RFID Card"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
 
         <Button
             android:id="@+id/btnSaveProfile"
@@ -106,7 +125,8 @@
             android:backgroundTint="#2196F3"
             android:padding="12dp"
             android:text="Save Changes"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
 
     </LinearLayout>
 </LinearLayout>
