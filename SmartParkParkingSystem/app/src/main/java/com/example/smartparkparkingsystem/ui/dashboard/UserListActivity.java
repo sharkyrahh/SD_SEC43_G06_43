@@ -1,12 +1,12 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +27,7 @@ import java.util.ArrayList;
 public class UserListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private LinearLayout detailLayout;
-    private TextView detailName, detailEmail;
-    private Button backButtonDetail;
     private ImageView backButton;
-
     private ArrayList<User> userList = new ArrayList<>();
     private UserAdapter adapter;
 
@@ -41,10 +37,6 @@ public class UserListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_list);
 
         recyclerView = findViewById(R.id.userRecyclerView);
-        detailLayout = findViewById(R.id.detailLayout);
-        detailName = findViewById(R.id.detailName);
-        detailEmail = findViewById(R.id.detailEmail);
-        backButtonDetail = findViewById(R.id.backButtonDetail);
         backButton = findViewById(R.id.backButton);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,7 +44,6 @@ public class UserListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         backButton.setOnClickListener(v -> finish());
-        backButtonDetail.setOnClickListener(v -> showList());
 
         loadUsers();
     }
@@ -82,18 +73,12 @@ public class UserListActivity extends AppCompatActivity {
     }
 
     private void showUserDetail(User user) {
-        recyclerView.setVisibility(View.GONE);
-        detailLayout.setVisibility(View.VISIBLE);
-        detailName.setText(user.fullName);
-        detailEmail.setText(user.email);
+        Intent intent = new Intent(this, ViewUserActivity.class);
+        intent.putExtra("userId", user.id);
+        startActivity(intent);
     }
 
-    private void showList() {
-        detailLayout.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-    }
-
-    // Inner User model
+    // User model
     private static class User {
         String id, fullName, email;
 
@@ -104,7 +89,7 @@ public class UserListActivity extends AppCompatActivity {
         }
     }
 
-    // Inner RecyclerView Adapter
+    // RecyclerView Adapter
     private class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
         ArrayList<User> users;
 
@@ -116,7 +101,7 @@ public class UserListActivity extends AppCompatActivity {
         @Override
         public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(android.R.layout.simple_list_item_2, parent, false);
+                    .inflate(R.layout.item_user, parent, false);
             return new UserViewHolder(view);
         }
 
@@ -125,7 +110,16 @@ public class UserListActivity extends AppCompatActivity {
             User user = users.get(position);
             holder.name.setText(user.fullName);
             holder.email.setText(user.email);
+
             holder.itemView.setOnClickListener(v -> showUserDetail(user));
+
+            holder.btnEdit.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), "Edit " + user.fullName, Toast.LENGTH_SHORT).show();
+            });
+
+            holder.btnDelete.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), "Delete " + user.fullName, Toast.LENGTH_SHORT).show();
+            });
         }
 
         @Override
@@ -135,11 +129,14 @@ public class UserListActivity extends AppCompatActivity {
 
         class UserViewHolder extends RecyclerView.ViewHolder {
             TextView name, email;
+            ImageButton btnEdit, btnDelete;
 
             UserViewHolder(@NonNull View itemView) {
                 super(itemView);
-                name = itemView.findViewById(android.R.id.text1);
-                email = itemView.findViewById(android.R.id.text2);
+                name = itemView.findViewById(R.id.textUserName);
+                email = itemView.findViewById(R.id.textUserEmail);
+                btnEdit = itemView.findViewById(R.id.btnEdit);
+                btnDelete = itemView.findViewById(R.id.btnDelete);
             }
         }
     }
