@@ -118,8 +118,24 @@ public class UserListActivity extends AppCompatActivity {
             });
 
             holder.btnDelete.setOnClickListener(v -> {
-                Toast.makeText(v.getContext(), "Delete " + user.fullName, Toast.LENGTH_SHORT).show();
-            });
+                new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
+                        .setTitle("Delete User")
+                        .setMessage("Are you sure you want to delete " + user.fullName + "?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                            usersRef.child(user.id).removeValue()
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(v.getContext(), "User deleted", Toast.LENGTH_SHORT).show();
+                                        users.remove(position); // buang user dari list
+                                        notifyItemRemoved(position); // update UI RecyclerView
+                                    })
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(v.getContext(), "Failed to delete user", Toast.LENGTH_SHORT).show());
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
+        });
         }
 
         @Override
