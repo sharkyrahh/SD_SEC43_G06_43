@@ -44,7 +44,7 @@ public class DashboardFragment extends Fragment {
         });
 
         cardViewParking.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), ParkingActivity.class));
+            startActivity(new Intent(getActivity(), ViewParkingActivity.class));
         });
 
         cardLogs.setOnClickListener(v -> {

@@ -1,21 +1,57 @@
 package com.example.smartparkparkingsystem.ui.history;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 import com.example.smartparkparkingsystem.R;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ExitFragment extends Fragment {
+public class ExitFragment extends Fragment implements EntryAdapter.ItemClickListener {
+
+    EntryAdapter adapter;
+    private List<String> dateList;
+    private List<String> timeList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exit, container, false);
+        View view = inflater.inflate(R.layout.fragment_entry, container, false);
+
+        // Create separate dummy data for dates and times
+        dateList = new ArrayList<>();
+        timeList = new ArrayList<>();
+
+        // Add dummy data
+        dateList.add("01-12-2025"); timeList.add("13:25PM");
+        dateList.add("01-15-2025"); timeList.add("08:30AM");
+        dateList.add("01-15-2025"); timeList.add("12:15PM");
+        dateList.add("01-14-2025"); timeList.add("09:45AM");
+        dateList.add("01-14-2025"); timeList.add("14:20PM");
+        dateList.add("01-13-2025"); timeList.add("10:05AM");
+        dateList.add("01-13-2025"); timeList.add("16:40PM");
+        dateList.add("01-12-2025"); timeList.add("07:55AM");
+
+
+        // Set up the RecyclerView
+        RecyclerView recyclerView = view.findViewById(R.id.entryList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new EntryAdapter(getContext(), dateList, timeList);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+
         return view;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), "Entry on " + dateList.get(position) + " at " + timeList.get(position), Toast.LENGTH_SHORT).show();
+        }
     }
 }
