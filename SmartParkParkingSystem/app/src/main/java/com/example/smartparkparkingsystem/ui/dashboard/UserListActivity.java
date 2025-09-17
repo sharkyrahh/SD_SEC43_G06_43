@@ -111,12 +111,17 @@ public class UserListActivity extends AppCompatActivity {
             holder.name.setText(user.fullName);
             holder.email.setText(user.email);
 
+            // Open detail view
             holder.itemView.setOnClickListener(v -> showUserDetail(user));
 
+            // Edit button -> open EditUserActivity
             holder.btnEdit.setOnClickListener(v -> {
-                Toast.makeText(v.getContext(), "Edit " + user.fullName, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), EditUserActivity.class);
+                intent.putExtra("userId", user.id);
+                v.getContext().startActivity(intent);
             });
 
+            // Delete button -> confirm then delete
             holder.btnDelete.setOnClickListener(v -> {
                 new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
                         .setTitle("Delete User")
@@ -126,16 +131,15 @@ public class UserListActivity extends AppCompatActivity {
                             usersRef.child(user.id).removeValue()
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(v.getContext(), "User deleted", Toast.LENGTH_SHORT).show();
-                                        users.remove(position); // buang user dari list
-                                        notifyItemRemoved(position); // update UI RecyclerView
+                                        users.remove(position);
+                                        notifyItemRemoved(position);
                                     })
                                     .addOnFailureListener(e ->
                                             Toast.makeText(v.getContext(), "Failed to delete user", Toast.LENGTH_SHORT).show());
                         })
                         .setNegativeButton("No", null)
                         .show();
-
-        });
+            });
         }
 
         @Override

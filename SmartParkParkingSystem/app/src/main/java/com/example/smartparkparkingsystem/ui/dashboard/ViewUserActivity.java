@@ -1,5 +1,6 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ public class ViewUserActivity extends AppCompatActivity {
     private ImageView backButton;
     private TextView fullNameText, matricNumberText, programmeCodeText, facultyText, primaryEmailText, secondaryEmailText;
     private Button editBtn;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,18 @@ public class ViewUserActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
 
-        String userId = getIntent().getStringExtra("userId");
+        userId = getIntent().getStringExtra("userId");
         if (userId != null) {
             loadUserData(userId);
         } else {
             Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show();
         }
+
+        editBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ViewUserActivity.this, EditUserActivity.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+        });
     }
 
     private void loadUserData(String userId) {
