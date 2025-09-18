@@ -1,6 +1,7 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,11 @@ public class EditUserActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         cardUID = findViewById(R.id.cardUID);
         editPlateNumber = findViewById(R.id.editPlateNumber);
+
+        editPlateNumber.setFilters(new InputFilter[]{
+                new InputFilter.AllCaps(),
+                new InputFilter.LengthFilter(10)
+        });
 
         // Get userId from intent
         userId = getIntent().getStringExtra("userId");
@@ -93,7 +99,34 @@ public class EditUserActivity extends AppCompatActivity {
         String uid = cardUID.getText().toString().trim();
         String plateNumber = editPlateNumber.getText().toString().trim();
 
-        if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(fullName)){
+            Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(email)){
+            Toast.makeText(this, "Please fill in your email.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        /*if (!email.contains("@")) {
+            emailEditText.setError("Missing '@'");
+            emailEditText.requestFocus();
+            return;
+        }
+
+        if (!email.contains(".com") && !email.contains(".my")) {
+            emailEditText.setError("Missing '.com'");
+            emailEditText.requestFocus();
+            return;
+        }*/
+
+        if (TextUtils.isEmpty(plateNumber)){
+            Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(fullName) && TextUtils.isEmpty(email) && TextUtils.isEmpty(plateNumber)) {
             Toast.makeText(this, "Full name and email are required", Toast.LENGTH_SHORT).show();
             return;
         }

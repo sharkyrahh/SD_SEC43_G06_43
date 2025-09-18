@@ -76,7 +76,9 @@
                 android:padding="12dp"
                 tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
                 android:textColorHint="@color/grey"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                android:maxLength="10"/>
 
 
 

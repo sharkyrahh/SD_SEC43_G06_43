@@ -34,7 +34,7 @@ public class Editprofile extends AppCompatActivity {
 
         // Views (IDs must match your XML)
         editFullName      = findViewById(R.id.editFullName);
-        editPhone         = findViewById(R.id.platenum); // <-- this field is Phone Number in your UI
+        editPhone         = findViewById(R.id.platenum);
         btnSaveProfile    = findViewById(R.id.btnSaveProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         backButton        = findViewById(R.id.backButton);
@@ -66,7 +66,19 @@ public class Editprofile extends AppCompatActivity {
             String fullName = editFullName.getText().toString().trim();
             String phone    = editPhone.getText().toString().trim();
 
-            if (fullName.isEmpty() || phone.isEmpty()) {
+            if (fullName.isEmpty()) {
+                Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
+                editFullName.requestFocus();
+                return;
+            }
+
+            if (phone.isEmpty()) {
+                Toast.makeText(this, "Please fill in your phone number.", Toast.LENGTH_SHORT).show();
+                editPhone.requestFocus();
+                return;
+            }
+
+            if (fullName.isEmpty() && phone.isEmpty()) {
                 Toast.makeText(Editprofile.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
