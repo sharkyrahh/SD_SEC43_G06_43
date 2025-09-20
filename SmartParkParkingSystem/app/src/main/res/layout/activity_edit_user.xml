@@ -99,8 +99,7 @@
             android:inputType="text"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
-            tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
-            android:editable="false"/>
+            tools:ignore="Autofill,Deprecated,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
         <!-- Plate Number -->
         <EditText

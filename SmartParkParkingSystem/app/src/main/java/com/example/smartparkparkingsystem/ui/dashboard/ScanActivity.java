@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.smartparkparkingsystem.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -23,6 +27,8 @@ public class ScanActivity extends AppCompatActivity {
         // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app");
         rfidRef = database.getReference("RFID");
+        rfidRef.child("registerMode").setValue(true);
+
 
         setupFirebaseListener();
     }
@@ -49,11 +55,13 @@ public class ScanActivity extends AppCompatActivity {
                     isScanning = false;
 
                     // Go to next activity
-                    Intent intent = new Intent(ScanActivity.this, EditUserActivity.class);
-                    intent.putExtra("CARD_UID", uid);
-                    startActivity(intent);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("CARD_UID", uid);
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
 
                     // Clear the Firebase data to prevent re-triggering
+                    rfidRef.child("registerMode").setValue(false);
                     rfidRef.child("scanActive").setValue(false);
                     rfidRef.child("UID").setValue("");
                 }
@@ -78,4 +86,6 @@ public class ScanActivity extends AppCompatActivity {
             rfidRef.child("UID").setValue("");
         }
     }
+
+
 }

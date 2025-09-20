@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.Intent;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,12 +31,31 @@ public class EditUserActivity extends AppCompatActivity {
     private ImageView backButton;
 
     private String userId;
+    String currentUID;
     private DatabaseReference userRef;
+    private DatabaseReference mDatabase;
+    private ActivityResultLauncher<Intent> scanLauncher;
+
+    private boolean newCardRegister = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
+
+        scanLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Intent data = result.getData();
+                        if (data.hasExtra("CARD_UID")) {
+                            currentUID = data.getStringExtra("CARD_UID");
+                            cardUID.setText(currentUID);
+                            newCardRegister = true;
+                        }
+                    }
+                }
+        );
 
         // Bind views
         backButton = findViewById(R.id.backButton);
@@ -51,14 +72,18 @@ public class EditUserActivity extends AppCompatActivity {
         });
 
         // Get userId from intent
-        userId = getIntent().getStringExtra("userId");
-        if (userId == null) {
+        Intent intentUser = getIntent();
+        userId = intentUser.getStringExtra("userId");
+        if (!intentUser.hasExtra("userId")) {
             Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
         userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        mDatabase = FirebaseDatabase
+                .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference();
 
         backButton.setOnClickListener(v -> finish());
 
@@ -68,9 +93,9 @@ public class EditUserActivity extends AppCompatActivity {
         // Save changes
         btnSaveProfile.setOnClickListener(v -> saveChanges());
 
-        // Register RFID placeholder
+        Intent intentCard = new Intent(EditUserActivity.this, ScanActivity.class);
         registerRFID.setOnClickListener(v ->
-                Toast.makeText(this, "Redirect to RFID scan not implemented yet", Toast.LENGTH_SHORT).show()
+                scanLauncher.launch(intentCard)
         );
     }
 
@@ -101,28 +126,31 @@ public class EditUserActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(fullName)){
             Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
+            editFullName.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(email)){
             Toast.makeText(this, "Please fill in your email.", Toast.LENGTH_SHORT).show();
+            editEmail.requestFocus();
             return;
         }
 
-        /*if (!email.contains("@")) {
-            emailEditText.setError("Missing '@'");
-            emailEditText.requestFocus();
+        if (!email.contains("@")) {
+            editEmail.setError("Missing '@'");
+            editEmail.requestFocus();
             return;
         }
 
         if (!email.contains(".com") && !email.contains(".my")) {
-            emailEditText.setError("Missing '.com'");
-            emailEditText.requestFocus();
+            editEmail.setError("Missing '.com'");
+            editEmail.requestFocus();
             return;
-        }*/
+        }
 
         if (TextUtils.isEmpty(plateNumber)){
             Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
+            editPlateNumber.requestFocus();
             return;
         }
 
@@ -131,6 +159,39 @@ public class EditUserActivity extends AppCompatActivity {
             return;
         }
 
+        boolean hasEnter = false;
+
+        if (newCardRegister) {
+            Card newCard = new Card(plateNumber, userId, hasEnter);
+
+            DatabaseReference cardRef = FirebaseDatabase.getInstance().getReference().child("cards").child(uid);
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        Toast.makeText(EditUserActivity.this, "Card already exists. Please try again!", Toast.LENGTH_SHORT).show();
+                        newCardRegister = false;
+                        cardUID.setText("");
+                        return;
+                    } else {
+                        mDatabase.child("cards").child(uid).setValue(newCard);
+                        updateProfile(fullName, email, uid, plateNumber);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(EditUserActivity.this, "Error checking card: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            };
+            cardRef.addListenerForSingleValueEvent(valueEventListener);
+        }
+        else {
+            updateProfile(fullName, email, uid, plateNumber);
+        }
+    }
+
+    public void updateProfile(String fullName, String email, String uid, String plateNumber){
         Map<String, Object> updates = new HashMap<>();
         updates.put("fullName", fullName);
         updates.put("email", email);
@@ -150,5 +211,19 @@ public class EditUserActivity extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(EditUserActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
+    }
+
+    public static class Card {
+        public String plateNum;
+        public String UID;
+        public boolean hasEntered;
+        public Card() {
+        }
+
+        public Card(String plateNum, String UID, boolean hasEntered) {
+            this.plateNum = plateNum;
+            this.UID = UID;
+            this.hasEntered = hasEntered;
+        }
     }
 }
