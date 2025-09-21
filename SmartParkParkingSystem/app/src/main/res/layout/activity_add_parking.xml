@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <!-- BLUE HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2196F3"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon"
+            android:tint="@android:color/white"
+            tools:ignore="UseAppTint" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Parking"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <!-- CONTENT -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Slot Name (editable here) -->
+            <EditText
+                android:id="@+id/addSlotName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Slot Name (e.g. A1)"
+                android:inputType="textCapCharacters"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray" />
+
+            <!-- Location -->
+            <EditText
+                android:id="@+id/addLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Location (e.g. Block A, Level 2)"
+                android:inputType="textCapWords"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray" />
+
+            <!-- Parking Type -->
+            <EditText
+                android:id="@+id/addType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Parking Type (Car / Motorcycle / VIP)"
+                android:inputType="textCapWords"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray" />
+
+            <!-- Status -->
+            <EditText
+                android:id="@+id/addStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Status (Available / Full / Reserved)"
+                android:inputType="textCapWords"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray" />
+
+            <!-- Plate Number -->
+            <EditText
+                android:id="@+id/addPlateNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Plate Number (if occupied)"
+                android:inputType="textCapCharacters"
+                android:maxLength="10"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray" />
+
+            <!-- Add Button -->
+            <Button
+                android:id="@+id/btnAddParking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3"
+                android:padding="12dp"
+                android:text="Add Parking Slot"
+                android:textColor="@android:color/white"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
