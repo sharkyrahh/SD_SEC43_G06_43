@@ -16,10 +16,17 @@ import java.util.List;
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
     private List<Parking> parkingList;
     private Context context;
+    private OnItemClickListener listener;
 
-    public ParkingAdapter(List<Parking> parkingList, Context context) {
+    // Interface for click listener
+    public interface OnItemClickListener {
+        void onItemClick(Parking parking);
+    }
+
+    public ParkingAdapter(List<Parking> parkingList, Context context, OnItemClickListener listener) {
         this.parkingList = parkingList;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,6 +51,12 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         } else {
             holder.tvStatus.setBackgroundResource(R.drawable.status_reserved);
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(parking);
+            }
+        });
     }
 
     @Override

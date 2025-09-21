@@ -34,6 +34,7 @@ public class EditUserActivity extends AppCompatActivity {
     String currentUID;
     private DatabaseReference userRef;
     private DatabaseReference mDatabase;
+    private DatabaseReference rfidRef;
     private ActivityResultLauncher<Intent> scanLauncher;
 
     private boolean newCardRegister = false;
@@ -85,6 +86,10 @@ public class EditUserActivity extends AppCompatActivity {
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference();
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app");
+        rfidRef = database.getReference("RFID");
+        rfidRef.child("registerMode").setValue(false);
+
         backButton.setOnClickListener(v -> finish());
 
         // Load existing user data
@@ -97,6 +102,12 @@ public class EditUserActivity extends AppCompatActivity {
         registerRFID.setOnClickListener(v ->
                 scanLauncher.launch(intentCard)
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        rfidRef.child("registerMode").setValue(false);
     }
 
     private void loadUserData() {

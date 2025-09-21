@@ -1,39 +1,52 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.smartparkparkingsystem.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ViewParkingActivity extends AppCompatActivity {
 
-    RecyclerView rvParking;
-    List<Parking> parkingList;
-    ParkingAdapter adapter;
-
+    ImageView backButton;
+    Button editBtn;
+    ImageButton delBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_parking);
 
-        rvParking = findViewById(R.id.rvParking);
-        rvParking.setLayoutManager(new LinearLayoutManager(this));
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
 
-        // Dummy data (boleh ganti dengan DB / API)
-        parkingList = new ArrayList<>();
-        parkingList.add(new Parking("Slot A1", "Available", "-"));
-        parkingList.add(new Parking("Slot A2", "Full", "JQB 1234"));
-        parkingList.add(new Parking("Slot A3", "Reserved", "WXY 6789"));
-        parkingList.add(new Parking("Slot A4", "Available", "-"));
+        editBtn = findViewById(R.id.editBtn);
+        delBtn = findViewById(R.id.delBtn);
 
-        adapter = new ParkingAdapter(parkingList, this);
-        rvParking.setAdapter(adapter);
-    }
+        editBtn.setOnClickListener(v->{
+            Intent intent = new Intent(ViewParkingActivity.this, EditParkingActivity.class);
+            startActivity(intent);
+        });
+
+        delBtn.setOnClickListener(v->{
+            new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
+                    .setTitle("Delete User")
+                    .setMessage("Are you sure you want to delete this parking slot?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        Toast.makeText(v.getContext(), "Delete Option", Toast.LENGTH_SHORT).show();
+                                })
+                    .setNegativeButton("No", null)
+                    .show();
+        });
+        }
 }
-

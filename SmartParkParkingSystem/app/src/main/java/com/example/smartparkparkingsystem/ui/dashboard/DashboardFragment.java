@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.smartparkparkingsystem.MainActivity;
 import com.example.smartparkparkingsystem.R;
-import com.example.smartparkparkingsystem.ui.profile.EditProfileActivity;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -44,7 +42,7 @@ public class DashboardFragment extends Fragment {
         });
 
         cardViewParking.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), ViewParkingActivity.class));
+            startActivity(new Intent(getActivity(), ParkingActivity.class));
         });
 
         cardLogs.setOnClickListener(v -> {
