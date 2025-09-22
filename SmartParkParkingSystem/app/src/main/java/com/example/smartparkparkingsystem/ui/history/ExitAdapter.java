@@ -1,4 +1,4 @@
-package com.example.smartparkparkingsystem.ui.dashboard;
+package com.example.smartparkparkingsystem.ui.history;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,54 +10,54 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartparkparkingsystem.R;
+import com.example.smartparkparkingsystem.ui.dashboard.ExitFragment;
 
 import java.util.List;
 
-public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.EntryViewHolder> {
+public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder> {
 
-    private List<EntryFragment.EntryLog> entryList;
+    private List<ExitFragment.ExitLog> exitList;
     private LayoutInflater mInflater;
 
     // data is passed into the constructor
-    public EntryAdapterAdmin(Context context, List<EntryFragment.EntryLog> entryList) {
+    public ExitAdapter(Context context, List<ExitFragment.ExitLog> exitList) {
         this.mInflater = LayoutInflater.from(context);
-        this.entryList = entryList;
+        this.exitList = exitList;
     }
 
     // inflates the row layout from xml when needed
     @NonNull
     @Override
-    public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.logadmin, parent, false);
-        return new EntryViewHolder(view);
+    public ExitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.log, parent, false);
+        return new ExitViewHolder(view);
     }
 
     // binds the data to the TextViews in each row
     @Override
-    public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
-        EntryFragment.EntryLog entryLog = entryList.get(position);
-        holder.textDate.setText(entryLog.date);
-        holder.textTime.setText(entryLog.time);
-        holder.textPlate.setText(entryLog.plate);
-        holder.textDay.setText(entryLog.day);
+    public void onBindViewHolder(@NonNull ExitViewHolder holder, int position) {
+        ExitFragment.ExitLog exitLog = exitList.get(position);
+        holder.textDate.setText(exitLog.date);
+        holder.textTime.setText(exitLog.time);
+        holder.textDay.setText(exitLog.day);
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return entryList.size();
+        return exitList.size();
     }
 
-    public void updateList(List<EntryFragment.EntryLog> newList) {
-        entryList = newList;
+    public void updateList(List<ExitFragment.ExitLog> newList) {
+        exitList = newList;
         notifyDataSetChanged();
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class EntryViewHolder extends RecyclerView.ViewHolder {
+    public class ExitViewHolder extends RecyclerView.ViewHolder {
         TextView textDate, textTime, textPlate, textDay;
 
-        EntryViewHolder(View itemView) {
+        ExitViewHolder(View itemView) {
             super(itemView);
             textDate = itemView.findViewById(R.id.textDate);
             textTime = itemView.findViewById(R.id.textTime);

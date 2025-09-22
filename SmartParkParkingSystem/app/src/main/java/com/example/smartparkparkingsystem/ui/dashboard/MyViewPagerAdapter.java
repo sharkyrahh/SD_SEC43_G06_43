@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.smartparkparkingsystem.ui.history.EntryFragment;
+import com.example.smartparkparkingsystem.ui.dashboard.EntryFragment;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter
 {
@@ -30,9 +30,9 @@ public class MyViewPagerAdapter extends FragmentStateAdapter
             case 0:
                 return new com.example.smartparkparkingsystem.ui.dashboard.EntryFragment();
             case 1:
-                return new ExitFragment();
+                return new com.example.smartparkparkingsystem.ui.dashboard.ExitFragment();
             default:
-                return new EntryFragment();
+                return new com.example.smartparkparkingsystem.ui.dashboard.EntryFragment();
         }
     }
 

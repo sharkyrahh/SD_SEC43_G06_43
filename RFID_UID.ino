@@ -343,6 +343,12 @@ void loop() {
             userUID = fbdo.stringData();
           }
 
+          String plateNum;
+          String plateNumPath = cardPath + "/plateNum";
+            if (Firebase.RTDB.get(&fbdo, plateNumPath.c_str())){
+            plateNum = fbdo.stringData();
+            }
+
           String randomChild = generateRandomChildName();
 
           // Exit
@@ -356,6 +362,7 @@ void loop() {
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/timestamp", getFormattedTime());
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/day", getDayOfWeek());
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/date", getFormattedDate());
+            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/plateNum", plateNum);
             
           } else {
           // Enter
@@ -368,14 +375,12 @@ void loop() {
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/timestamp", getFormattedTime());
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/day", getDayOfWeek());
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/date", getFormattedDate());
+            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/plateNum", plateNum);
 
           } // Print PlateNumber
-            String plateNumPath = cardPath + "/plateNum";
-            if (Firebase.RTDB.get(&fbdo, plateNumPath.c_str())){
-              String plateNum = fbdo.stringData();
-              lcd.setCursor(0, 1);
-              lcd.print(plateNum);
-           }
+              
+            lcd.setCursor(0, 1);
+            lcd.print(plateNum);
             delay(2000);
         } 
       }
@@ -387,7 +392,6 @@ void loop() {
           delay(2000); // Show denied message
           }
   }
-  }
 
   while (mfrc522.PICC_IsNewCardPresent()) {
     delay(100);
@@ -395,4 +399,5 @@ void loop() {
 
   lcd.clear();
   delay(500);
+}
 }

@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.smartparkparkingsystem.ui.history.EntryFragment;
+
 public class MyViewPagerAdapter extends FragmentStateAdapter
 {
     public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {

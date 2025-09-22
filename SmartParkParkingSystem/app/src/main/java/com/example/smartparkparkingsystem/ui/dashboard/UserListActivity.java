@@ -38,11 +38,9 @@ public class UserListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.userRecyclerView);
         backButton = findViewById(R.id.backButton);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new UserAdapter(userList);
         recyclerView.setAdapter(adapter);
-
         backButton.setOnClickListener(v -> finish());
 
         loadUsers();

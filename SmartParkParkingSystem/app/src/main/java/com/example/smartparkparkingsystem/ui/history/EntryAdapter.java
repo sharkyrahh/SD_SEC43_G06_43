@@ -5,75 +5,64 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartparkparkingsystem.R;
+import com.example.smartparkparkingsystem.ui.dashboard.EntryFragment;
+
 import java.util.List;
 
-public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> {
+public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHolder> {
 
-    private List<String> mDateList;
-    private List<String> mTimeList;
+    private List<EntryFragment.EntryLog> entryList;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    EntryAdapter(Context context, List<String> dateList, List<String> timeList) {
+    public EntryAdapter(Context context, List<EntryFragment.EntryLog> entryList) {
         this.mInflater = LayoutInflater.from(context);
-        this.mDateList = dateList;
-        this.mTimeList = timeList;
+        this.entryList = entryList;
     }
 
     // inflates the row layout from xml when needed
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.log, parent, false);
-        return new ViewHolder(view);
+        return new EntryViewHolder(view);
     }
 
     // binds the data to the TextViews in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        String date = mDateList.get(position);
-        String time = mTimeList.get(position);
-        holder.textDate.setText(date);
-        holder.textTime.setText(time);
+    public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
+        EntryFragment.EntryLog entryLog = entryList.get(position);
+        holder.textDate.setText(entryLog.date);
+        holder.textTime.setText(entryLog.time);
+        holder.textDay.setText(entryLog.day);
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mDateList.size(); // Both lists should have same size
+        return entryList.size();
+    }
+
+    public void updateList(List<EntryFragment.EntryLog> newList) {
+        entryList = newList;
+        notifyDataSetChanged();
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textDate, textTime;
+    public class EntryViewHolder extends RecyclerView.ViewHolder {
+        TextView textDate, textTime, textPlate, textDay;
 
-        ViewHolder(View itemView) {
+        EntryViewHolder(View itemView) {
             super(itemView);
             textDate = itemView.findViewById(R.id.textDate);
             textTime = itemView.findViewById(R.id.textTime);
-            itemView.setOnClickListener(this);
+            textPlate = itemView.findViewById(R.id.textPlate);
+            textDay = itemView.findViewById(R.id.textDay);
         }
-
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
-    }
-
-    // convenience method for getting data at click position
-    String getItem(int id) {
-        return mDateList.get(id) + " " + mTimeList.get(id);
-    }
-
-    // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }
