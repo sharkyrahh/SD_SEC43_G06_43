@@ -15,11 +15,11 @@ import java.util.List;
 
 public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.EntryViewHolder> {
 
-    private List<EntryFragment.EntryLog> entryList;
+    private List<EntryFragmentAdmin.EntryLog> entryList;
     private LayoutInflater mInflater;
 
     // data is passed into the constructor
-    public EntryAdapterAdmin(Context context, List<EntryFragment.EntryLog> entryList) {
+    public EntryAdapterAdmin(Context context, List<EntryFragmentAdmin.EntryLog> entryList) {
         this.mInflater = LayoutInflater.from(context);
         this.entryList = entryList;
     }
@@ -35,7 +35,7 @@ public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.En
     // binds the data to the TextViews in each row
     @Override
     public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
-        EntryFragment.EntryLog entryLog = entryList.get(position);
+        EntryFragmentAdmin.EntryLog entryLog = entryList.get(position);
         holder.textDate.setText(entryLog.date);
         holder.textTime.setText(entryLog.time);
         holder.textPlate.setText(entryLog.plate);
@@ -48,7 +48,7 @@ public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.En
         return entryList.size();
     }
 
-    public void updateList(List<EntryFragment.EntryLog> newList) {
+    public void updateList(List<EntryFragmentAdmin.EntryLog> newList) {
         entryList = newList;
         notifyDataSetChanged();
     }

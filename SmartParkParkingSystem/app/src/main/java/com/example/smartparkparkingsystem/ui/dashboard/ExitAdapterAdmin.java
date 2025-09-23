@@ -15,11 +15,11 @@ import java.util.List;
 
 public class ExitAdapterAdmin extends RecyclerView.Adapter<ExitAdapterAdmin.ExitViewHolder> {
 
-    private List<ExitFragment.ExitLog> exitList;
+    private List<ExitFragmentAdmin.ExitLog> exitList;
     private LayoutInflater mInflater;
 
     // data is passed into the constructor
-    public ExitAdapterAdmin(Context context, List<ExitFragment.ExitLog> exitList) {
+    public ExitAdapterAdmin(Context context, List<ExitFragmentAdmin.ExitLog> exitList) {
         this.mInflater = LayoutInflater.from(context);
         this.exitList = exitList;
     }
@@ -35,7 +35,7 @@ public class ExitAdapterAdmin extends RecyclerView.Adapter<ExitAdapterAdmin.Exit
     // binds the data to the TextViews in each row
     @Override
     public void onBindViewHolder(@NonNull ExitViewHolder holder, int position) {
-        ExitFragment.ExitLog exitLog = exitList.get(position);
+        ExitFragmentAdmin.ExitLog exitLog = exitList.get(position);
         holder.textDate.setText(exitLog.date);
         holder.textTime.setText(exitLog.time);
         holder.textPlate.setText(exitLog.plate);
@@ -48,7 +48,7 @@ public class ExitAdapterAdmin extends RecyclerView.Adapter<ExitAdapterAdmin.Exit
         return exitList.size();
     }
 
-    public void updateList(List<ExitFragment.ExitLog> newList) {
+    public void updateList(List<ExitFragmentAdmin.ExitLog> newList) {
         exitList = newList;
         notifyDataSetChanged();
     }

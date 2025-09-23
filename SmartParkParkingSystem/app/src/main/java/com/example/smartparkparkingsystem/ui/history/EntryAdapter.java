@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartparkparkingsystem.R;
-import com.example.smartparkparkingsystem.ui.dashboard.EntryFragment;
+import com.example.smartparkparkingsystem.ui.dashboard.EntryFragmentAdmin;
 
 import java.util.List;
 
 public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHolder> {
 
-    private List<EntryFragment.EntryLog> entryList;
+    private List<EntryFragmentAdmin.EntryLog> entryList;
     private LayoutInflater mInflater;
 
     // data is passed into the constructor
-    public EntryAdapter(Context context, List<EntryFragment.EntryLog> entryList) {
+    public EntryAdapter(Context context, List<EntryFragmentAdmin.EntryLog> entryList) {
         this.mInflater = LayoutInflater.from(context);
         this.entryList = entryList;
     }
@@ -36,7 +36,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
     // binds the data to the TextViews in each row
     @Override
     public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
-        EntryFragment.EntryLog entryLog = entryList.get(position);
+        EntryFragmentAdmin.EntryLog entryLog = entryList.get(position);
         holder.textDate.setText(entryLog.date);
         holder.textTime.setText(entryLog.time);
         holder.textDay.setText(entryLog.day);
@@ -48,7 +48,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
         return entryList.size();
     }
 
-    public void updateList(List<EntryFragment.EntryLog> newList) {
+    public void updateList(List<EntryFragmentAdmin.EntryLog> newList) {
         entryList = newList;
         notifyDataSetChanged();
     }

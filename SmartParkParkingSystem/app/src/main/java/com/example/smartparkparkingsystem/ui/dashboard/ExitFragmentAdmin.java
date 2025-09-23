@@ -22,8 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ExitFragment extends Fragment {
+public class ExitFragmentAdmin extends Fragment {
 
     ExitAdapterAdmin adapter;
     private ArrayList<ExitLog> exitList = new ArrayList<>();
@@ -48,21 +49,46 @@ public class ExitFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 exitList.clear();
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    String timestamp = userSnapshot.child("timestamp").getValue(String.class);
-                    String day = userSnapshot.child("day").getValue(String.class);
-                    String date = userSnapshot.child("date").getValue(String.class);
-                    String plate = userSnapshot.child("plateNum").getValue(String.class);
-                    if (timestamp != null && day != null && date != null && plate != null) {
-                        exitList.add(new ExitFragment.ExitLog(timestamp, day, date, plate));
+                List<ExitLog> tempList = new ArrayList<>();
+
+                for (DataSnapshot randomChildSnapshot : snapshot.getChildren()) {
+                    String timestamp = randomChildSnapshot.child("timestamp").getValue(String.class);
+
+                    if (timestamp != null) {
+                        // Single level data
+                        String day = randomChildSnapshot.child("day").getValue(String.class);
+                        String date = randomChildSnapshot.child("date").getValue(String.class);
+                        String plate = randomChildSnapshot.child("plateNum").getValue(String.class);
+
+                        if (day != null && date != null && plate != null) {
+                            tempList.add(new ExitLog(timestamp, day, date, plate));
+                        }
+                    } else {
+                        // Nested data
+                        for (DataSnapshot exitSnapshot : randomChildSnapshot.getChildren()) {
+                            timestamp = exitSnapshot.child("timestamp").getValue(String.class);
+                            String day = exitSnapshot.child("day").getValue(String.class);
+                            String date = exitSnapshot.child("date").getValue(String.class);
+                            String plate = exitSnapshot.child("plateNum").getValue(String.class);
+
+                            if (timestamp != null && day != null && date != null && plate != null) {
+                                tempList.add(new ExitLog(timestamp, day, date, plate));
+                            }
+                        }
                     }
                 }
+
+                // Reverse the list for most recent first
+                for (int i = tempList.size() - 1; i >= 0; i--) {
+                    exitList.add(tempList.get(i));
+                }
+
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to load users", Toast.LENGTH_SHORT).show();
+                // Handle error
             }
         });
     }

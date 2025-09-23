@@ -22,8 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class EntryFragment extends Fragment {
+public class EntryFragmentAdmin extends Fragment {
 
     EntryAdapterAdmin adapter;
     private ArrayList<EntryLog> entryList = new ArrayList<>();
@@ -48,29 +49,22 @@ public class EntryFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 entryList.clear();
-
-                // DEBUG: Print the entire data structure
-                System.out.println("FIREBASE DATA: " + snapshot.getValue());
-                System.out.println("CHILDREN COUNT: " + snapshot.getChildrenCount());
+                List<EntryFragmentAdmin.EntryLog> tempList = new ArrayList<>();
 
                 for (DataSnapshot randomChildSnapshot : snapshot.getChildren()) {
-                    System.out.println("RANDOM CHILD KEY: " + randomChildSnapshot.getKey());
-                    System.out.println("RANDOM CHILD VALUE: " + randomChildSnapshot.getValue());
-
-                    // Check if data is directly under random child
                     String timestamp = randomChildSnapshot.child("timestamp").getValue(String.class);
+
                     if (timestamp != null) {
-                        // Data is directly under random key (single level)
+                        // Single level data
                         String day = randomChildSnapshot.child("day").getValue(String.class);
                         String date = randomChildSnapshot.child("date").getValue(String.class);
                         String plate = randomChildSnapshot.child("plateNum").getValue(String.class);
 
-                        if (timestamp != null && day != null && date != null && plate != null) {
-                            entryList.add(new EntryFragment.EntryLog(timestamp, day, date, plate));
-                            System.out.println("ADDED ENTRY (SINGLE LEVEL): " + timestamp);
+                        if (day != null && date != null && plate != null) {
+                            tempList.add(new EntryFragmentAdmin.EntryLog(timestamp, day, date, plate));
                         }
                     } else {
-                        // Data might be nested (two levels)
+                        // Nested data
                         for (DataSnapshot entrySnapshot : randomChildSnapshot.getChildren()) {
                             timestamp = entrySnapshot.child("timestamp").getValue(String.class);
                             String day = entrySnapshot.child("day").getValue(String.class);
@@ -78,20 +72,23 @@ public class EntryFragment extends Fragment {
                             String plate = entrySnapshot.child("plateNum").getValue(String.class);
 
                             if (timestamp != null && day != null && date != null && plate != null) {
-                                entryList.add(new EntryFragment.EntryLog(timestamp, day, date, plate));
-                                System.out.println("ADDED ENTRY (NESTED LEVEL): " + timestamp);
+                                tempList.add(new EntryFragmentAdmin.EntryLog(timestamp, day, date, plate));
                             }
                         }
                     }
                 }
 
-                System.out.println("TOTAL ENTRIES LOADED: " + entryList.size());
+                // Reverse the list for most recent first
+                for (int i = tempList.size() - 1; i >= 0; i--) {
+                    entryList.add(tempList.get(i));
+                }
+
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to load entry logs: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                // Handle error
             }
         });
     }
@@ -116,8 +113,8 @@ public class EntryFragment extends Fragment {
         }
     }
 
-    private class EntryAdapterAdmin extends RecyclerView.Adapter<EntryFragment.EntryAdapterAdmin.EntryViewHolder> {
-        ArrayList<EntryFragment.EntryLog> entryLogs;
+    private class EntryAdapterAdmin extends RecyclerView.Adapter<EntryFragmentAdmin.EntryAdapterAdmin.EntryViewHolder> {
+        ArrayList<EntryFragmentAdmin.EntryLog> entryLogs;
 
         EntryAdapterAdmin(Context context, ArrayList<EntryLog> entryLogs) {
             this.entryLogs = entryLogs;

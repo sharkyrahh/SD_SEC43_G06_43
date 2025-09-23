@@ -11,14 +11,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.smartparkparkingsystem.R;
-import com.example.smartparkparkingsystem.ui.history.MyViewPagerAdapter;
+import com.example.smartparkparkingsystem.ui.dashboard.MyViewPagerAdminAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class HistoryActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
-    MyViewPagerAdapter myViewPagerAdapter;
+    MyViewPagerAdminAdapter myViewPagerAdminAdapter;
     private ImageView backButton;
 
     @Override
@@ -28,9 +28,9 @@ public class HistoryActivity extends AppCompatActivity {
 
         backButton        = findViewById(R.id.backButton);
         tabLayout = findViewById(R.id.tab_layout);
-        viewPager2 = findViewById(R.id.view_pager);
-        myViewPagerAdapter = new MyViewPagerAdapter(this);
-        viewPager2.setAdapter(myViewPagerAdapter);
+        viewPager2 = findViewById(R.id.view_pagerAdmin);
+        myViewPagerAdminAdapter = new MyViewPagerAdminAdapter(this);
+        viewPager2.setAdapter(myViewPagerAdminAdapter);
         backButton.setOnClickListener(v -> finish());
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

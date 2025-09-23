@@ -7,19 +7,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.smartparkparkingsystem.ui.dashboard.EntryFragment;
-
-public class MyViewPagerAdapter extends FragmentStateAdapter
+public class MyViewPagerAdminAdapter extends FragmentStateAdapter
 {
-    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public MyViewPagerAdminAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public MyViewPagerAdapter(@NonNull Fragment fragment) {
+    public MyViewPagerAdminAdapter(@NonNull Fragment fragment) {
         super(fragment);
     }
 
-    public MyViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public MyViewPagerAdminAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
@@ -28,17 +26,17 @@ public class MyViewPagerAdapter extends FragmentStateAdapter
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new com.example.smartparkparkingsystem.ui.dashboard.EntryFragment();
+                return new EntryFragmentAdmin();
             case 1:
-                return new com.example.smartparkparkingsystem.ui.dashboard.ExitFragment();
+                return new ExitFragmentAdmin();
             default:
-                return new com.example.smartparkparkingsystem.ui.dashboard.EntryFragment();
+                return new EntryFragmentAdmin();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 
 

@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartparkparkingsystem.R;
-import com.example.smartparkparkingsystem.ui.dashboard.ExitFragment;
+import com.example.smartparkparkingsystem.ui.dashboard.ExitFragmentAdmin;
 
 import java.util.List;
 
 public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder> {
 
-    private List<ExitFragment.ExitLog> exitList;
+    private List<ExitFragmentAdmin.ExitLog> exitList;
     private LayoutInflater mInflater;
 
     // data is passed into the constructor
-    public ExitAdapter(Context context, List<ExitFragment.ExitLog> exitList) {
+    public ExitAdapter(Context context, List<ExitFragmentAdmin.ExitLog> exitList) {
         this.mInflater = LayoutInflater.from(context);
         this.exitList = exitList;
     }
@@ -36,7 +36,7 @@ public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder
     // binds the data to the TextViews in each row
     @Override
     public void onBindViewHolder(@NonNull ExitViewHolder holder, int position) {
-        ExitFragment.ExitLog exitLog = exitList.get(position);
+        ExitFragmentAdmin.ExitLog exitLog = exitList.get(position);
         holder.textDate.setText(exitLog.date);
         holder.textTime.setText(exitLog.time);
         holder.textDay.setText(exitLog.day);
@@ -48,7 +48,7 @@ public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder
         return exitList.size();
     }
 
-    public void updateList(List<ExitFragment.ExitLog> newList) {
+    public void updateList(List<ExitFragmentAdmin.ExitLog> newList) {
         exitList = newList;
         notifyDataSetChanged();
     }

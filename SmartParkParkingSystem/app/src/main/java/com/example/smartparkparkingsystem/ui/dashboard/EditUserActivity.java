@@ -15,6 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -115,8 +120,10 @@ public class EditUserActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    String originalEmail = snapshot.child("email").getValue(String.class);
                     editFullName.setText(snapshot.child("fullName").getValue(String.class));
-                    editEmail.setText(snapshot.child("email").getValue(String.class));
+                    editEmail.setText(originalEmail);
+                    editEmail.setTag(originalEmail);
                     cardUID.setText(snapshot.child("cardUID").getValue(String.class));
                     editPlateNumber.setText(snapshot.child("plateNumber").getValue(String.class));
                 }
@@ -135,13 +142,13 @@ public class EditUserActivity extends AppCompatActivity {
         String uid = cardUID.getText().toString().trim();
         String plateNumber = editPlateNumber.getText().toString().trim();
 
-        if (TextUtils.isEmpty(fullName)){
+        if (TextUtils.isEmpty(fullName)) {
             Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
             editFullName.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please fill in your email.", Toast.LENGTH_SHORT).show();
             editEmail.requestFocus();
             return;
@@ -159,57 +166,140 @@ public class EditUserActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(plateNumber)){
-            Toast.makeText(this, "Please fill in your name.", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(plateNumber)) {
+            Toast.makeText(this, "Please fill in your plate number.", Toast.LENGTH_SHORT).show();
             editPlateNumber.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(fullName) && TextUtils.isEmpty(email) && TextUtils.isEmpty(plateNumber)) {
-            Toast.makeText(this, "Full name and email are required", Toast.LENGTH_SHORT).show();
-            return;
+        String originalEmail = (String) editEmail.getTag();
+        if (originalEmail != null && !email.equals(originalEmail)) {
+            // Email was changed, check for duplicates
+            checkEmailExists(fullName, email, uid, plateNumber);
+        } else {
+            // Email not changed, proceed with save
+            proceedWithSave(fullName, email, uid, plateNumber);
         }
+    }
 
-        boolean hasEnter = false;
+        private void checkEmailExists(String fullName, String email, String uid, String plateNumber) {
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 
-        if (newCardRegister) {
-            Card newCard = new Card(plateNumber, userId, hasEnter);
-
-            DatabaseReference cardRef = FirebaseDatabase.getInstance().getReference().child("cards").child(uid);
-            ValueEventListener valueEventListener = new ValueEventListener() {
+            usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Toast.makeText(EditUserActivity.this, "Card already exists. Please try again!", Toast.LENGTH_SHORT).show();
-                        newCardRegister = false;
-                        cardUID.setText("");
-                        return;
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean emailExists = false;
+
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        // Check if the email belongs to a different user (not the current one being edited)
+                        if (!userSnapshot.getKey().equals(userId)) {
+                            emailExists = true;
+                            break;
+                        }
+                    }
+
+                    if (emailExists) {
+                        Toast.makeText(EditUserActivity.this, "Email is already registered by another user", Toast.LENGTH_SHORT).show();
+                        editEmail.setError("Email already exists");
+                        editEmail.requestFocus();
                     } else {
-                        mDatabase.child("cards").child(uid).setValue(newCard);
-                        updateProfile(fullName, email, uid, plateNumber);
+                        proceedWithSave(fullName, email, uid, plateNumber);
                     }
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(EditUserActivity.this, "Error checking card: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(EditUserActivity.this, "Error checking email: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            };
-            cardRef.addListenerForSingleValueEvent(valueEventListener);
+            });
         }
-        else {
-            updateProfile(fullName, email, uid, plateNumber);
+
+        private void proceedWithSave(String fullName, String email, String uid, String plateNumber) {
+            boolean hasEnter = false;
+
+            if (newCardRegister) {
+                Card newCard = new Card(plateNumber, userId, hasEnter);
+
+                DatabaseReference cardRef = FirebaseDatabase.getInstance().getReference().child("cards").child(uid);
+                cardRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Toast.makeText(EditUserActivity.this, "Card already exists. Please try again!", Toast.LENGTH_SHORT).show();
+                            newCardRegister = false;
+                            cardUID.setText("");
+                            return;
+                        } else {
+                            mDatabase.child("cards").child(uid).setValue(newCard)
+                                    .addOnSuccessListener(aVoid -> {
+                                        updateProfile(fullName, email, uid, plateNumber);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(EditUserActivity.this, "Failed to save card: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(EditUserActivity.this, "Error checking card: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                updateProfile(fullName, email, uid, plateNumber);
+            }
+        }
+
+    private void updateProfile(String fullName, String email, String uid, String plateNumber) {
+        // First update email in Firebase Authentication if it was changed
+        String originalEmail = (String) editEmail.getTag();
+        if (originalEmail != null && !email.equals(originalEmail)) {
+            updateAuthEmail(email, fullName, uid, plateNumber);
+        } else {
+            // Email not changed, just update database
+            updateDatabaseProfile(fullName, email, uid, plateNumber);
         }
     }
 
-    public void updateProfile(String fullName, String email, String uid, String plateNumber){
+    private void updateAuthEmail(String newEmail, String fullName, String dbUid, String plateNumber) {
+        // Get current user from Firebase Authentication
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            user.updateEmail(newEmail)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Email updated in Authentication, now update database
+                            updateDatabaseProfile(fullName, newEmail, dbUid, plateNumber);
+                        } else {
+                            // Handle errors - often requires recent login
+                            Exception exception = task.getException();
+                            if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(EditUserActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                            } else if (exception instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(EditUserActivity.this, "Email is already in use", Toast.LENGTH_SHORT).show();
+                            } else if (exception instanceof FirebaseAuthRecentLoginRequiredException) {
+                                // User needs to re-authenticate
+                                Toast.makeText(EditUserActivity.this, "Please re-login to change email", Toast.LENGTH_SHORT).show();
+                                // You might want to redirect to login page here
+                            } else {
+                                Toast.makeText(EditUserActivity.this, "Failed to update email: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateDatabaseProfile(String fullName, String email, String uid, String plateNumber) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("fullName", fullName);
         updates.put("email", email);
         updates.put("cardUID", uid);
         updates.put("plateNumber", plateNumber);
 
-        // Save instantly to Firebase
+        // Save to Firebase Database
         userRef.updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(EditUserActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
@@ -224,7 +314,7 @@ public class EditUserActivity extends AppCompatActivity {
                 );
     }
 
-    public static class Card {
+public class Card {
         public String plateNum;
         public String UID;
         public boolean hasEntered;
@@ -238,3 +328,4 @@ public class EditUserActivity extends AppCompatActivity {
         }
     }
 }
+

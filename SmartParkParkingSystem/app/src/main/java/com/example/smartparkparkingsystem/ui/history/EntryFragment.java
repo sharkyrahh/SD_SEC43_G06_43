@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EntryFragment extends Fragment {
 
@@ -57,7 +58,8 @@ public class EntryFragment extends Fragment {
         entryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                entryList.clear();
+                List<EntryLog> tempList = new ArrayList<>(); // Temporary list to hold entries in original order
+
                 for (DataSnapshot randomChildSnapshot : snapshot.getChildren()) {
                     // Get the UID from the entry log
                     String entryUid = randomChildSnapshot.child("UID").getValue(String.class);
@@ -69,10 +71,17 @@ public class EntryFragment extends Fragment {
                         String date = randomChildSnapshot.child("date").getValue(String.class);
 
                         if (timestamp != null && day != null && date != null) {
-                            entryList.add(new EntryLog(timestamp, day, date));
+                            tempList.add(new EntryLog(timestamp, day, date));
                         }
                     }
                 }
+
+                // Clear the main list and add items in reverse order (most recent first)
+                entryList.clear();
+                for (int i = tempList.size() - 1; i >= 0; i--) {
+                    entryList.add(tempList.get(i));
+                }
+
                 adapter.notifyDataSetChanged();
 
                 // Optional: Show message if no entries found

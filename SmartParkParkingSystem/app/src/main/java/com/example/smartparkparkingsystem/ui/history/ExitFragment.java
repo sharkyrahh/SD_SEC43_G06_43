@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExitFragment extends Fragment {
 
@@ -41,11 +42,11 @@ public class ExitFragment extends Fragment {
         adapter = new exitAdapter(getContext(), exitList);
         recyclerView.setAdapter(adapter);
 
-        loadexit();
+        loadExit();
         return view;
     }
 
-    private void loadexit() {
+    private void loadExit() {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() == null) {
             return; // Exit if no user is logged in
@@ -57,7 +58,8 @@ public class ExitFragment extends Fragment {
         exitRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                exitList.clear();
+                List<exitLog> tempList = new ArrayList<>(); // Temporary list to hold entries in original order
+
                 for (DataSnapshot randomChildSnapshot : snapshot.getChildren()) {
                     // Get the UID from the exit log
                     String exitUid = randomChildSnapshot.child("UID").getValue(String.class);
@@ -69,10 +71,17 @@ public class ExitFragment extends Fragment {
                         String date = randomChildSnapshot.child("date").getValue(String.class);
 
                         if (timestamp != null && day != null && date != null) {
-                            exitList.add(new exitLog(timestamp, day, date));
+                            tempList.add(new exitLog(timestamp, day, date));
                         }
                     }
                 }
+
+                // Clear the main list and add items in reverse order (most recent first)
+                exitList.clear();
+                for (int i = tempList.size() - 1; i >= 0; i--) {
+                    exitList.add(tempList.get(i));
+                }
+
                 adapter.notifyDataSetChanged();
 
                 // Optional: Show message if no entries found
@@ -86,7 +95,7 @@ public class ExitFragment extends Fragment {
                 Toast.makeText(getContext(), "Failed to load exit logs: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    } // <-- This closing brace was missing
+    }
 
     public void onItemClick(View view, int position) {
         if (getContext() != null) {
