@@ -1,15 +1,19 @@
 package com.example.smartparkparkingsystem.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.smartparkparkingsystem.R;
+import com.example.smartparkparkingsystem.ReserveActivity;
+import com.example.smartparkparkingsystem.StatusActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +31,8 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
+    LinearLayout findParking, bookParking;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +42,18 @@ public class HomeFragment extends Fragment {
         welcomeText = view.findViewById(R.id.welcomeText);
         dateTimeText = view.findViewById(R.id.dateTimeText);
         parkingAvailability = view.findViewById(R.id.parkingAvailability);
+        findParking = view.findViewById(R.id.findParking);
+        bookParking = view.findViewById(R.id.bookParking);
+
+        findParking.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), StatusActivity.class);
+            startActivity(intent);
+        });
+
+        bookParking.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), ReserveActivity.class);
+            startActivity(intent);
+        });
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
