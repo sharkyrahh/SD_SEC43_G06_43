@@ -1,6 +1,7 @@
 package com.example.smartparkparkingsystem;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,5 +14,9 @@ public class ReserveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
+
+        ImageView backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> finish());
     }
 }
