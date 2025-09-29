@@ -111,7 +111,8 @@ void setup() {
         lcd.print("Avail. Parking:");
         lcd.setCursor(0, 1);
         // need to read from firebase parking slot later. right now just dummy data
-        lcd.print("9");
+        lcd.print("9"); // ** REPLACE WITH PROPER CODE TO READ FROM FIREBASE, FOR DISPLAY TOTAL PARKING SLOTS (DEVICE)
+        
         delay(2000);
         displayState = 1;
       } else {
@@ -259,7 +260,7 @@ void loop() {
           lcd.setCursor(0, 0);
           lcd.print("Avail. Parking:");
           lcd.setCursor(0, 1);
-          lcd.print("9");
+          lcd.print("9"); // ** REPLACE WITH PROPER CODE TO READ FROM FIREBASE, FOR DISPLAY TOTAL PARKING SLOTS (DEVICE)
         displayState = 1;
       }
     } else {
@@ -330,6 +331,7 @@ void loop() {
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Entry Denied");
+        // ** CODE TO PLAY BUZZER SOUNDS (PLAY BUZZER SOUND(DEVICE))
       }
       else { // Registered
         String enteredPath = cardPath + "/hasEntered";
@@ -356,6 +358,7 @@ void loop() {
             lcd.clear();
             lcd.setCursor(0, 0);
             lcd.print("Exit Success");
+            // ** CODE TO OPEN GATE (OPEN GATE (DEVICE))
             Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), false);
 
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/UID", userUID);
@@ -363,12 +366,14 @@ void loop() {
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/day", getDayOfWeek());
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/date", getFormattedDate());
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/plateNum", plateNum);
+            // ** CODE TO CLOSE GATE (CLOSE GATE(DEVICE))
             
           } else {
           // Enter
             lcd.clear();
             lcd.setCursor(0, 0);
             lcd.print("Entry Success");
+            // ** CODE TO OPEN GATE (OPEN GATE (DEVICE))
             Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), true);
 
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/UID", userUID);
@@ -376,7 +381,7 @@ void loop() {
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/day", getDayOfWeek());
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/date", getFormattedDate());
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/plateNum", plateNum);
-
+            // ** CODE TO CLOSE GATE (CLOSE GATE(DEVICE))
           } // Print PlateNumber
               
             lcd.setCursor(0, 1);
