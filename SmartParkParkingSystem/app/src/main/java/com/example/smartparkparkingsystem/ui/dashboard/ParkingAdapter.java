@@ -14,11 +14,11 @@ import com.example.smartparkparkingsystem.R;
 import java.util.List;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
+
     private List<Parking> parkingList;
     private Context context;
     private OnItemClickListener listener;
 
-    // Interface for click listener
     public interface OnItemClickListener {
         void onItemClick(Parking parking);
     }
@@ -39,23 +39,24 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     @Override
     public void onBindViewHolder(@NonNull ParkingViewHolder holder, int position) {
         Parking parking = parkingList.get(position);
-        holder.tvSlotName.setText(parking.getSlotName());
+        holder.tvName.setText(parking.getName());
         holder.tvStatus.setText(parking.getStatus());
-        holder.tvCar.setText("Car: " + parking.getCar());
 
-        // Optional: set warna background ikut status
-        if (parking.getStatus().equalsIgnoreCase("Available")) {
-            holder.tvStatus.setBackgroundResource(R.drawable.status_available);
-        } else if (parking.getStatus().equalsIgnoreCase("Full")) {
-            holder.tvStatus.setBackgroundResource(R.drawable.status_full);
-        } else {
-            holder.tvStatus.setBackgroundResource(R.drawable.status_reserved);
+        // Optional: set status color
+        switch (parking.getStatus()) {
+            case "Available":
+                holder.tvStatus.setBackgroundResource(R.drawable.status_available);
+                break;
+            case "Full":
+                holder.tvStatus.setBackgroundResource(R.drawable.status_full);
+                break;
+            case "Reserved":
+                holder.tvStatus.setBackgroundResource(R.drawable.status_reserved);
+                break;
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(parking);
-            }
+            if (listener != null) listener.onItemClick(parking);
         });
     }
 
@@ -65,14 +66,12 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     }
 
     public static class ParkingViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSlotName, tvStatus, tvCar;
+        TextView tvName, tvStatus;
 
         public ParkingViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvSlotName = itemView.findViewById(R.id.tvSlotName);
+            tvName = itemView.findViewById(R.id.tvSlotName);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-            tvCar = itemView.findViewById(R.id.tvCar);
         }
     }
 }
-
