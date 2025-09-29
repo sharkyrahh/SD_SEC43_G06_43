@@ -3,67 +3,103 @@ package com.example.smartparkparkingsystem.ui.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartparkparkingsystem.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingActivity extends AppCompatActivity {
 
-    RecyclerView rvParking;
-    List<Parking> parkingList;
-    ParkingAdapter adapter;
+    private RecyclerView recyclerView;
+    private ParkingAdapter adapter;
+    private List<Parking> parkingList;
+    private ImageView addParkingBtn, backButton;
+    private TextView tvAvailable, tvFull, tvReserved;
 
-    ImageView backButton;
-
-    CardView addParking;
+    private DatabaseReference parkingRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking);
 
+        // Views
+        recyclerView = findViewById(R.id.rvParking);
+        addParkingBtn = findViewById(R.id.addParking);
         backButton = findViewById(R.id.backButton);
-        addParking = findViewById(R.id.addParking);
-        rvParking = findViewById(R.id.rvParking);
-        rvParking.setLayoutManager(new LinearLayoutManager(this));
+        tvAvailable = findViewById(R.id.tvAvailable);
+        tvFull = findViewById(R.id.tvFull);
+        tvReserved = findViewById(R.id.tvReserved);
 
-        backButton.setOnClickListener(v -> finish());
-        addParking.setOnClickListener(v-> {
-            Intent intent = new Intent(ParkingActivity.this, AddParkingActivity.class);
+        // RecyclerView setup
+        parkingList = new ArrayList<>();
+        adapter = new ParkingAdapter(parkingList, this, parking -> {
+            // Pass the Name to ViewParkingActivity
+            Intent intent = new Intent(ParkingActivity.this, ViewParkingActivity.class);
+            intent.putExtra("Name", parking.getName()); // key matches database field
             startActivity(intent);
         });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
-        // Dummy data (boleh ganti dengan DB / API)
-        parkingList = new ArrayList<>();
-        parkingList.add(new Parking("Slot A1", "Available", "-"));
-        parkingList.add(new Parking("Slot A2", "Full", "JQB 1234"));
-        parkingList.add(new Parking("Slot A3", "Reserved", "WXY 6789"));
-        parkingList.add(new Parking("Slot A4", "Available", "-"));
-        parkingList.add(new Parking("Slot A5", "Available", "-"));
-        parkingList.add(new Parking("Slot A6", "Full", "JQB 1234"));
-        parkingList.add(new Parking("Slot A7", "Reserved", "WXY 6789"));
-        parkingList.add(new Parking("Slot A8", "Available", "-"));
+        // Firebase reference
+        parkingRef = FirebaseDatabase.getInstance().getReference("Parking");
 
-        adapter = new ParkingAdapter(parkingList, this, new ParkingAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Parking parking) {
-                Intent intent = new Intent(ParkingActivity.this, ViewParkingActivity.class);
-                /*intent.putExtra("slotName", parking.getSlotName());
-                intent.putExtra("status", parking.getStatus());
-                intent.putExtra("car", parking.getCar());*/
-                startActivity(intent);
-            }
+        // Fetch data
+        fetchParkingData();
+
+        // Add parking button click
+        addParkingBtn.setOnClickListener(v -> {
+            startActivity(new Intent(ParkingActivity.this, AddParkingActivity.class));
         });
-        rvParking.setAdapter(adapter);
+
+        // Back button
+        backButton.setOnClickListener(v -> finish());
     }
 
-}
+    private void fetchParkingData() {
+        parkingRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                parkingList.clear();
+                int availableCount = 0, fullCount = 0, reservedCount = 0;
 
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Parking parking = ds.getValue(Parking.class);
+                    if (parking != null) {
+                        parkingList.add(parking);
+
+                        // Status counts
+                        String status = parking.getStatus(); // Available, Full, Reserved
+                        if ("Available".equalsIgnoreCase(status)) availableCount++;
+                        else if ("Full".equalsIgnoreCase(status)) fullCount++;
+                        else if ("Reserved".equalsIgnoreCase(status)) reservedCount++;
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
+                tvAvailable.setText("Available: " + availableCount);
+                tvFull.setText("Full: " + fullCount);
+                tvReserved.setText("Reserved: " + reservedCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle errors if needed
+            }
+        });
+    }
+}
