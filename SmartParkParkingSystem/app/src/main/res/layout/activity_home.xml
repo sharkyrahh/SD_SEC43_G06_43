@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -8,8 +9,9 @@
     android:fitsSystemWindows="true"
     tools:context=".HomeActivity">
 
-    <!-- FILE FOR NAVIGATION ONLY!! -->
-    <!-- Layout for homepage is inside fragment_home.xml -->
+    <!-- FILE FOR NAVIGATION ONLY!!!-->
+    <!-- If nak code layout untuk homepage, please pergi dekat fragment_home.xml-->
+    <!-- Thankyou -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,223 +26,6 @@
             app:title="UTM SmartPark Parking System"
             app:titleTextColor="@android:color/white"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <!-- ===== Added Home UI Section ===== -->
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Home Title -->
-                <TextView
-                    android:id="@+id/homeTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:paddingBottom="8dp" />
-
-                <!-- Greeting -->
-                <TextView
-                    android:id="@+id/homeGreeting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hi Kira"
-                    android:textSize="18sp"
-                    android:paddingBottom="16dp" />
-
-                <!-- Available Parking Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Available Parking"
-                            android:textStyle="bold"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/availableSlots"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="10 Slots"
-                            android:textSize="16sp"
-                            android:paddingTop="4dp" />
-
-                        <TextView
-                            android:id="@+id/frontParking"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8 Front Parking"
-                            android:textSize="16sp"
-                            android:paddingTop="2dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginTop="8dp"
-                            android:background="#E0E0E0"
-                            android:layout_gravity="center" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- ====== Buttons Section (Side by Side Boxes) ====== -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginBottom="16dp">
-
-                    <!-- Find Parking Box -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="6dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/ic_find_parking"
-                                tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                            <TextView
-                                android:id="@+id/btnFindParking"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Find Parking"
-                                android:textStyle="bold"
-                                android:textColor="#2196F3"
-                                android:paddingTop="8dp"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Book Parking Box -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="6dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/ic_book_parking"
-                                tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                            <TextView
-                                android:id="@+id/btnBookParking"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Book Parking"
-                                android:textStyle="bold"
-                                android:textColor="#4CAF50"
-                                android:paddingTop="8dp"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-                <!-- ====== End Buttons Section ====== -->
-
-                <!-- Reserved Parking Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reserved Parking"
-                            android:textStyle="bold"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/reservedSlot"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="A1"
-                            android:textSize="16sp"
-                            android:paddingTop="4dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingTop="4dp"
-                            android:gravity="space_between">
-
-                            <TextView
-                                android:id="@+id/reservedDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Date: 2025-10-05"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/reservedTime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Time: 10:30 AM"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-        </ScrollView>
-        <!-- ===== End Home UI Section ===== -->
 
         <fragment
             android:id="@+id/nav_host_fragment_content_home"
@@ -260,6 +45,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_main_drawer" />
-
 </androidx.drawerlayout.widget.DrawerLayout>
-

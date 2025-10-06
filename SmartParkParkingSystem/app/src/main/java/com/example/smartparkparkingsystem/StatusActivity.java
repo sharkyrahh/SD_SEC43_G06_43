@@ -123,7 +123,7 @@ public abstract class StatusActivity extends RecyclerView.Adapter<StatusActivity
             tvSlotCode = itemView.findViewById(R.id.tvSlotCode);
             tvSlotLocation = itemView.findViewById(R.id.tvSlotLocation);
             tvSlotStatus = itemView.findViewById(R.id.tvSlotStatus);
-            cardView = itemView.findViewById(R.id.card_view_user); // ensure item_slot.xml or item_parking_slot.xml has this id
+            cardView = itemView.findViewById(R.id.card_view_user); // ensure item_parking_slot.xml has this id
         }
     }
 }
