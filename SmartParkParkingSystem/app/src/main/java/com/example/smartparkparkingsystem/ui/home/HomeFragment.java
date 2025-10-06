@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         // Bind XML views
         welcomeText = view.findViewById(R.id.welcomeText);
         dateTimeText = view.findViewById(R.id.dateTimeText);
-        parkingAvailability = view.findViewById(R.id.parkingAvailability);
+       // parkingAvailability = view.findViewById(R.id.parkingAvailability);
         findParking = view.findViewById(R.id.findParking);
         bookParking = view.findViewById(R.id.bookParking);
 
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         String currentDateTime = sdf.format(new Date());
         dateTimeText.setText(currentDateTime);
 
-        // ✅ Live updates for parking availability
+        /** ✅ Live updates for parking availability
         mDatabase.child("slots").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
                 parkingAvailability.setText("Available Slots: Error");
             }
-        });
+        });**/
 
         return view;
     }
