@@ -35,7 +35,7 @@ public class ParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking);
 
-        // Views
+        // Initialize views
         recyclerView = findViewById(R.id.rvParking);
         addParkingBtn = findViewById(R.id.addParking);
         backButton = findViewById(R.id.backButton);
@@ -46,9 +46,8 @@ public class ParkingActivity extends AppCompatActivity {
         // RecyclerView setup
         parkingList = new ArrayList<>();
         adapter = new ParkingAdapter(parkingList, this, parking -> {
-            // Pass the Name to ViewParkingActivity
             Intent intent = new Intent(ParkingActivity.this, ViewParkingActivity.class);
-            intent.putExtra("Name", parking.getName()); // key matches database field
+            intent.putExtra("Name", parking.getName());
             startActivity(intent);
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -81,11 +80,21 @@ public class ParkingActivity extends AppCompatActivity {
                     if (parking != null) {
                         parkingList.add(parking);
 
-                        // Status counts
-                        String status = parking.getStatus(); // Available, Full, Reserved
-                        if ("Available".equalsIgnoreCase(status)) availableCount++;
-                        else if ("Full".equalsIgnoreCase(status)) fullCount++;
-                        else if ("Reserved".equalsIgnoreCase(status)) reservedCount++;
+                        // Count status
+                        String status = parking.getStatus();
+                        if (status != null) {
+                            switch (status.toLowerCase()) {
+                                case "available":
+                                    availableCount++;
+                                    break;
+                                case "full":
+                                    fullCount++;
+                                    break;
+                                case "reserved":
+                                    reservedCount++;
+                                    break;
+                            }
+                        }
                     }
                 }
 
@@ -98,7 +107,7 @@ public class ParkingActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle errors if needed
+                // Optional: show error message
             }
         });
     }
