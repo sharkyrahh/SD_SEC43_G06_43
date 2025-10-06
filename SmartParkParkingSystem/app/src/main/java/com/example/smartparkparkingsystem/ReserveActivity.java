@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** @noinspection ALL*/
 public class ReserveActivity extends AppCompatActivity {
 
-    private RecyclerView rv;
     private slotsAdapter adapter;
     private final List<ParkingSlot> list = new ArrayList<>();
 
@@ -37,11 +37,11 @@ public class ReserveActivity extends AppCompatActivity {
         ImageView back = findViewById(R.id.backButton);
         if (back != null) back.setOnClickListener(v -> finish());
 
-        rv = findViewById(R.id.rvReserveSlots);
+        RecyclerView rv = findViewById(R.id.rvReserveSlots);
         rv.setLayoutManager(new GridLayoutManager(this, 2));
 
         // initialize adapter BEFORE loading data
-        adapter = new slotsAdapter(this, list, slot -> handleSlotClick(slot));
+        adapter = new slotsAdapter(this, list, this::handleSlotClick);
         rv.setAdapter(adapter);
 
         // try Firebase init

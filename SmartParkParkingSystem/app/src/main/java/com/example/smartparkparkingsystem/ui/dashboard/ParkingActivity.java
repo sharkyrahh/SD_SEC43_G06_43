@@ -1,5 +1,6 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -22,10 +23,8 @@ import java.util.List;
 
 public class ParkingActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private ParkingAdapter adapter;
     private List<Parking> parkingList;
-    private ImageView addParkingBtn, backButton;
     private TextView tvAvailable, tvFull, tvReserved;
 
     private DatabaseReference parkingRef;
@@ -36,9 +35,9 @@ public class ParkingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parking);
 
         // Views
-        recyclerView = findViewById(R.id.rvParking);
-        addParkingBtn = findViewById(R.id.addParking);
-        backButton = findViewById(R.id.backButton);
+        RecyclerView recyclerView = findViewById(R.id.rvParking);
+        ImageView addParkingBtn = findViewById(R.id.addParking);
+        ImageView backButton = findViewById(R.id.backButton);
         tvAvailable = findViewById(R.id.tvAvailable);
         tvFull = findViewById(R.id.tvFull);
         tvReserved = findViewById(R.id.tvReserved);
@@ -61,9 +60,7 @@ public class ParkingActivity extends AppCompatActivity {
         fetchParkingData();
 
         // Add parking button click
-        addParkingBtn.setOnClickListener(v -> {
-            startActivity(new Intent(ParkingActivity.this, AddParkingActivity.class));
-        });
+        addParkingBtn.setOnClickListener(v -> startActivity(new Intent(ParkingActivity.this, AddParkingActivity.class)));
 
         // Back button
         backButton.setOnClickListener(v -> finish());
@@ -71,6 +68,7 @@ public class ParkingActivity extends AppCompatActivity {
 
     private void fetchParkingData() {
         parkingRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 parkingList.clear();

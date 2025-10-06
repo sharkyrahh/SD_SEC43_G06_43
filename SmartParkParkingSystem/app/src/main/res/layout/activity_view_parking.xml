@@ -169,12 +169,12 @@
                     android:id="@+id/delBtn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:backgroundTint="#F44336"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
                     android:src="@drawable/ic_delete"
                     android:textColor="@android:color/white"
-                    android:backgroundTint="#F44336"
-                    tools:ignore="HardcodedText,TextContrastCheck" />
+                    tools:ignore="ContentDescription,HardcodedText,SpeakableTextPresentCheck,TextContrastCheck" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
