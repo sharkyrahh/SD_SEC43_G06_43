@@ -10,6 +10,7 @@
 #include "addons/RTDBHelper.h"
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <ESP32Servo.h>
 
 //Defines
 #define WIFI_SSID "kira"
@@ -37,10 +38,13 @@ int displayState = 0;
 unsigned long previousDisplayTime = 0;
 const long displayInterval = 2000;
 bool registerMode;
+static const int servoPin = 13;
+Servo servo1;
 
 //Setup() function
 void setup() {
   Serial.begin(115200);
+  servo1.attach(servoPin);
   while (!Serial);
 
  // MFRC522Debug::PCD_DumpVersionToSerial(mfrc522, Serial); -- previous code, kept in case nak reuse
@@ -359,6 +363,10 @@ void loop() {
             lcd.setCursor(0, 0);
             lcd.print("Exit Success");
             // ** CODE TO OPEN GATE (OPEN GATE (DEVICE))
+            for(int posDegrees = 0; posDegrees <= 180; posDegrees++){
+              servo1.write(posDegrees);
+              delay(20);
+            }
             Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), false);
 
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/UID", userUID);
@@ -367,6 +375,10 @@ void loop() {
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/date", getFormattedDate());
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/plateNum", plateNum);
             // ** CODE TO CLOSE GATE (CLOSE GATE(DEVICE))
+            for(int posDegrees = 180; posDegrees >= 0; posDegrees--){
+              servo1.write(posDegrees);
+              delay(20);
+            }
             
           } else {
           // Enter
@@ -374,6 +386,10 @@ void loop() {
             lcd.setCursor(0, 0);
             lcd.print("Entry Success");
             // ** CODE TO OPEN GATE (OPEN GATE (DEVICE))
+            for(int posDegrees = 0; posDegrees <= 180; posDegrees++){
+              servo1.write(posDegrees);
+              delay(20);
+            }
             Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), true);
 
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/UID", userUID);
@@ -382,6 +398,10 @@ void loop() {
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/date", getFormattedDate());
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/plateNum", plateNum);
             // ** CODE TO CLOSE GATE (CLOSE GATE(DEVICE))
+            for(int posDegrees = 180; posDegrees >= 0; posDegrees--){
+              servo1.write(posDegrees);
+              delay(20);
+            }
           } // Print PlateNumber
               
             lcd.setCursor(0, 1);
