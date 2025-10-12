@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +26,9 @@ public class ParkingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ParkingAdapter adapter;
     private List<Parking> parkingList;
-    private ImageView addParkingBtn, backButton;
+    private ImageView backButton;
+
+    private CardView addParkingBtn;
     private TextView tvAvailable, tvFull, tvReserved;
 
     private DatabaseReference parkingRef;

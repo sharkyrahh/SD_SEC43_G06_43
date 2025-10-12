@@ -79,4 +79,8 @@ public class ViewParkingActivity extends AppCompatActivity {
                     .show();
         });
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 82241a770a66f7a1ade2f3ba440ac07b719732f8
