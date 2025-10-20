@@ -21,14 +21,9 @@
         <activity
             android:name=".ReserveActivity"
             android:exported="false" />
-        <activity
-            android:name=".StatusActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ui.dashboard.ViewParkingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.ParkingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.dashboard.ParkingActivity"
