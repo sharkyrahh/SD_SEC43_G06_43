@@ -23,16 +23,12 @@ public class ViewParkingActivity extends AppCompatActivity {
 
     private DatabaseReference parkingRef;
 
-    private String parkingNameValue;
-
+    private String slotKey; // key of selected parking slot
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_parking);
-        // Initialize Firebase with your URL
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        parkingRef = database.getReference("Parking");
 
         backButton = findViewById(R.id.backButton);
         editBtn = findViewById(R.id.editBtn);
@@ -82,4 +78,4 @@ public class ViewParkingActivity extends AppCompatActivity {
                     .setNegativeButton("No", null)
                     .show();
         });
-    } }
+    }}

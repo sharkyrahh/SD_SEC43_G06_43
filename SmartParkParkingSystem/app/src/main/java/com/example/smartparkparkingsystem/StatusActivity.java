@@ -1,129 +1,92 @@
 package com.example.smartparkparkingsystem;
 
-import android.graphics.drawable.GradientDrawable;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.firebase.database.*;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SlotsAdapter - RecyclerView adapter to display parking slots.
- * - Colors/status badges handled here
- * - Uses a Listener to notify Activity of clicks
- */
-public abstract class StatusActivity extends RecyclerView.Adapter<StatusActivity.SlotViewHolder> {
+public class StatusActivity extends AppCompatActivity implements slotsAdapter.Listener {
 
-    public interface Listener {
-        void onSlotClick(ParkingSlot slot);
-    }
-
-    private final List<ParkingSlot> slotList;
-    private final Listener listener;
-
-    public StatusActivity(List<ParkingSlot> slotList, Listener listener) {
-        this.slotList = slotList;
-        this.listener = listener;
-    }
-
-    @NonNull
-    @Override
-    public SlotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_slot, parent, false);
-        return new SlotViewHolder(v);
-    }
+    private RecyclerView recyclerView;
+    private slotsAdapter adapter;
+    private List<ParkingSlot> slotList;
+    private DatabaseReference databaseReference;
+    private ImageView backButton;
 
     @Override
-    public void onBindViewHolder(@NonNull SlotViewHolder holder, int position) {
-        ParkingSlot slot = slotList.get(position);
-        if (slot == null) return;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_status);
 
-        // null-safe getters (assumes ParkingSlot has getCode/getLocation/getStatus or public fields)
-        String code = slot.getCode() != null ? slot.getCode() : "—";
-        String location = slot.getLocation() != null ? slot.getLocation() : "";
-        String statusRaw = slot.getStatus() != null ? slot.getStatus().toLowerCase() : "unknown";
-        String statusLabel = statusRaw.length() > 0 ? statusRaw.substring(0,1).toUpperCase() + statusRaw.substring(1) : "Unknown";
+        // Initialize views
+        backButton = findViewById(R.id.backButton);
+        recyclerView = findViewById(R.id.rvSlots); // Match your XML id
 
-        holder.tvSlotCode.setText(code);
-        holder.tvSlotLocation.setText(location);
-        holder.tvSlotStatus.setText(statusLabel);
+        // Setup back button
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Close this activity and go back
+            }
+        });
 
-        // choose colors by status
-        int bgColor;
-        int textColor = 0xFFFFFFFF; // white for badge text if using colored bg
-        switch (statusRaw) {
-            case "available":
-                bgColor = 0xFF4CAF50; // green
-                break;
-            case "reserved":
-                bgColor = 0xFFFB8C00; // orange
-                break;
-            case "occupied":
-                bgColor = 0xFFE53935; // red
-                break;
-            case "maintenance":
-                bgColor = 0xFF9E9E9E; // grey
-                break;
-            default:
-                bgColor = 0xFF9E9E9E;
-                textColor = 0xFF000000; // black text on light bg fallback
-                break;
-        }
+        // Initialize RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Try tinting background shape (badge_bg should be a <shape> so it's a GradientDrawable)
-        if (holder.tvSlotStatus.getBackground() instanceof GradientDrawable) {
-            GradientDrawable gd = (GradientDrawable) holder.tvSlotStatus.getBackground();
-            gd.setColor(bgColor);
-            holder.tvSlotStatus.setTextColor(textColor);
-        } else {
-            // fallback: set text color only
-            holder.tvSlotStatus.setTextColor(bgColor);
-        }
+        // Initialize list
+        slotList = new ArrayList<>();
 
-        // Card background subtle tint depending on status (optional)
-        int cardBg;
-        switch (statusRaw) {
-            case "available": cardBg = 0xFFE8F5E9; break; // light green
-            case "reserved":  cardBg = 0xFFFFF3E0; break; // light orange
-            case "occupied":  cardBg = 0xFFFFEBEE; break; // light red
-            default:          cardBg = 0xFFFFFFFF; break;
-        }
-        holder.cardView.setCardBackgroundColor(cardBg);
+        // Initialize adapter
+        adapter = new slotsAdapter(this, slotList, this);
+        recyclerView.setAdapter(adapter);
 
-        // item click -> use listener; also show a quick toast via item context
-        holder.itemView.setOnClickListener(v -> {
-            // show quick toast
-            Toast.makeText(holder.itemView.getContext(),
-                    code + " — " + statusLabel,
-                    Toast.LENGTH_SHORT).show();
+        // Load data from Firebase
+        loadParkingSlotsFromFirebase();
+    }
 
-            // notify activity to handle action (reserve / show details)
-            if (listener != null) listener.onSlotClick(slot);
+    private void loadParkingSlotsFromFirebase() {
+        databaseReference = FirebaseDatabase.getInstance().getReference("parking_slots");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                slotList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ParkingSlot slot = snapshot.getValue(ParkingSlot.class);
+                    if (slot != null) {
+                        slot.setId(snapshot.getKey()); // Set Firebase key as ID
+                        slotList.add(slot);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+                Toast.makeText(StatusActivity.this,
+                        "Failed to load parking slots: " + databaseError.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
+    // This method comes from slotsAdapter.Listener interface
     @Override
-    public int getItemCount() {
-        return slotList != null ? slotList.size() : 0;
-    }
+    public void onSlotClick(ParkingSlot slot) {
+        // Handle when a parking slot is clicked
+        Toast.makeText(this,
+                "Slot " + slot.getCode() + " clicked - Status: " + slot.getStatus(),
+                Toast.LENGTH_SHORT).show();
 
-    // ViewHolder
-    public static class SlotViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSlotCode, tvSlotLocation, tvSlotStatus;
-        CardView cardView;
-
-        public SlotViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvSlotCode = itemView.findViewById(R.id.tvSlotCode);
-            tvSlotLocation = itemView.findViewById(R.id.tvSlotLocation);
-            tvSlotStatus = itemView.findViewById(R.id.tvSlotStatus);
-            cardView = itemView.findViewById(R.id.card_view_user); // ensure item_parking_slot.xml has this id
-        }
+        // You can add reservation logic here
+        // openReservationDialog(slot);
     }
 }

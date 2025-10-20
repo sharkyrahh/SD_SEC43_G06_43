@@ -1,5 +1,4 @@
-package com.example.smartparkparkingsystem; // ⚠️ Ubah ikut package kamu sendiri
-
+package com.example.smartparkparkingsystem;
 import androidx.annotation.NonNull;
 
 /**
