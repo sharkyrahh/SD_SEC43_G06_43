@@ -39,6 +39,7 @@ int displayState = 0;
 unsigned long previousDisplayTime = 0;
 const long displayInterval = 2000;
 bool registerMode;
+int parkingCount;
 static const int servoPin = 13;
 Servo servo1;
 bool servoMoving = false;
@@ -152,8 +153,12 @@ void setup() {
         lcd.setCursor(0, 0);
         lcd.print("Avail. Parking:");
         lcd.setCursor(0, 1);
-        // need to read from firebase parking slot later. right now just dummy data
-        lcd.print("9"); // ** REPLACE WITH PROPER CODE TO READ FROM FIREBASE, FOR DISPLAY TOTAL PARKING SLOTS (DEVICE)
+
+        // set available parking
+        if (Firebase.RTDB.getInt(&fbdo, "/Parking/parkingCount")) {
+        if (fbdo.dataType() == "int") {
+        parkingCount = fbdo.intData();
+        lcd.print(parkingCount);}}
         
         delay(2000);
         displayState = 1;
@@ -317,7 +322,12 @@ void loop() {
           lcd.setCursor(0, 0);
           lcd.print("Avail. Parking:");
           lcd.setCursor(0, 1);
-          lcd.print("9"); // ** REPLACE WITH PROPER CODE TO READ FROM FIREBASE, FOR DISPLAY TOTAL PARKING SLOTS (DEVICE)
+
+          // set parking count
+          if (Firebase.RTDB.getInt(&fbdo, "/Parking/parkingCount")) {
+          if (fbdo.dataType() == "int") {
+          parkingCount = fbdo.intData();
+          lcd.print(parkingCount);}}
         displayState = 1;
       }
     } else {
@@ -423,6 +433,8 @@ void loop() {
             servo1.write(0);  
             delay(1000); 
             Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), false);
+            parkingCount = parkingCount + 1;
+            Firebase.RTDB.setInt(&fbdo, "Parking/parkingCount", parkingCount);
 
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/UID", userUID);
             Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/timestamp", getFormattedTime());
@@ -448,6 +460,8 @@ void loop() {
             delay(1000); 
 
             Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), true);
+            parkingCount = parkingCount - 1;
+            Firebase.RTDB.setInt(&fbdo, "Parking/parkingCount", parkingCount);
 
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/UID", userUID);
             Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/timestamp", getFormattedTime());
