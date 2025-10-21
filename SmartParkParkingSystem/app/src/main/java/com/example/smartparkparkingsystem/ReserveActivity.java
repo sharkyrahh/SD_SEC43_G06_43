@@ -44,55 +44,53 @@ public class ReserveActivity extends AppCompatActivity {
         adapter = new slotsAdapter(this, list, this::handleSlotClick);
         rv.setAdapter(adapter);
 
-        // try Firebase init
-        try {
-            slotsRef = FirebaseDatabase.getInstance().getReference("parking_slots");
-            reservationsRef = FirebaseDatabase.getInstance().getReference("reservations");
-            auth = FirebaseAuth.getInstance();
-            loadSlotsFromFirebase();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            populateSampleSlots();
-        }
+        // Firebase init
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        slotsRef = database.getReference("Parking");
+        reservationsRef = database.getReference("reservations");
+        auth = FirebaseAuth.getInstance();
+
+        loadSlotsFromFirebase();
     }
 
     private void loadSlotsFromFirebase() {
-        if (slotsRef == null) {
-            populateSampleSlots();
-            return;
-        }
-
         slotsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
                 for (DataSnapshot c : snapshot.getChildren()) {
-                    ParkingSlot s = c.getValue(ParkingSlot.class);
-                    if (s != null) {
-                        s.setId(c.getKey());
-                        list.add(s);
+                    try {
+                        // Check if this is a valid ParkingSlot object (has status field)
+                        if (c.hasChild("status")) {
+                            ParkingSlot s = c.getValue(ParkingSlot.class);
+                            if (s != null) {
+                                // Set the name from Firebase key if needed
+                                if (s.getName() == null || s.getName().isEmpty()) {
+                                    s.setName(c.getKey());
+                                }
+                                list.add(s);
+                            }
+                        } else {
+                            // Skip non-ParkingSlot objects (like Long values)
+                            System.out.println("Skipping non-ParkingSlot data: " + c.getKey() + " = " + c.getValue());
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error parsing parking slot " + c.getKey() + ": " + e.getMessage());
                     }
                 }
-                adapter.notifyDataSetChanged(); // adapter already initialized
+                adapter.notifyDataSetChanged();
+
+                // Show message if no slots found
+                if (list.isEmpty()) {
+                    Toast.makeText(ReserveActivity.this, "No parking slots found", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(ReserveActivity.this, "Failed to load slots: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                if (list.isEmpty()) populateSampleSlots();
             }
         });
-    }
-
-    private void populateSampleSlots() {
-        list.clear();
-        list.add(new ParkingSlot("1", "A1", "Front", "available"));
-        list.add(new ParkingSlot("2", "A2", "Front", "reserved"));
-        list.add(new ParkingSlot("3", "B1", "Back", "occupied"));
-        list.add(new ParkingSlot("4", "B2", "Back", "available"));
-        list.add(new ParkingSlot("5", "C1", "Side", "available"));
-        list.add(new ParkingSlot("6", "C2", "Side", "reserved"));
-        adapter.notifyDataSetChanged();
     }
 
     private void handleSlotClick(ParkingSlot slot) {
@@ -100,35 +98,31 @@ public class ReserveActivity extends AppCompatActivity {
         String status = slot.getStatus() == null ? "unknown" : slot.getStatus().toLowerCase();
         if ("available".equalsIgnoreCase(status)) {
             new AlertDialog.Builder(this)
-                    .setTitle("Reserve " + (slot.getCode() != null ? slot.getCode() : "slot"))
+                    .setTitle("Reserve " + (slot.getName() != null ? slot.getName() : "slot"))
                     .setMessage("Do you want to reserve this slot?")
                     .setPositiveButton("Reserve", (dialog, which) -> attemptReserve(slot))
                     .setNegativeButton("Cancel", null)
                     .show();
         } else {
-            Toast.makeText(this, "Slot " + (slot.getCode() != null ? slot.getCode() : "") + " is " + status, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Slot " + (slot.getName() != null ? slot.getName() : "") + " is " + status, Toast.LENGTH_SHORT).show();
         }
     }
 
     @SuppressWarnings("unchecked")
     private void attemptReserve(ParkingSlot slot) {
-        if (slotsRef == null || reservationsRef == null) {
-            slot.setStatus("reserved");
-            adapter.notifyDataSetChanged();
-            Toast.makeText(this, "Reserved (local) " + slot.getCode(), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
-            Toast.makeText(this, "Please sign in to reserve (local fallback)", Toast.LENGTH_SHORT).show();
-            slot.setStatus("reserved");
-            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Please sign in to reserve", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String uid = user.getUid();
-        DatabaseReference slotRef = slotsRef.child(slot.getId());
+        String slotName = slot.getName();
+        if (slotName == null) {
+            Toast.makeText(this, "Invalid slot", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference slotRef = slotsRef.child(slotName);
 
         slotRef.runTransaction(new Transaction.Handler() {
             @NonNull
@@ -165,17 +159,17 @@ public class ReserveActivity extends AppCompatActivity {
                 long now = System.currentTimeMillis();
                 Map<String, Object> r = new HashMap<>();
                 r.put("id", resId);
-                r.put("slotId", slot.getId());
-                r.put("userId", uid);
+                r.put("slotName", slotName);
+                r.put("userId", user.getUid());
                 r.put("startTime", now);
                 r.put("endTime", now + 30 * 60 * 1000L);
                 r.put("status", "active");
 
                 reservationsRef.child(resId).setValue(r)
-                        .addOnSuccessListener(aVoid -> Toast.makeText(ReserveActivity.this, "Reserved " + slot.getCode(), Toast.LENGTH_SHORT).show())
+                        .addOnSuccessListener(aVoid -> Toast.makeText(ReserveActivity.this, "Reserved " + slotName, Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e -> {
                             Toast.makeText(ReserveActivity.this, "Save reservation failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            slotsRef.child(slot.getId()).child("status").setValue("available");
+                            slotsRef.child(slotName).child("status").setValue("available");
                         });
             }
         });

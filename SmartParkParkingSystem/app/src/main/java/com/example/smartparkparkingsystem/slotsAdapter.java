@@ -14,10 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-/**
- * Correct RecyclerView adapter for parking slots.
- * Constructor: new SlotsAdapter(Context ctx, List<ParkingSlot> items, Listener listener)
- */
 public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
 
     public interface Listener {
@@ -46,12 +42,12 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
         ParkingSlot s = items.get(position);
         if (s == null) return;
 
-        String code = s.getCode() != null ? s.getCode() : "—";
+        String name = s.getName() != null ? s.getName() : "—";
         String location = s.getLocation() != null ? s.getLocation() : "";
         String statusRaw = s.getStatus() != null ? s.getStatus().toLowerCase() : "unknown";
         String statusLabel = statusRaw.length() > 0 ? Character.toUpperCase(statusRaw.charAt(0)) + statusRaw.substring(1) : "Unknown";
 
-        holder.tvSlotCode.setText(code);
+        holder.tvSlotCode.setText(name);
         holder.tvSlotLocation.setText(location);
         holder.tvSlotStatus.setText(statusLabel);
 
@@ -62,13 +58,13 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
                 badgeColor = 0xFF4CAF50; // green
                 cardBg = 0xFFE8F5E9;
                 break;
+            case "full":
+                badgeColor = 0xFFE53935; // red
+                cardBg = 0xFFFFEBEE;
+                break;
             case "reserved":
                 badgeColor = 0xFFFB8C00; // orange
                 cardBg = 0xFFFFF3E0;
-                break;
-            case "occupied":
-                badgeColor = 0xFFE53935; // red
-                cardBg = 0xFFFFEBEE;
                 break;
             default:
                 badgeColor = 0xFF9E9E9E;
@@ -76,21 +72,14 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
                 break;
         }
 
-        // tint badge background if it's a GradientDrawable (badge_bg.xml)
-        if (holder.tvSlotStatus.getBackground() instanceof GradientDrawable) {
-            GradientDrawable gd = (GradientDrawable) holder.tvSlotStatus.getBackground();
-            gd.setColor(badgeColor);
-            holder.tvSlotStatus.setTextColor(0xFFFFFFFF);
-        } else {
-            holder.tvSlotStatus.setBackgroundColor(badgeColor);
-            holder.tvSlotStatus.setTextColor(0xFFFFFFFF);
-        }
+        // Set status text color based on status
+        holder.tvSlotStatus.setTextColor(badgeColor);
 
+        // Set card background color - FIXED: using the CardView from holder
         holder.cardView.setCardBackgroundColor(cardBg);
 
         holder.itemView.setOnClickListener(v -> {
-            // quick toast
-            Toast.makeText(ctx, code + " — " + statusLabel, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, name + " — " + statusLabel, Toast.LENGTH_SHORT).show();
             if (listener != null) listener.onSlotClick(s);
         });
     }
@@ -109,8 +98,9 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
             tvSlotCode = v.findViewById(R.id.tvSlotCode);
             tvSlotLocation = v.findViewById(R.id.tvSlotLocation);
             tvSlotStatus = v.findViewById(R.id.tvSlotStatus);
-            cardView = v.findViewById(R.id.card_view_user
-            );
+
+            // FIX: The CardView is the root view, so we can cast it directly
+            cardView = (CardView) v;
         }
     }
 }
