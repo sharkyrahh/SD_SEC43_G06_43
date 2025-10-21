@@ -1,37 +1,54 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 public class Parking {
+    private String name;
+    private String location;
+    private String status;
+    private String reservedby;  // Note: lowercase 'b' to match Firebase
+    private String type;
 
-    private String Name;
-    private String Status;
-    private String Location;
-    private String parkingtype;
-    private String Reservedby;
-
+    // Required empty constructor
     public Parking() {
-        // Empty constructor required for Firebase
     }
 
-    public Parking(String Name, String Status, String Location, String parkingtype, String Reservedby) {
-        this.Name = Name;
-        this.Status = Status;
-        this.Location = Location;
-        this.parkingtype = parkingtype;
-        this.Reservedby = Reservedby;
+    // Getters and setters - field names must match Firebase exactly
+    public String getName() {
+        return name;
     }
 
-    public String getName() { return Name; }
-    public void setName(String Name) { this.Name = Name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getStatus() { return Status; }
-    public void setStatus(String Status) { this.Status = Status; }
+    public String getLocation() {
+        return location;
+    }
 
-    public String getLocation() { return Location; }
-    public void setLocation(String Location) { this.Location = Location; }
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-    public String getParkingtype() { return parkingtype; }
-    public void setParkingtype(String parkingtype) { this.parkingtype = parkingtype; }
+    public String getStatus() {
+        return status;
+    }
 
-    public String getReservedby() { return Reservedby; }
-    public void setReservedby(String Reservedby) { this.Reservedby = Reservedby; }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getReservedby() {
+        return reservedby;
+    }
+
+    public void setReservedby(String reservedby) {
+        this.reservedby = reservedby;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

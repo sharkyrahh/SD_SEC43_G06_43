@@ -90,6 +90,9 @@
             android:name=".VerifyEmailActivity"
             android:exported="true" />
         <activity
+            android:name=".StatusActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

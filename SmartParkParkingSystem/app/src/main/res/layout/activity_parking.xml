@@ -69,7 +69,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="Available: 7"
+                    android:text="Available:"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/avCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="7"
                     android:textColor="@android:color/holo_green_dark"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -80,7 +91,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="Full: 1"
+                    android:text="Full:"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/fullCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="1"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -90,7 +112,17 @@
                     android:id="@+id/tvReserved"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reserved: 3"
+                    android:text="Reserved:  "
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,TextContrastCheck" />
+
+                <TextView
+                    android:id="@+id/resCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
                     android:textColor="@android:color/holo_orange_dark"
                     android:textSize="16sp"
                     android:textStyle="bold"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,7 @@ public class ParkingActivity extends AppCompatActivity {
     private ImageView backButton;
 
     private CardView addParkingBtn;
-    private TextView tvAvailable, tvFull, tvReserved;
+    private TextView avCount, fulCount, resCount;
 
     private DatabaseReference parkingRef;
     private FirebaseAuth mAuth;
@@ -51,23 +52,24 @@ public class ParkingActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvParking);
         addParkingBtn = findViewById(R.id.addParking);
         backButton = findViewById(R.id.backButton);
-        tvAvailable = findViewById(R.id.tvAvailable);
-        tvFull = findViewById(R.id.tvFull);
-        tvReserved = findViewById(R.id.tvReserved);
+        avCount = findViewById(R.id.avCount);
+        fulCount = findViewById(R.id.fullCount);
+        resCount = findViewById(R.id.resCount);
 
         // RecyclerView setup
         parkingList = new ArrayList<>();
         adapter = new ParkingAdapter(parkingList, this, parking -> {
             // Pass the Name to ViewParkingActivity
             Intent intent = new Intent(ParkingActivity.this, ViewParkingActivity.class);
-            intent.putExtra("Name", parking.getName()); // key matches database field
+            intent.putExtra("parkingName", parking.getName());
+            intent.putExtra("parkingStatus", parking.getStatus());
+            intent.putExtra("parkingLocation", parking.getLocation());
+            intent.putExtra("parkingType", parking.getType());
+            intent.putExtra("reservedBy", parking.getReservedby());
             startActivity(intent);
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        // Firebase reference
-        parkingRef = FirebaseDatabase.getInstance().getReference("Parking");
 
         // Fetch data
         fetchParkingData();
@@ -88,30 +90,59 @@ public class ParkingActivity extends AppCompatActivity {
                 parkingList.clear();
                 int availableCount = 0, fullCount = 0, reservedCount = 0;
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Parking parking = ds.getValue(Parking.class);
-                    if (parking != null) {
+                for (DataSnapshot parkingSpotSnapshot : snapshot.getChildren()) {
+                    String parkingSpotName = parkingSpotSnapshot.getKey();
+
+                    // Check if this has the structure of a Parking object
+                    if (parkingSpotSnapshot.hasChild("status")) {
+                        // Manually create Parking object to avoid conversion issues
+                        Parking parking = new Parking();
+                        parking.setName(parkingSpotName);
+                        parking.setLocation(getStringValue(parkingSpotSnapshot, "location"));
+                        parking.setStatus(getStringValue(parkingSpotSnapshot, "status"));
+                        parking.setReservedby(getStringValue(parkingSpotSnapshot, "reservedby"));
+                        parking.setType(getStringValue(parkingSpotSnapshot, "type"));
+
                         parkingList.add(parking);
 
-                        // Status counts
-                        String status = parking.getStatus(); // Available, Full, Reserved
-                        if ("Available".equalsIgnoreCase(status)) availableCount++;
-                        else if ("Full".equalsIgnoreCase(status)) fullCount++;
-                        else if ("Reserved".equalsIgnoreCase(status)) reservedCount++;
+                        // Count status
+                        String status = parking.getStatus();
+                        if (status != null) {
+                            if ("Available".equalsIgnoreCase(status)) {
+                                availableCount++;
+                            } else if ("Full".equalsIgnoreCase(status)) {
+                                fullCount++;
+                            } else if ("Reserved".equalsIgnoreCase(status)) {
+                                reservedCount++;
+                            }
+                        }
+                    } else {
+                        // This is not a valid Parking object, skip it
+                        System.out.println("Skipping invalid parking data: " + parkingSpotName);
                     }
                 }
 
                 adapter.notifyDataSetChanged();
-
-                tvAvailable.setText("Available: " + availableCount);
-                tvFull.setText("Full: " + fullCount);
-                tvReserved.setText("Reserved: " + reservedCount);
+                avCount.setText(String.valueOf(availableCount));
+                fulCount.setText(String.valueOf(fullCount));
+                resCount.setText(String.valueOf(reservedCount));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle errors if needed
+                Toast.makeText(ParkingActivity.this, "Failed to load data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // Helper method to safely get string values from Firebase
+    private String getStringValue(DataSnapshot snapshot, String key) {
+        if (snapshot.hasChild(key)) {
+            Object value = snapshot.child(key).getValue();
+            if (value != null) {
+                return value.toString();
+            }
+        }
+        return "";
     }
 }

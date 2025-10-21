@@ -39,20 +39,25 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     @Override
     public void onBindViewHolder(@NonNull ParkingViewHolder holder, int position) {
         Parking parking = parkingList.get(position);
+
+        // Set both name and status
         holder.tvName.setText(parking.getName());
         holder.tvStatus.setText(parking.getStatus());
 
-        // Optional: set status color
-        switch (parking.getStatus()) {
-            case "Available":
-                holder.tvStatus.setBackgroundResource(R.drawable.status_available);
-                break;
-            case "Full":
-                holder.tvStatus.setBackgroundResource(R.drawable.status_full);
-                break;
-            case "Reserved":
-                holder.tvStatus.setBackgroundResource(R.drawable.status_reserved);
-                break;
+        // Set status color with null safety
+        String status = parking.getStatus();
+        if (status != null) {
+            switch (status) {
+                case "Available":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_available);
+                    break;
+                case "Full":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_full);
+                    break;
+                case "Reserved":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_reserved);
+                    break;
+            }
         }
 
         holder.itemView.setOnClickListener(v -> {
