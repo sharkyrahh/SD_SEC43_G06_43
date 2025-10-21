@@ -20,6 +20,7 @@
 #define SS_PIN 5
 #define RST_PIN 2
 #define TIME_OFFSET 28800
+#define BUZZER_PIN 12
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 FirebaseData fbdo;
 FirebaseAuth auth;
@@ -45,9 +46,38 @@ int servoTarget = 0;
 unsigned long servoStartTime = 0;
 const long servoMoveTime = 1000;
 
+//functions for buzzer
+
+int melody[] = {
+  NOTE_Cs, NOTE_Gs, NOTE_Gs, NOTE_A, NOTE_Gs, 0, NOTE_Bb, NOTE_Cs
+};
+
+int noteDurations[] = {
+  4, 8, 8, 4, 4, 4, 4, 4
+};
+
 //Setup() function
 void setup() {
   Serial.begin(115200);
+
+  // initialize buzzer
+  pinMode(BUZZER_PIN, OUTPUT);
+  digitalWrite(BUZZER_PIN, LOW);
+
+  Serial.println("Testing buzzer...");
+  
+  // Test buzzer with debug messages
+  Serial.println("Buzzer: Playing test tone 1");
+  tone(BUZZER_PIN, 1000, 500);
+  delay(1000);
+  
+  Serial.println("Buzzer: Playing test tone 2");
+  tone(BUZZER_PIN, 1500, 500);
+  delay(1000);
+  
+  Serial.println("Buzzer: Test complete");
+  noTone(BUZZER_PIN);
+
 
   // initialize servo
   servo1.attach(servoPin);
@@ -137,6 +167,21 @@ void setup() {
         delay(2000);
         displayState = 0;
       }
+}
+
+// buzzer funct
+void buzzerSuccess() {
+  tone(BUZZER_PIN, 1000, 200);
+  delay(300);
+  tone(BUZZER_PIN, 1500, 300);
+}
+
+void buzzerError() {
+  tone(BUZZER_PIN, 300, 1000);
+}
+
+void buzzerBeep() {
+  tone(BUZZER_PIN, 1000, 100);
 }
 
 // time function for timestamp
@@ -370,6 +415,10 @@ void loop() {
             lcd.clear();
             lcd.setCursor(0, 0);
             lcd.print("Exit Success");
+            
+            // test buzzer code
+            buzzerSuccess();
+
             // OPEN SERVO
             servo1.write(0);  
             delay(1000); 
@@ -390,6 +439,9 @@ void loop() {
             lcd.clear();
             lcd.setCursor(0, 0);
             lcd.print("Entry Success");
+
+            // test buzzer code
+            buzzerSuccess();
 
             // ** CODE TO OPEN GATE (OPEN GATE (DEVICE))
             servo1.write(0);  // Move to 180 degrees immediately
