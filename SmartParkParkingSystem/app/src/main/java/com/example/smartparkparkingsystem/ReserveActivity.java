@@ -130,9 +130,11 @@ public class ReserveActivity extends AppCompatActivity {
                     return Transaction.abort();
                 }
                 Object sObj = map.get("status");
-                String curStatus = sObj == null ? "available" : sObj.toString();
+                String curStatus = sObj == null ? "Available" : sObj.toString();
                 if (!"available".equalsIgnoreCase(curStatus)) return Transaction.abort();
-                map.put("status", "reserved");
+
+                map.put("status", "Reserved");
+                map.put("reservedby", user.getUid());
                 currentData.setValue(map);
                 return Transaction.success(currentData);
             }
@@ -162,7 +164,8 @@ public class ReserveActivity extends AppCompatActivity {
                         .addOnSuccessListener(aVoid -> Toast.makeText(ReserveActivity.this, "Reserved " + slotName, Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e -> {
                             Toast.makeText(ReserveActivity.this, "Save reservation failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            slotsRef.child(slotName).child("status").setValue("available");
+                            slotsRef.child(slotName).child("status").setValue("Available");
+                            slotsRef.child(slotName).child("reservedby").removeValue();
                         });
             }
         });

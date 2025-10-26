@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 R.id.nav_home
         ).setOpenableLayout(drawer).build();
 
-        
+
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE

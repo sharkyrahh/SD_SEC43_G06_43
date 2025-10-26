@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
@@ -23,9 +24,9 @@ public class ViewParkingActivity extends AppCompatActivity {
     private Button editBtn;
     private ImageButton delBtn;
 
-    private TextView parkingName, parkingStatus, parkingLocation, parkingType, reserveText;
+    private TextView parkingName, parkingStatus, parkingLocation, parkingType, reserveText, occupyText;
 
-    private DatabaseReference parkingRef;
+    private DatabaseReference parkingRef, usersRef;
     private String currentParkingName;
 
     @Override
@@ -42,9 +43,11 @@ public class ViewParkingActivity extends AppCompatActivity {
         parkingLocation = findViewById(R.id.parkingLocation);
         parkingType = findViewById(R.id.parkingType);
         reserveText = findViewById(R.id.reserveText);
+        occupyText = findViewById(R.id.occupyText);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         parkingRef = database.getReference("Parking");
+        usersRef = database.getReference("users");
 
         Intent intent = getIntent();
         currentParkingName = intent.getStringExtra("parkingName");
@@ -74,18 +77,7 @@ public class ViewParkingActivity extends AppCompatActivity {
                     .setMessage("Are you sure you want to delete this parking slot?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         if (currentParkingName != null) {
-                            parkingRef.child(currentParkingName).removeValue()
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(ViewParkingActivity.this,
-                                                "Parking slot deleted successfully!",
-                                                Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(ViewParkingActivity.this,
-                                                "Failed to delete parking slot: " + e.getMessage(),
-                                                Toast.LENGTH_LONG).show();
-                                    });
+                            deleteParkingSlot();
                         }
                     })
                     .setNegativeButton("No", null)
@@ -105,13 +97,17 @@ public class ViewParkingActivity extends AppCompatActivity {
                     String type = getStringValue(snapshot, "type");
                     String reservedBy = getStringValue(snapshot, "reservedby");
 
+                    if("Full".equalsIgnoreCase(status)){
+                        occupyText.setText("Occupied By:");
+                    } else {
+                        occupyText.setText("Reserved By:");
+                    }
 
-                    updateUI(name, location, status, type, reservedBy);
+                    if (reservedBy != null && !reservedBy.isEmpty()) {
+                        loadPlateNumber(reservedBy, name, location, status, type);
+                    } else {
+                    updateUI(name, location, status, type, "N/A");}
                 } else {
-
-                    Toast.makeText(ViewParkingActivity.this,
-                            "Parking slot no longer exists",
-                            Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -125,19 +121,32 @@ public class ViewParkingActivity extends AppCompatActivity {
         });
     }
 
+    private void loadPlateNumber(String userId, String name, String location, String status, String type) {
+        usersRef.child(userId).child("plateNumber").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String plateNumber = snapshot.getValue(String.class);
+                if (plateNumber != null && !plateNumber.isEmpty()) {
+                    updateUI(name, location, status, type, plateNumber);
+                } else {
+                    updateUI(name, location, status, type, "N/A");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                updateUI(name, location, status, type, "N/A");
+            }
+        });
+    }
+
     private void updateUI(String name, String location, String status, String type, String reservedBy) {
         runOnUiThread(() -> {
             parkingName.setText(name != null ? name : "---");
             parkingLocation.setText(location != null ? location : "---");
             parkingType.setText(type != null ? type : "---");
             parkingStatus.setText(status != null ? status : "---");
-
-            if (reservedBy != null && !reservedBy.isEmpty()) {
-                reserveText.setText(reservedBy);
-            } else {
-                reserveText.setText("Not Reserved");
-            }
-
+            reserveText.setText(reservedBy);
         });
     }
 
@@ -153,5 +162,38 @@ public class ViewParkingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private void deleteParkingSlot() {
+        if (currentParkingName == null) {
+            Toast.makeText(this, "Error: Parking slot not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        parkingRef.child(currentParkingName).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    parkingRef.child("parkingCount").get().addOnCompleteListener(countTask -> {
+                        if (countTask.isSuccessful()) {
+                            Integer currentCount = countTask.getResult().getValue(Integer.class);
+                            if (currentCount == null) {
+                                currentCount = 1;
+                            } else {
+                                currentCount = currentCount - 1;
+                            }
+                            parkingRef.child("parkingCount").setValue(currentCount)
+                                    .addOnSuccessListener(e -> {
+                                        Toast.makeText(ViewParkingActivity.this,
+                                                "Parking slot deleted successfully!",
+                                                Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    });
+                        }
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(ViewParkingActivity.this,
+                            "Failed to delete slot: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                });
     }
 }

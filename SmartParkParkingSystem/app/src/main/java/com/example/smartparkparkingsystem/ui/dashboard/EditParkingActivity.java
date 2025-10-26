@@ -10,11 +10,16 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 public class EditParkingActivity extends AppCompatActivity {
 
@@ -148,10 +153,13 @@ public class EditParkingActivity extends AppCompatActivity {
         btnSaveParking.setOnClickListener(v -> updateParkingSlot());
 
         btnDeleteParking.setOnClickListener(v -> {
-            new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
+
+            new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("Delete Parking Slot")
                     .setMessage("Are you sure you want to delete this parking slot?")
-                    .setPositiveButton("Yes", (dialog, which) -> deleteParkingSlot())
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        deleteParkingSlot();
+                    })
                     .setNegativeButton("No", null)
                     .show();
         });
@@ -259,15 +267,27 @@ public class EditParkingActivity extends AppCompatActivity {
 
         parkingRef.child(originalSlotName).removeValue()
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EditParkingActivity.this,
-                            "Parking slot deleted successfully!",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
+                    parkingRef.child("parkingCount").get().addOnCompleteListener(countTask -> {
+                        if (countTask.isSuccessful()) {
+                            Integer currentCount = countTask.getResult().getValue(Integer.class);
+                            if (currentCount == null) {
+                                currentCount = 1;
+                            } else {
+                                currentCount = currentCount - 1;
+                            }
+                            parkingRef.child("parkingCount").setValue(currentCount)
+                                    .addOnSuccessListener(e -> {
+                                        Toast.makeText(EditParkingActivity.this,
+                                                "Parking slot deleted successfully!",
+                                                Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    });
+                        }
+                    });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(EditParkingActivity.this,
-                            "Failed to delete parking slot: " + e.getMessage(),
+                            "Failed to delete slot: " + e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 });
-    }
-}
+    }}

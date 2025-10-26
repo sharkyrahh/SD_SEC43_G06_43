@@ -176,18 +176,27 @@ public class AddParkingActivity extends AppCompatActivity {
     }
 
     private void saveParkingToFirebase(String slotName, Parking parking) {
-
         parkingRef.child(slotName).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().exists()) {
-
                     Toast.makeText(AddParkingActivity.this,
                             "Parking slot " + slotName + " already exists!",
                             Toast.LENGTH_LONG).show();
                 } else {
-
                     parkingRef.child(slotName).setValue(parking)
                             .addOnSuccessListener(aVoid -> {
+                                parkingRef.child("parkingCount").get().addOnCompleteListener(countTask -> {
+                                    if (countTask.isSuccessful()) {
+                                        Integer currentCount = countTask.getResult().getValue(Integer.class);
+                                        if (currentCount == null) {
+                                            currentCount = 1;
+                                        } else {
+                                            currentCount = currentCount + 1;
+                                        }
+                                        parkingRef.child("parkingCount").setValue(currentCount);
+                                    }
+                                });
+
                                 Toast.makeText(AddParkingActivity.this,
                                         "Parking slot added successfully!",
                                         Toast.LENGTH_SHORT).show();

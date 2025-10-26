@@ -73,24 +73,48 @@
                 android:textStyle="bold"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/availableSlots"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10 Slots"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:paddingTop="4dp"
-                android:textColor="@color/black"/>
+                android:orientation="horizontal"
+                android:paddingTop="4dp">
+                <TextView
+                    android:id="@+id/availableSlots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Slots"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/frontParking"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8 Front Parking"
-                android:textSize="16sp"
-                android:paddingTop="2dp"
-                android:textColor="@color/black"/>
+                android:orientation="horizontal"
+                android:paddingTop="2dp">
+                <TextView
+                    android:id="@+id/totalParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Total Parking"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
@@ -193,6 +217,7 @@
         android:paddingRight="16dp"
         android:paddingBottom="5dp">
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/reserveCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="12dp"
@@ -235,15 +260,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date: 2025-10-05"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:layout_marginLeft="120dp"
-                    android:id="@+id/reservedTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Time: 10:30 AM"
                     android:textSize="14sp"
                     android:textColor="@color/black"/>
             </LinearLayout>

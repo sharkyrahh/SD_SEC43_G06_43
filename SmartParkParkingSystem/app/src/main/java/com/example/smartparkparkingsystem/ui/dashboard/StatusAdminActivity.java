@@ -47,7 +47,6 @@ public class StatusAdminActivity extends AppCompatActivity implements slotsAdapt
 
         backButton.setOnClickListener(v -> finish());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         slotList = new ArrayList<>();
         adapter = new slotsAdapter(this, slotList, this);
@@ -143,8 +142,6 @@ public class StatusAdminActivity extends AppCompatActivity implements slotsAdapt
 
     @Override
     public void onSlotClick(ParkingSlot slot) {
-        Toast.makeText(this,
-                "Slot " + slot.getName() + " clicked - Status: " + slot.getStatus(),
-                Toast.LENGTH_SHORT).show();
+
     }
 }

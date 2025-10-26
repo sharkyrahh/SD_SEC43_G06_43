@@ -76,7 +76,6 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
         holder.cardView.setCardBackgroundColor(cardBg);
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(ctx, name + " — " + statusLabel, Toast.LENGTH_SHORT).show();
             if (listener != null) listener.onSlotClick(s);
         });
     }

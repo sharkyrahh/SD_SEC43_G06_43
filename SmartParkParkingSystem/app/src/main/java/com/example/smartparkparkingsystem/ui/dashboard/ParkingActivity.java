@@ -91,6 +91,10 @@ public class ParkingActivity extends AppCompatActivity {
                 for (DataSnapshot parkingSpotSnapshot : snapshot.getChildren()) {
                     String parkingSpotName = parkingSpotSnapshot.getKey();
 
+                    if ("parkingCount".equals(parkingSpotName)) {
+                        continue;
+                    }
+
                     if (parkingSpotSnapshot.hasChild("status")) {
 
                         Parking parking = new Parking();
