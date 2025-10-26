@@ -6,4 +6,6 @@
     <color name="black">#000000</color>
     <color name="grey">#7E2F2F2F</color>
     <color name="darker_gray" />
+    <color name="waveblue">#2f90e5</color>
+    <color name="darkblue">#0D47A1</color>
 </resources>

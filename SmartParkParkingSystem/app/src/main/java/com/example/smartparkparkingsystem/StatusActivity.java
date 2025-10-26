@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
 
         backButton = findViewById(R.id.backButton);
         recyclerView = findViewById(R.id.rvSlots);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         backButton.setOnClickListener(v -> finish());
 
@@ -65,7 +67,6 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
                                 slotList.add(slot);
                             }
                         } else {
-                            // Skip non-ParkingSlot objects (like Long values)
                             System.out.println("Skipping non-ParkingSlot data: " + snapshot.getKey() + " = " + snapshot.getValue());
                         }
                     } catch (Exception e) {
@@ -134,7 +135,6 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
 
     @Override
     public void onSlotClick(ParkingSlot slot) {
-        // Handle when a parking slot is clicked
         Toast.makeText(this,
                 "Slot " + slot.getName() + " clicked - Status: " + slot.getStatus(),
                 Toast.LENGTH_SHORT).show();

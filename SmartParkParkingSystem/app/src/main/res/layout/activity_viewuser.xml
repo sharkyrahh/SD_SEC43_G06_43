@@ -1,62 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@drawable/side_nav_bar">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="900dp"
+        android:src="@drawable/roundedbg"
+        android:layout_marginTop="130dp"></ImageView>
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_icon"
+        app:tint="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
 
     <LinearLayout
+        android:paddingTop="70dp"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2196F3"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
+        <!-- Profile Picture -->
         <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_icon"
-            android:tint="@android:color/white"
-            tools:ignore="ContentDescription,UseAppTint" />
-
-        <TextView
-            android:id="@+id/headerTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="16dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/blankpfp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="Profile Picture"
             tools:ignore="HardcodedText" />
-    </LinearLayout>
-
-
-    <!-- Scrollable Content -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <!-- Profile Picture -->
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@android:drawable/sym_def_app_icon"
-                android:layout_marginBottom="12dp"
-                android:contentDescription="Profile Picture"
-                tools:ignore="HardcodedText" />
 
             <!-- Full Name -->
             <TextView
@@ -73,15 +53,14 @@
 
             <!-- Course -->
 
-            <!-- Profile Info Box -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#F0F0F0"
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:elevation="4dp"
-                android:layout_marginBottom="24dp">
+        <LinearLayout
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:background="#F0F0F0"
+            android:padding="20dp"
+            android:orientation="vertical"
+            android:elevation="4dp"
+            android:layout_marginBottom="10dp">
 
                 <!-- Each field below -->
                 <TextView
@@ -189,5 +168,4 @@
                 tools:ignore="HardcodedText,TextContrastCheck" />
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</FrameLayout>

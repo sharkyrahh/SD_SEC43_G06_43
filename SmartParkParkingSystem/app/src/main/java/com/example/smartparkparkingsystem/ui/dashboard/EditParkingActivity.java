@@ -1,9 +1,13 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,10 +30,76 @@ public class EditParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editparking);
 
+        initViews();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         parkingRef = database.getReference("Parking");
 
-        initViews();
+        editSlotName.setFilters(new InputFilter[]{
+                new InputFilter.AllCaps(),
+                new InputFilter.LengthFilter(3)
+        });
+
+        editPlateNumber.setFilters(new InputFilter[]{
+                new InputFilter.AllCaps(),
+                new InputFilter.LengthFilter(10)
+        });
+
+        editLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(EditParkingActivity.this, editLocation);
+                popupMenu.getMenuInflater().inflate(R.menu.locationmenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        editLocation.setText(item.getTitle());
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+        editType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(EditParkingActivity.this, editType);
+                popupMenu.getMenuInflater().inflate(R.menu.typemenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        editType.setText(item.getTitle());
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+        editStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(EditParkingActivity.this, editStatus);
+                popupMenu.getMenuInflater().inflate(R.menu.statusmenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        editStatus.setText(item.getTitle());
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+
 
         getIntentData();
 
@@ -96,36 +166,28 @@ public class EditParkingActivity extends AppCompatActivity {
         String plateNumber = editPlateNumber.getText().toString().trim();
 
         if (newSlotName.isEmpty()) {
-            editSlotName.setError("Slot name is required");
+            editSlotName.setError("Please enter slot name.");
             editSlotName.requestFocus();
             return;
         }
 
         if (location.isEmpty()) {
-            editLocation.setError("Location is required");
+            editLocation.setError("Please select location.");
             editLocation.requestFocus();
             return;
         }
 
         if (type.isEmpty()) {
-            editType.setError("Parking type is required");
+            editType.setError("Please select parking type.");
             editType.requestFocus();
             return;
         }
 
         if (status.isEmpty()) {
-            editStatus.setError("Status is required");
+            editStatus.setError("Please select status.");
             editStatus.requestFocus();
             return;
         }
-
-
-        if (!isValidStatus(status)) {
-            editStatus.setError("Status must be: Available, Full, or Reserved");
-            editStatus.requestFocus();
-            return;
-        }
-
 
         Parking parking = new Parking();
         parking.setName(newSlotName);

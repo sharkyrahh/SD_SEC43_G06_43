@@ -1,14 +1,19 @@
 package com.example.smartparkparkingsystem.ui.dashboard;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartparkparkingsystem.R;
+import com.example.smartparkparkingsystem.SignUp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,11 +30,76 @@ public class AddParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addparking);
 
+        initViews();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         parkingRef = database.getReference("Parking");
 
-        initViews();
+        addSlotName.setFilters(new InputFilter[]{
+                new InputFilter.AllCaps(),
+                new InputFilter.LengthFilter(3)
+        });
+
+        addPlateNumber.setFilters(new InputFilter[]{
+                new InputFilter.AllCaps(),
+                new InputFilter.LengthFilter(10)
+        });
+
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(AddParkingActivity.this, addLocation);
+                popupMenu.getMenuInflater().inflate(R.menu.locationmenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        addLocation.setText(item.getTitle());
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+        addType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(AddParkingActivity.this, addType);
+                popupMenu.getMenuInflater().inflate(R.menu.typemenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        addType.setText(item.getTitle());
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+        addStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(AddParkingActivity.this, addStatus);
+                popupMenu.getMenuInflater().inflate(R.menu.statusmenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        addStatus.setText(item.getTitle());
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+
 
         setupClickListeners();
     }
@@ -58,32 +128,25 @@ public class AddParkingActivity extends AppCompatActivity {
         String plateNumber = addPlateNumber.getText().toString().trim();
 
         if (slotName.isEmpty()) {
-            addSlotName.setError("Slot name is required");
+            addSlotName.setError("Please enter slot name.");
             addSlotName.requestFocus();
             return;
         }
 
         if (location.isEmpty()) {
-            addLocation.setError("Location is required");
+            addLocation.setError("Please select location.");
             addLocation.requestFocus();
             return;
         }
 
         if (type.isEmpty()) {
-            addType.setError("Parking type is required");
+            addType.setError("Please select parking type.");
             addType.requestFocus();
             return;
         }
 
         if (status.isEmpty()) {
-            addStatus.setError("Status is required");
-            addStatus.requestFocus();
-            return;
-        }
-
-
-        if (!isValidStatus(status)) {
-            addStatus.setError("Status must be: Available, Full, or Reserved");
+            addStatus.setError("Please select status.");
             addStatus.requestFocus();
             return;
         }

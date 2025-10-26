@@ -3,16 +3,24 @@
     <style name="Base.Theme.SmartParkParkingSystem" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/waveblue</item>
     </style>
 
-    <style name="Theme.SmartParkParkingSystem" parent="Base.Theme.SmartParkParkingSystem" />
+    <style name="Theme.SmartParkParkingSystem" parent="Base.Theme.SmartParkParkingSystem">
+        <item name="android:statusBarColor">@color/waveblue</item>
+    </style>
+
 
     <style name="Theme.SmartParkParkingSystem.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/waveblue</item>
     </style>
 
-    <style name="Theme.SmartParkParkingSystem.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.SmartParkParkingSystem.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:statusBarColor">@color/waveblue</item>
+    </style>
 
-    <style name="Theme.SmartParkParkingSystem.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.SmartParkParkingSystem.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:statusBarColor">@color/waveblue</item></style>
 </resources>

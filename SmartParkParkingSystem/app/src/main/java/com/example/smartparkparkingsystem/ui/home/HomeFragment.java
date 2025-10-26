@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
-    private TextView welcomeText, dateTimeText, parkingAvailability;
+    private TextView welcomeText;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -38,9 +38,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
         welcomeText = view.findViewById(R.id.welcomeText);
-        dateTimeText = view.findViewById(R.id.dateTimeText);
         findParking = view.findViewById(R.id.findParking);
         bookParking = view.findViewById(R.id.bookParking);
 
@@ -60,7 +58,6 @@ public class HomeFragment extends Fragment {
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference();
 
-
         if (mAuth.getCurrentUser() != null) {
             String userId = mAuth.getCurrentUser().getUid();
             mDatabase.child("users").child(userId).child("fullName")
@@ -73,32 +70,6 @@ public class HomeFragment extends Fragment {
                         }
                     });
         }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
-        String currentDateTime = sdf.format(new Date());
-        dateTimeText.setText(currentDateTime);
-
-        /** ✅ Live updates for parking availability
-        mDatabase.child("slots").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Long total = snapshot.child("total").getValue(Long.class);
-                Long occupied = snapshot.child("occupied").getValue(Long.class);
-
-                if (total != null && occupied != null) {
-                    long available = total - occupied;
-                    parkingAvailability.setText("Available Slots: " + available + "/" + total);
-                } else {
-                    parkingAvailability.setText("Available Slots: Data missing");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                parkingAvailability.setText("Available Slots: Error");
-            }
-        });**/
-
         return view;
     }
 }

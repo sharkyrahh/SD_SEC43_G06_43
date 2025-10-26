@@ -1,183 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@drawable/side_nav_bar">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="900dp"
+        android:src="@drawable/roundedbg"
+        android:layout_marginTop="130dp"></ImageView>
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_icon"
+        app:tint="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
 
     <LinearLayout
+        android:paddingTop="70dp"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2196F3"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
+        <!-- Profile Picture -->
         <ImageView
-            android:id="@+id/backButton"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/blankpfp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="Profile Picture"
+            tools:ignore="HardcodedText" />
+
+        <!-- Full Name -->
+
+        <!-- Course -->
+        <TextView
+            android:id="@+id/adminNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back_icon"
-            android:tint="@android:color/white"
-            tools:ignore="ContentDescription,UseAppTint" />
+            android:layout_marginBottom="4dp"
+            android:text="fullname"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
+            android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/headerTitle"
+            android:id="@+id/courseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Admin Profile"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            tools:ignore="HardcodedText" />
-    </LinearLayout>
+            android:text="Admin"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"
+            tools:ignore="HardcodedText"
+            android:textColor="@color/black"/>
 
-
-    <!-- Scrollable Content -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
+            android:background="#F0F0F0"
+            android:padding="20dp"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:elevation="4dp"
+            android:layout_marginBottom="10dp">
 
-            <!-- Profile Picture -->
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@android:drawable/sym_def_app_icon"
-                android:layout_marginBottom="12dp"
-                android:contentDescription="Profile Picture"
-                tools:ignore="HardcodedText" />
-
-            <!-- Full Name -->
+            <!-- Each field below -->
             <TextView
-                android:id="@+id/adminNameText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="fullname"
-                android:textSize="19sp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText,SpUsage,TextSizeCheck"
+                android:text="Admin Email:"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
                 android:textColor="@color/black"/>
-
-            <!-- Course -->
             <TextView
-                android:id="@+id/courseText"
-                android:layout_width="wrap_content"
+                android:id="@+id/Adminemail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="role"
+                android:text="EMAIL.COM"
+                android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="8dp"
                 tools:ignore="HardcodedText"
                 android:textColor="@color/black"/>
 
-            <!-- Profile Info Box -->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F0F0F0"
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:elevation="4dp"
-                android:layout_marginBottom="24dp">
-
-                <!-- Each field below -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Admin Email:"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/Adminemail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="EMAIL.COM"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Phonenumber:"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/phonenum"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0167777777"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gender"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/primaryEmailText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="hzmhkm"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Employee ID:"
-                    android:textSize="14sp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/secondaryEmailText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="1216"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="HardcodedText"
-                    android:textColor="@color/black"/>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/editBtn"
-                android:layout_width="wrap_content"
+                android:text="Phonenumber:"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/phonenum"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#2196F3"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:text="Edit Profile"
-                android:textColor="@android:color/white"
-                tools:ignore="HardcodedText,TextContrastCheck" />
+                android:text="0167777777"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/primaryEmailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hzmhkm"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Employee ID:"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/secondaryEmailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1216"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText"
+                android:textColor="@color/black"/>
 
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+
+        <Button
+            android:id="@+id/editBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2196F3"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:text="Edit Profile"
+            android:textColor="@android:color/white"
+            tools:ignore="HardcodedText,TextContrastCheck" />
+
+
+    </LinearLayout>
+</FrameLayout>

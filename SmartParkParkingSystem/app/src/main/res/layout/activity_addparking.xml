@@ -1,121 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- BLUE HEADER -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wave"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"/>
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_icon"
+        app:tint="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2196F3"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
-
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_icon"
-            android:tint="@android:color/white"
-            tools:ignore="UseAppTint" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="30dp"
+        android:layout_marginTop="200dp">
 
         <TextView
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Parking"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp"
+            android:layout_gravity="center_horizontal"
             tools:ignore="HardcodedText" />
-    </LinearLayout>
 
-    <!-- CONTENT -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <!-- Slot Name (editable here) -->
+            android:layout_height="60dp"
+            android:layout_marginTop="4dp"
+            android:hint="Slot Name"
+            app:boxStrokeColor="@color/blue_500">
             <EditText
                 android:id="@+id/addSlotName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#004AAD"
+                android:importantForAutofill="no"
+                android:inputType="textCapSentences"
+                android:minHeight="48dp"
                 android:padding="12dp"
-                android:background="@android:drawable/edit_text"
-                android:hint="Slot Name (e.g. A1)"
-                android:inputType="textCapCharacters"
+                android:hint="Slot Name"
                 android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                android:textColorHint="@color/black"
+                android:maxLength="3"
+                android:digits="0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Location -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="4dp"
+            android:hint="Location"
+            app:boxStrokeColor="@color/blue_500">
+
             <EditText
                 android:id="@+id/addLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#004AAD"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="48dp"
                 android:padding="12dp"
-                android:background="@android:drawable/edit_text"
-                android:hint="Location (e.g. Block A, Level 2)"
-                android:inputType="textCapWords"
+                android:hint="Location"
                 android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                android:textColorHint="@color/black"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Parking Type -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="4dp"
+            android:hint="Type"
+            app:boxStrokeColor="@color/blue_500">
+
             <EditText
                 android:id="@+id/addType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#004AAD"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="48dp"
                 android:padding="12dp"
-                android:background="@android:drawable/edit_text"
-                android:hint="Parking Type (Car / Motorcycle / VIP)"
-                android:inputType="textCapWords"
+                android:hint="Type"
                 android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                android:textColorHint="@color/black"/>
 
-            <!-- Status -->
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="4dp"
+            android:hint="Status"
+            app:boxStrokeColor="@color/blue_500">
+
             <EditText
                 android:id="@+id/addStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#004AAD"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="48dp"
                 android:padding="12dp"
-                android:background="@android:drawable/edit_text"
-                android:hint="Status (Available / Full / Reserved)"
-                android:inputType="textCapWords"
+                android:hint="Status"
                 android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                android:textColorHint="@color/black"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Plate Number -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="4dp"
+            android:hint="Plate Number (if reserved)"
+            app:boxStrokeColor="@color/blue_500">
             <EditText
                 android:id="@+id/addPlateNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#004AAD"
+                android:importantForAutofill="no"
+                android:inputType="textCapSentences"
+                android:minHeight="48dp"
                 android:padding="12dp"
-                android:background="@android:drawable/edit_text"
-                android:hint="Plate Number (if occupied)"
-                android:inputType="textCapCharacters"
-                android:maxLength="10"
+                android:hint="Plate Number (if reserved)"
                 android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
-
+                android:textColorHint="@color/black"
+                android:digits="0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
+                android:maxLength="10"/>
+        </com.google.android.material.textfield.TextInputLayout>
             <!-- Add Button -->
             <Button
+                android:layout_marginTop="10dp"
                 android:id="@+id/btnAddParking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,5 +188,4 @@
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</FrameLayout>

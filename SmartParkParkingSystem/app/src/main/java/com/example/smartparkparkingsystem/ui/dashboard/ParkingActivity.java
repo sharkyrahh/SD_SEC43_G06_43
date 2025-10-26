@@ -30,7 +30,7 @@ public class ParkingActivity extends AppCompatActivity {
     private List<Parking> parkingList;
     private ImageView backButton;
 
-    private CardView addParkingBtn;
+    private CardView addParkingBtn, openStatus;
     private TextView avCount, fulCount, resCount;
 
     private DatabaseReference parkingRef;
@@ -48,6 +48,7 @@ public class ParkingActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rvParking);
         addParkingBtn = findViewById(R.id.addParking);
+        openStatus = findViewById(R.id.openStatus);
         backButton = findViewById(R.id.backButton);
         avCount = findViewById(R.id.avCount);
         fulCount = findViewById(R.id.fullCount);
@@ -71,6 +72,10 @@ public class ParkingActivity extends AppCompatActivity {
 
         addParkingBtn.setOnClickListener(v -> {
             startActivity(new Intent(ParkingActivity.this, AddParkingActivity.class));
+        });
+
+        openStatus.setOnClickListener(v-> {
+            startActivity(new Intent(ParkingActivity.this, StatusAdminActivity.class));
         });
 
         backButton.setOnClickListener(v -> finish());

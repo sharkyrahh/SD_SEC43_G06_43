@@ -1,75 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- HEADER -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wave"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"/>
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_icon"
+        app:tint="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2196F3"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp">
-
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_icon"
-            app:tint="@color/white" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="30dp"
+        android:layout_marginTop="200dp">
 
         <TextView
+            android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" SmartPark Parking System"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:text="Change Password"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            tools:ignore="HardcodedText" />
 
-    <!-- SCROLLABLE CONTENT -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:padding="24dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/btnChangePassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change Your Password here !"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/black"/>
-
-            <EditText
+        <EditText
                 android:id="@+id/pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Your Old Password"
+                android:hint="Old Password"
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:background="@android:drawable/edit_text"
                 android:layout_marginBottom="20dp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/grey"/>
+                android:textColorHint="@color/grey"
+                android:layout_marginTop="20dp"/>
 
             <EditText
                 android:id="@+id/newpass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Your New Pass"
+                android:hint="New Password"
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:background="@android:drawable/edit_text"
@@ -81,7 +72,7 @@
                 android:id="@+id/newpass1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Confirm Your New Pass"
+                android:hint="Confirm New Password"
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:background="@android:drawable/edit_text"
@@ -98,5 +89,4 @@
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</FrameLayout>
