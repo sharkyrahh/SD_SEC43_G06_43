@@ -24,7 +24,6 @@ public class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app");
         rfidRef = database.getReference("RFID");
         rfidRef.child("registerMode").setValue(true);
@@ -37,30 +36,25 @@ public class ScanActivity extends AppCompatActivity {
         rfidRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get ALL data at once to ensure consistency
+
                 Boolean scanActive = dataSnapshot.child("scanActive").getValue(Boolean.class);
                 String uid = dataSnapshot.child("UID").getValue(String.class);
 
-                // Debug: Print what we received
                 System.out.println("SCAN_ACTIVE: " + scanActive);
                 System.out.println("UID: " + uid);
                 System.out.println("IS_SCANNING: " + isScanning);
 
-                // Check conditions
                 if (scanActive != null && scanActive == true &&
                         uid != null && !uid.isEmpty() &&
                         isScanning) {
 
-                    // Immediately block further scans
                     isScanning = false;
 
-                    // Go to next activity
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("CARD_UID", uid);
                     setResult(RESULT_OK, resultIntent);
                     finish();
 
-                    // Clear the Firebase data to prevent re-triggering
                     rfidRef.child("registerMode").setValue(false);
                     rfidRef.child("scanActive").setValue(false);
                     rfidRef.child("UID").setValue("");
@@ -77,10 +71,8 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Reset scanning when returning to this activity
         isScanning = true;
 
-        // Clear any old data in Firebase
         if (rfidRef != null) {
             rfidRef.child("scanActive").setValue(false);
             rfidRef.child("UID").setValue("");

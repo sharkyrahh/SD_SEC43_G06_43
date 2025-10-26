@@ -40,11 +40,10 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     public void onBindViewHolder(@NonNull ParkingViewHolder holder, int position) {
         Parking parking = parkingList.get(position);
 
-        // Set both name and status
+
         holder.tvName.setText(parking.getName());
         holder.tvStatus.setText(parking.getStatus());
 
-        // Set status color with null safety
         String status = parking.getStatus();
         if (status != null) {
             switch (status) {

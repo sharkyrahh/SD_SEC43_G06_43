@@ -39,16 +39,12 @@ public class AdminProfileFragment extends Fragment {
         primaryEmailText = view.findViewById(R.id.primaryEmailText);
         secondaryEmailText = view.findViewById(R.id.secondaryEmailText);
 
-
-        // Set click listener for back button
         backButton.setOnClickListener(v -> {
-            // Go back to previous fragment
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-        // Initialize Database with your project URL
         roleRef = FirebaseDatabase.getInstance(
                 "https://utm-smartparkparkingsystem-default-rtdb.asia-southeast1.firebasedatabase.app/"
         ).getReference("Role");
@@ -70,14 +66,12 @@ public class AdminProfileFragment extends Fragment {
                         String phone = child.child("Phonenumber").getValue(String.class);
                         String gender = child.child("Gender").getValue(String.class);
 
-                        // Handle employeeid safely (could be Long or String)
                         String employeeId = "";
                         Object empIdObj = child.child("employeeid").getValue();
                         if (empIdObj != null) {
                             employeeId = String.valueOf(empIdObj);
                         }
 
-                        // Set values to UI
                         adminNameText.setText(fullname != null ? fullname : "N/A");
                         courseText.setText(role != null ? role : "N/A");
                         Adminemail.setText(email != null ? email : "N/A");

@@ -24,11 +24,10 @@ public class ChangePassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_pass); // points to your pass.xml
+        setContentView(R.layout.activity_change_pass);
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Views
         oldPassInput = findViewById(R.id.pass);
         newPassInput = findViewById(R.id.newpass);
         confirmPassInput = findViewById(R.id.newpass1);
@@ -66,11 +65,11 @@ public class ChangePassActivity extends AppCompatActivity {
             return;
         }
 
-        // Reauthenticate with old password
+
         AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPass);
         user.reauthenticate(credential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Now update to new password
+
                 user.updatePassword(newPass).addOnCompleteListener(updateTask -> {
                     if (updateTask.isSuccessful()) {
                         Toast.makeText(ChangePassActivity.this,

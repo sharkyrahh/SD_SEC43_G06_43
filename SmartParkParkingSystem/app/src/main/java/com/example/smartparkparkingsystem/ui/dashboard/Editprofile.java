@@ -20,32 +20,31 @@ import java.util.Map;
 
 public class Editprofile extends AppCompatActivity {
 
-    private EditText editFullName, editPhone; // editPhone uses view id 'platenum' from XML
+    private EditText editFullName, editPhone;
     private Button btnSaveProfile, btnChangePassword;
     private ImageView backButton;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference roleRef; // points to Role/ID in RTDB
+    private DatabaseReference roleRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admineditprofile); // must match your XML filename
+        setContentView(R.layout.admineditprofile);
 
-        // Views (IDs must match your XML)
         editFullName      = findViewById(R.id.editFullName);
         editPhone         = findViewById(R.id.platenum);
         btnSaveProfile    = findViewById(R.id.btnSaveProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         backButton        = findViewById(R.id.backButton);
 
-        // Firebase
-        mAuth   = FirebaseAuth.getInstance(); // kept for Change Password flow
+
+        mAuth   = FirebaseAuth.getInstance();
         roleRef = FirebaseDatabase.getInstance(
                 "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
-        ).getReference("Role").child("ID"); // EXACT path you use for admin record
+        ).getReference("Role").child("ID");
 
-        // Load current admin profile from Role/ID
+
         roleRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
                 String currentName  = task.getResult().child("fullname").getValue(String.class);
@@ -58,10 +57,9 @@ public class Editprofile extends AppCompatActivity {
             }
         });
 
-        // Back
+
         backButton.setOnClickListener(v -> finish());
 
-        // Save changes (updates ONLY fullname & Phonenumber under Role/ID)
         btnSaveProfile.setOnClickListener(v -> {
             String fullName = editFullName.getText().toString().trim();
             String phone    = editPhone.getText().toString().trim();
@@ -84,8 +82,8 @@ public class Editprofile extends AppCompatActivity {
             }
 
             Map<String, Object> updates = new HashMap<>();
-            updates.put("fullname", fullName);      // EXACT key in your DB
-            updates.put("Phonenumber", phone);      // EXACT key in your DB (capital P)
+            updates.put("fullname", fullName);
+            updates.put("Phonenumber", phone);
 
             roleRef.updateChildren(updates).addOnCompleteListener(updTask -> {
                 if (updTask.isSuccessful()) {
@@ -98,7 +96,6 @@ public class Editprofile extends AppCompatActivity {
             });
         });
 
-        // Change Password (opens your existing screen)
         btnChangePassword.setOnClickListener(v ->
                 startActivity(new Intent(Editprofile.this, changeadminpass.class))
         );

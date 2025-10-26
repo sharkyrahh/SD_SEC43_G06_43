@@ -37,13 +37,11 @@ public class AdminActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        // Reference ke node Role/ID
         roleRef = FirebaseDatabase
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Role")
                 .child("ID");
 
-        // UI elements
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
@@ -52,25 +50,24 @@ public class AdminActivity extends AppCompatActivity {
 
         signInUserText.setPaintFlags(signInUserText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        // Forgot password navigation
         forgotPassButton.setOnClickListener(v ->
                 startActivity(new Intent(AdminActivity.this, ForgotPassActivity.class)));
 
-        // ===================== ADMIN LOGIN =====================
+
         signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
             if (!validateInputs(email, password)) return;
 
-            // Sign in with FirebaseAuth
+
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             FirebaseUser user = auth.getCurrentUser();
                             if (user != null) {
                                 if (user.isEmailVerified()) {
-                                    // Now check Role in database
+
                                     roleRef.get().addOnCompleteListener(roleTask -> {
                                         if (roleTask.isSuccessful() && roleTask.getResult().exists()) {
                                             DataSnapshot snapshot = roleTask.getResult();
@@ -97,7 +94,7 @@ public class AdminActivity extends AppCompatActivity {
                                         }
                                     });
                                 } else {
-                                    // Not verified yet → send verification email
+
                                     user.sendEmailVerification()
                                             .addOnCompleteListener(sendTask -> {
                                                 if (sendTask.isSuccessful()) {
@@ -120,9 +117,7 @@ public class AdminActivity extends AppCompatActivity {
                         }
                     });
         });
-        // ======================================================
 
-        // Button to go back to normal user login
         signInUserText.setOnClickListener(v ->
                 startActivity(new Intent(AdminActivity.this, MainActivity.class)));
     }

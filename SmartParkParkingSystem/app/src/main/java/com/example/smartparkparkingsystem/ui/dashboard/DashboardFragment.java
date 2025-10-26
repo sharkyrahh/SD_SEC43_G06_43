@@ -24,7 +24,7 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Inflate the layout
+
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         MaterialCardView cardViewUser = view.findViewById(R.id.card_view_user);
@@ -33,10 +33,6 @@ public class DashboardFragment extends Fragment {
         MaterialCardView cardLogs = view.findViewById(R.id.card_logs);
         MaterialCardView cardLogout = view.findViewById(R.id.card_logout);
 
-        // Setup Toolbar (if needed)
-      
-
-        // Click Listeners
         cardViewUser.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), UserListActivity.class));
         });
@@ -53,20 +49,17 @@ public class DashboardFragment extends Fragment {
             startActivity(new Intent(getActivity(), Adminprofile.class));
         });
 
-        // Logout Button
+
         cardLogout.setOnClickListener(v -> {
-            // Sign out from Firebase
+
             FirebaseAuth.getInstance().signOut();
 
-            // Toast message
             Toast.makeText(getContext(), "Logout successful", Toast.LENGTH_SHORT).show();
 
-            // Redirect to MainActivity (login screen)
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 
-            // Close current activity so user cannot go back
             if (getActivity() != null) {
                 getActivity().finish();
             }

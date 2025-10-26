@@ -32,22 +32,17 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
-        // Initialize views
         backButton = findViewById(R.id.backButton);
         recyclerView = findViewById(R.id.rvSlots);
 
-        // Setup back button
         backButton.setOnClickListener(v -> finish());
 
-        // Initialize RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize list and adapter
         slotList = new ArrayList<>();
         adapter = new slotsAdapter(this, slotList, this);
         recyclerView.setAdapter(adapter);
 
-        // Load data from Firebase
         loadParkingSlotsFromFirebase();
     }
 
@@ -61,11 +56,9 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
                 slotList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     try {
-                        // Check if this is a valid ParkingSlot object (has status field)
                         if (snapshot.hasChild("status")) {
                             ParkingSlot slot = snapshot.getValue(ParkingSlot.class);
                             if (slot != null) {
-                                // Set the name from Firebase key if needed
                                 if (slot.getName() == null || slot.getName().isEmpty()) {
                                     slot.setName(snapshot.getKey());
                                 }
@@ -90,8 +83,6 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
             }
         });
     }
-
-    // Alternative method: Manual field mapping (more robust)
     private void loadParkingSlotsManually() {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         databaseReference = database.getReference("Parking");
@@ -103,16 +94,13 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String slotName = snapshot.getKey();
 
-                    // Only process if it has the structure of a ParkingSlot
                     if (snapshot.hasChild("status")) {
-                        // Manually get each field to avoid conversion errors
                         String name = slotName;
                         String location = getStringValue(snapshot, "location");
                         String status = getStringValue(snapshot, "status");
                         String type = getStringValue(snapshot, "type");
                         String reservedby = getStringValue(snapshot, "reservedby");
 
-                        // Create ParkingSlot object manually
                         ParkingSlot slot = new ParkingSlot();
                         slot.setName(name);
                         slot.setLocation(location);
@@ -134,8 +122,6 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
             }
         });
     }
-
-    // Helper method to safely get string values from Firebase
     private String getStringValue(DataSnapshot snapshot, String key) {
         if (snapshot.hasChild(key)) {
             Object value = snapshot.child(key).getValue();
@@ -146,7 +132,6 @@ public class StatusActivity extends AppCompatActivity implements slotsAdapter.Li
         return "";
     }
 
-    // This method comes from slotsAdapter.Listener interface
     @Override
     public void onSlotClick(ParkingSlot slot) {
         // Handle when a parking slot is clicked

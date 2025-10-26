@@ -72,10 +72,7 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
                 break;
         }
 
-        // Set status text color based on status
         holder.tvSlotStatus.setTextColor(badgeColor);
-
-        // Set card background color - FIXED: using the CardView from holder
         holder.cardView.setCardBackgroundColor(cardBg);
 
         holder.itemView.setOnClickListener(v -> {
@@ -98,8 +95,6 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
             tvSlotCode = v.findViewById(R.id.tvSlotCode);
             tvSlotLocation = v.findViewById(R.id.tvSlotLocation);
             tvSlotStatus = v.findViewById(R.id.tvSlotStatus);
-
-            // FIX: The CardView is the root view, so we can cast it directly
             cardView = (CardView) v;
         }
     }

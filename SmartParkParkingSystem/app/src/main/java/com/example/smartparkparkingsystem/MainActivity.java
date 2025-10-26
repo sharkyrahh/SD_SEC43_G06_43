@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
     private Button signInButton, forgotPassButton, signUpButton;
-    private TextView msgLabel, signInAdminText; // changed to TextView
+    private TextView msgLabel, signInAdminText;
 
     private FirebaseAuth mAuth;
 
@@ -33,29 +33,24 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // UI elements
         emailEditText = findViewById(R.id.emaileditText);
         passwordEditText = findViewById(R.id.passwordeditText);
         signInButton = findViewById(R.id.signInButton);
         msgLabel = findViewById(R.id.msgLabel);
         signUpButton = findViewById(R.id.signupButton);
         forgotPassButton = findViewById(R.id.forgotpass);
-        signInAdminText = findViewById(R.id.signInAdminText); // now TextView
+        signInAdminText = findViewById(R.id.signInAdminText);
 
         signInAdminText.setPaintFlags(signInAdminText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-
-        // Navigate to SignUp page
         signUpButton.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, SignUp.class));
         });
 
-        // Forgot password navigation
         forgotPassButton.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ForgotPassActivity.class));
         });
 
-        // ===================== USER LOGIN =====================
         signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -81,14 +76,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
         });
-        // ======================================================
 
-        // ===================== ADMIN LOGIN AREA =====================
         signInAdminText.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AdminActivity.class);
             startActivity(intent);
         });
-        // ============================================================
     }
 
     private boolean validateInputs(String email, String password) {

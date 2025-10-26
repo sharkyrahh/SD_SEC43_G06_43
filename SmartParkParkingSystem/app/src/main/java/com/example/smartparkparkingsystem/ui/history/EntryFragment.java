@@ -49,7 +49,7 @@ public class EntryFragment extends Fragment {
     private void loadEntry() {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() == null) {
-            return; // Exit if no user is logged in
+            return;
         }
 
         String uid = mAuth.getCurrentUser().getUid();
@@ -58,13 +58,12 @@ public class EntryFragment extends Fragment {
         entryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<EntryLog> tempList = new ArrayList<>(); // Temporary list to hold entries in original order
+                List<EntryLog> tempList = new ArrayList<>();
 
                 for (DataSnapshot randomChildSnapshot : snapshot.getChildren()) {
-                    // Get the UID from the entry log
                     String entryUid = randomChildSnapshot.child("UID").getValue(String.class);
 
-                    // Only process entries that belong to the current user
+
                     if (uid.equals(entryUid)) {
                         String timestamp = randomChildSnapshot.child("timestamp").getValue(String.class);
                         String day = randomChildSnapshot.child("day").getValue(String.class);
@@ -76,7 +75,6 @@ public class EntryFragment extends Fragment {
                     }
                 }
 
-                // Clear the main list and add items in reverse order (most recent first)
                 entryList.clear();
                 for (int i = tempList.size() - 1; i >= 0; i--) {
                     entryList.add(tempList.get(i));
@@ -84,7 +82,6 @@ public class EntryFragment extends Fragment {
 
                 adapter.notifyDataSetChanged();
 
-                // Optional: Show message if no entries found
                 if (entryList.isEmpty()) {
                     Toast.makeText(getContext(), "No entry logs found for your account", Toast.LENGTH_SHORT).show();
                 }
@@ -95,11 +92,10 @@ public class EntryFragment extends Fragment {
                 Toast.makeText(getContext(), "Failed to load entry logs: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    } // <-- This closing brace was missing
+    }
 
     public void onItemClick(View view, int position) {
         if (getContext() != null) {
-            //Toast.makeText(getContext(), "Entry on " + dateList.get(position) + " at " + timeList.get(position), Toast.LENGTH_SHORT).show();
         }
     }
 

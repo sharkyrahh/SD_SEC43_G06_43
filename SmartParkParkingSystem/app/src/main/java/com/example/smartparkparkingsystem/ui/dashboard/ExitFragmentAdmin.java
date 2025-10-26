@@ -55,7 +55,7 @@ public class ExitFragmentAdmin extends Fragment {
                     String timestamp = randomChildSnapshot.child("timestamp").getValue(String.class);
 
                     if (timestamp != null) {
-                        // Single level data
+
                         String day = randomChildSnapshot.child("day").getValue(String.class);
                         String date = randomChildSnapshot.child("date").getValue(String.class);
                         String plate = randomChildSnapshot.child("plateNum").getValue(String.class);
@@ -64,7 +64,7 @@ public class ExitFragmentAdmin extends Fragment {
                             tempList.add(new ExitLog(timestamp, day, date, plate));
                         }
                     } else {
-                        // Nested data
+
                         for (DataSnapshot exitSnapshot : randomChildSnapshot.getChildren()) {
                             timestamp = exitSnapshot.child("timestamp").getValue(String.class);
                             String day = exitSnapshot.child("day").getValue(String.class);
@@ -78,7 +78,7 @@ public class ExitFragmentAdmin extends Fragment {
                     }
                 }
 
-                // Reverse the list for most recent first
+
                 for (int i = tempList.size() - 1; i >= 0; i--) {
                     exitList.add(tempList.get(i));
                 }
@@ -88,7 +88,7 @@ public class ExitFragmentAdmin extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
+
             }
         });
     }
@@ -137,8 +137,6 @@ public class ExitFragmentAdmin extends Fragment {
             holder.date.setText(exitLog.date);
             holder.plate.setText(exitLog.plate);
 
-            // Open detail view
-            //holder.itemView.setOnClickListener(v -> showUserDetail(user));
 
         }
 

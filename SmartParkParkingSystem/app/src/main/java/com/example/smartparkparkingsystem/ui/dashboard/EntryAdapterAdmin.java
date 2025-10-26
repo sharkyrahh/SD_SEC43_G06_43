@@ -18,13 +18,11 @@ public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.En
     private List<EntryFragmentAdmin.EntryLog> entryList;
     private LayoutInflater mInflater;
 
-    // data is passed into the constructor
     public EntryAdapterAdmin(Context context, List<EntryFragmentAdmin.EntryLog> entryList) {
         this.mInflater = LayoutInflater.from(context);
         this.entryList = entryList;
     }
 
-    // inflates the row layout from xml when needed
     @NonNull
     @Override
     public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,7 +30,6 @@ public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.En
         return new EntryViewHolder(view);
     }
 
-    // binds the data to the TextViews in each row
     @Override
     public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
         EntryFragmentAdmin.EntryLog entryLog = entryList.get(position);
@@ -42,7 +39,6 @@ public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.En
         holder.textDay.setText(entryLog.day);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return entryList.size();
@@ -53,7 +49,6 @@ public class EntryAdapterAdmin extends RecyclerView.Adapter<EntryAdapterAdmin.En
         notifyDataSetChanged();
     }
 
-    // stores and recycles views as they are scrolled off screen
     public class EntryViewHolder extends RecyclerView.ViewHolder {
         TextView textDate, textTime, textPlate, textDay;
 

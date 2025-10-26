@@ -19,13 +19,11 @@ public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder
     private List<ExitFragmentAdmin.ExitLog> exitList;
     private LayoutInflater mInflater;
 
-    // data is passed into the constructor
     public ExitAdapter(Context context, List<ExitFragmentAdmin.ExitLog> exitList) {
         this.mInflater = LayoutInflater.from(context);
         this.exitList = exitList;
     }
 
-    // inflates the row layout from xml when needed
     @NonNull
     @Override
     public ExitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,7 +31,6 @@ public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder
         return new ExitViewHolder(view);
     }
 
-    // binds the data to the TextViews in each row
     @Override
     public void onBindViewHolder(@NonNull ExitViewHolder holder, int position) {
         ExitFragmentAdmin.ExitLog exitLog = exitList.get(position);
@@ -42,7 +39,7 @@ public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder
         holder.textDay.setText(exitLog.day);
     }
 
-    // total number of rows
+
     @Override
     public int getItemCount() {
         return exitList.size();
@@ -53,7 +50,7 @@ public class ExitAdapter extends RecyclerView.Adapter<ExitAdapter.ExitViewHolder
         notifyDataSetChanged();
     }
 
-    // stores and recycles views as they are scrolled off screen
+
     public class ExitViewHolder extends RecyclerView.ViewHolder {
         TextView textDate, textTime, textPlate, textDay;
 

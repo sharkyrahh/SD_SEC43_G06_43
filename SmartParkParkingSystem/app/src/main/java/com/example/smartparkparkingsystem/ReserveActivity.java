@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** @noinspection ALL*/
 public class ReserveActivity extends AppCompatActivity {
 
     private slotsAdapter adapter;
@@ -40,11 +39,9 @@ public class ReserveActivity extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.rvReserveSlots);
         rv.setLayoutManager(new GridLayoutManager(this, 2));
 
-        // initialize adapter BEFORE loading data
         adapter = new slotsAdapter(this, list, this::handleSlotClick);
         rv.setAdapter(adapter);
 
-        // Firebase init
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         slotsRef = database.getReference("Parking");
         reservationsRef = database.getReference("reservations");
@@ -60,18 +57,15 @@ public class ReserveActivity extends AppCompatActivity {
                 list.clear();
                 for (DataSnapshot c : snapshot.getChildren()) {
                     try {
-                        // Check if this is a valid ParkingSlot object (has status field)
                         if (c.hasChild("status")) {
                             ParkingSlot s = c.getValue(ParkingSlot.class);
                             if (s != null) {
-                                // Set the name from Firebase key if needed
                                 if (s.getName() == null || s.getName().isEmpty()) {
                                     s.setName(c.getKey());
                                 }
                                 list.add(s);
                             }
                         } else {
-                            // Skip non-ParkingSlot objects (like Long values)
                             System.out.println("Skipping non-ParkingSlot data: " + c.getKey() + " = " + c.getValue());
                         }
                     } catch (Exception e) {
@@ -80,7 +74,6 @@ public class ReserveActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
 
-                // Show message if no slots found
                 if (list.isEmpty()) {
                     Toast.makeText(ReserveActivity.this, "No parking slots found", Toast.LENGTH_SHORT).show();
                 }

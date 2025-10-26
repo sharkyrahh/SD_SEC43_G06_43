@@ -75,8 +75,6 @@ public class UserListActivity extends AppCompatActivity {
         intent.putExtra("userId", user.id);
         startActivity(intent);
     }
-
-    // User model
     private static class User {
         String id, fullName, email;
 
@@ -86,8 +84,6 @@ public class UserListActivity extends AppCompatActivity {
             this.email = email;
         }
     }
-
-    // RecyclerView Adapter
     private class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
         ArrayList<User> users;
 
@@ -109,17 +105,14 @@ public class UserListActivity extends AppCompatActivity {
             holder.name.setText(user.fullName);
             holder.email.setText(user.email);
 
-            // Open detail view
             holder.itemView.setOnClickListener(v -> showUserDetail(user));
 
-            // Edit button -> open EditUserActivity
             holder.btnEdit.setOnClickListener(v -> {
                 Intent intent = new Intent(v.getContext(), EditUserActivity.class);
                 intent.putExtra("userId", user.id);
                 v.getContext().startActivity(intent);
             });
 
-            // Delete button -> confirm then delete
             holder.btnDelete.setOnClickListener(v -> {
                 new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
                         .setTitle("Delete User")

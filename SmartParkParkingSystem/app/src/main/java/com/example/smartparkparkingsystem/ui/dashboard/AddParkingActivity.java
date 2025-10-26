@@ -25,14 +25,12 @@ public class AddParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addparking);
 
-        // Initialize Firebase
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         parkingRef = database.getReference("Parking");
 
-        // Initialize views
         initViews();
 
-        // Set up click listeners
         setupClickListeners();
     }
 
@@ -53,14 +51,12 @@ public class AddParkingActivity extends AppCompatActivity {
     }
 
     private void addParkingSlot() {
-        // Get input values
         String slotName = addSlotName.getText().toString().trim();
         String location = addLocation.getText().toString().trim();
         String type = addType.getText().toString().trim();
         String status = addStatus.getText().toString().trim();
         String plateNumber = addPlateNumber.getText().toString().trim();
 
-        // Validate required fields
         if (slotName.isEmpty()) {
             addSlotName.setError("Slot name is required");
             addSlotName.requestFocus();
@@ -85,28 +81,27 @@ public class AddParkingActivity extends AppCompatActivity {
             return;
         }
 
-        // Validate status value
+
         if (!isValidStatus(status)) {
             addStatus.setError("Status must be: Available, Full, or Reserved");
             addStatus.requestFocus();
             return;
         }
 
-        // Create Parking object
+
         Parking parking = new Parking();
         parking.setName(slotName);
         parking.setLocation(location);
         parking.setType(type);
         parking.setStatus(status);
 
-        // Set reservedby field based on status and plate number
+
         if ("Reserved".equalsIgnoreCase(status) && !plateNumber.isEmpty()) {
             parking.setReservedby(plateNumber);
         } else {
-            parking.setReservedby(""); // Empty if not reserved or no plate number
+            parking.setReservedby("");
         }
 
-        // Save to Firebase
         saveParkingToFirebase(slotName, parking);
     }
 
@@ -118,22 +113,22 @@ public class AddParkingActivity extends AppCompatActivity {
     }
 
     private void saveParkingToFirebase(String slotName, Parking parking) {
-        // Check if slot already exists
+
         parkingRef.child(slotName).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().exists()) {
-                    // Slot already exists
+
                     Toast.makeText(AddParkingActivity.this,
                             "Parking slot " + slotName + " already exists!",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    // Slot doesn't exist, add new one
+
                     parkingRef.child(slotName).setValue(parking)
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(AddParkingActivity.this,
                                         "Parking slot added successfully!",
                                         Toast.LENGTH_SHORT).show();
-                                finish(); // Close activity after successful addition
+                                finish();
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(AddParkingActivity.this,

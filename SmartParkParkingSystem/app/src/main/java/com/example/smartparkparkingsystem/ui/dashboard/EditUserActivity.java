@@ -63,7 +63,6 @@ public class EditUserActivity extends AppCompatActivity {
                 }
         );
 
-        // Bind views
         backButton = findViewById(R.id.backButton);
         registerRFID = findViewById(R.id.btnRegisterRFID);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
@@ -77,7 +76,7 @@ public class EditUserActivity extends AppCompatActivity {
                 new InputFilter.LengthFilter(10)
         });
 
-        // Get userId from intent
+
         Intent intentUser = getIntent();
         userId = intentUser.getStringExtra("userId");
         if (!intentUser.hasExtra("userId")) {
@@ -97,10 +96,10 @@ public class EditUserActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
 
-        // Load existing user data
+
         loadUserData();
 
-        // Save changes
+
         btnSaveProfile.setOnClickListener(v -> saveChanges());
 
         Intent intentCard = new Intent(EditUserActivity.this, ScanActivity.class);
@@ -174,10 +173,10 @@ public class EditUserActivity extends AppCompatActivity {
 
         String originalEmail = (String) editEmail.getTag();
         if (originalEmail != null && !email.equals(originalEmail)) {
-            // Email was changed, check for duplicates
+
             checkEmailExists(fullName, email, uid, plateNumber);
         } else {
-            // Email not changed, proceed with save
+
             proceedWithSave(fullName, email, uid, plateNumber);
         }
     }
@@ -191,7 +190,6 @@ public class EditUserActivity extends AppCompatActivity {
                     boolean emailExists = false;
 
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        // Check if the email belongs to a different user (not the current one being edited)
                         if (!userSnapshot.getKey().equals(userId)) {
                             emailExists = true;
                             break;
@@ -251,37 +249,35 @@ public class EditUserActivity extends AppCompatActivity {
         }
 
     private void updateProfile(String fullName, String email, String uid, String plateNumber) {
-        // First update email in Firebase Authentication if it was changed
+
         String originalEmail = (String) editEmail.getTag();
         if (originalEmail != null && !email.equals(originalEmail)) {
             updateAuthEmail(email, fullName, uid, plateNumber);
         } else {
-            // Email not changed, just update database
             updateDatabaseProfile(fullName, email, uid, plateNumber);
         }
     }
 
     private void updateAuthEmail(String newEmail, String fullName, String dbUid, String plateNumber) {
-        // Get current user from Firebase Authentication
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
             user.updateEmail(newEmail)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            // Email updated in Authentication, now update database
                             updateDatabaseProfile(fullName, newEmail, dbUid, plateNumber);
                         } else {
-                            // Handle errors - often requires recent login
+
                             Exception exception = task.getException();
                             if (exception instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(EditUserActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
                             } else if (exception instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(EditUserActivity.this, "Email is already in use", Toast.LENGTH_SHORT).show();
                             } else if (exception instanceof FirebaseAuthRecentLoginRequiredException) {
-                                // User needs to re-authenticate
+
                                 Toast.makeText(EditUserActivity.this, "Please re-login to change email", Toast.LENGTH_SHORT).show();
-                                // You might want to redirect to login page here
+
                             } else {
                                 Toast.makeText(EditUserActivity.this, "Failed to update email: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -299,15 +295,15 @@ public class EditUserActivity extends AppCompatActivity {
         updates.put("cardUID", uid);
         updates.put("plateNumber", plateNumber);
 
-        // Save to Firebase Database
+
         userRef.updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(EditUserActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                    // Go back to UserListActivity after saving
+
                     Intent intent = new Intent(EditUserActivity.this, UserListActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    finish(); // close EditUserActivity
+                    finish();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(EditUserActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()

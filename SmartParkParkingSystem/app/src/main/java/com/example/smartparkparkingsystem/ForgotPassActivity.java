@@ -13,11 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPassActivity extends AppCompatActivity {
-    // File for FORGOT PASSWORD
-    //Login button. Bila dah reset/forgot password, pergi balik Login Page.
-    //loginBtn = findViewById(R.id.loginBtn);
-    // loginBtn.setOnClickListener(v -> onBackPressed());
-    //onBackPressed basically just Back function
 
     private EditText emailInput;
     private Button resetButton;
@@ -31,17 +26,16 @@ public class ForgotPassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgotpassword);
 
-        // Initialize Firebase Auth
+
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize views
         emailInput = findViewById(R.id.emailInput);
         resetButton = findViewById(R.id.resetButton);
         backButton = findViewById(R.id.backButton);
 
         backButton.setOnClickListener(v -> finish());
 
-        // Reset password button logic
+
         resetButton.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
 
@@ -88,13 +82,11 @@ public class ForgotPassActivity extends AppCompatActivity {
                 return;
             }
 
-            // Firebase send password reset email
             mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task.getResult().getSignInMethods() != null &&
                             !task.getResult().getSignInMethods().isEmpty()) {
 
-                        // Email is registered - send reset email
                         mAuth.sendPasswordResetEmail(email).addOnCompleteListener(sendTask -> {
                             if (sendTask.isSuccessful()) {
                                 Toast.makeText(ForgotPassActivity.this,

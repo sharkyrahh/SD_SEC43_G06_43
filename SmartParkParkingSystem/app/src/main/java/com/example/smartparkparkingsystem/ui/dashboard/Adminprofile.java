@@ -33,7 +33,6 @@ public class Adminprofile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_profile);
 
-        // Initialize views
         adminNameText = findViewById(R.id.adminNameText);
         courseText = findViewById(R.id.courseText);
         Adminemail = findViewById(R.id.Adminemail);
@@ -46,13 +45,11 @@ public class Adminprofile extends AppCompatActivity {
 
         editBtn = findViewById(R.id.editBtn);
 
-        // Set Edit button action
         editBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Adminprofile.this, Editprofile.class);
             startActivity(intent);
         });
 
-        // ✅ Initialize Database with your project URL
         roleRef = FirebaseDatabase.getInstance(
                 "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
         ).getReference("Role");
@@ -72,14 +69,13 @@ public class Adminprofile extends AppCompatActivity {
                         String phone = child.child("Phonenumber").getValue(String.class);
                         String gender = child.child("Gender").getValue(String.class);
 
-                        // ✅ Handle employeeid safely (could be Long or String)
+
                         String employeeId = "";
                         Object empIdObj = child.child("employeeid").getValue();
                         if (empIdObj != null) {
                             employeeId = String.valueOf(empIdObj);
                         }
 
-                        // ✅ Set values to UI
                         adminNameText.setText(fullname != null ? fullname : "N/A");
                         courseText.setText(role != null ? role : "N/A");
                         Adminemail.setText(email != null ? email : "N/A");

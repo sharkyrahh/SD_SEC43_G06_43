@@ -2,23 +2,17 @@ package com.example.smartparkparkingsystem;
 
 import androidx.annotation.NonNull;
 
-/**
- * Model class for a parking slot.
- * Compatible with Firebase Realtime Database.
- */
 public class ParkingSlot {
 
-    private String name;        // Slot name (A1, A2, etc.) - matches Firebase
-    private String location;    // Location description
-    private String status;      // Available, Full, Reserved
-    private String type;        // Car, Motorcycle, VIP
-    private String reservedby;  // Plate number or reserved by info
+    private String name;
+    private String location;
+    private String status;
+    private String type;
+    private String reservedby;
 
-    // Required empty constructor for Firebase
     public ParkingSlot() {
     }
 
-    // Constructor for easy creation
     public ParkingSlot(String name, String location, String status, String type, String reservedby) {
         this.name = name;
         this.location = location;
@@ -27,7 +21,6 @@ public class ParkingSlot {
         this.reservedby = reservedby;
     }
 
-    // --- Getters and Setters ---
     public String getName() {
         return name;
     }
@@ -68,7 +61,6 @@ public class ParkingSlot {
         this.reservedby = reservedby;
     }
 
-    // --- Helper methods ---
     public boolean isAvailable() {
         return status != null && status.equalsIgnoreCase("available");
     }

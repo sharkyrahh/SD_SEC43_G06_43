@@ -35,7 +35,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editprofile);
 
-        // Initialize views
+
         editFullName = findViewById(R.id.editFullName);
         editPlateNum = findViewById(R.id.platenum);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
@@ -47,13 +47,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 new InputFilter.LengthFilter(10)
         });
 
-        // Firebase initialization
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(
                 "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/"
-        ).getReference("users"); // assuming your user nodes are under "users"
+        ).getReference("users");
 
-        // Load current data for logged-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
@@ -67,10 +66,10 @@ public class EditProfileActivity extends AppCompatActivity {
             });
         }
 
-        // Back button
+
         backButton.setOnClickListener(v -> finish());
 
-        // Save profile changes
+
         btnSaveProfile.setOnClickListener(v -> {
             String fullName = editFullName.getText().toString().trim();
             String plateNum = editPlateNum.getText().toString().trim();
@@ -95,7 +94,6 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Change password button
         btnChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(EditProfileActivity.this, ChangePassActivity.class);
             startActivity(intent);

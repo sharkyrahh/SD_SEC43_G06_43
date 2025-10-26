@@ -36,9 +36,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
 
-    // Hi, just nak remind : If nak letak java code untuk Homepage,
-    // please letak dekat HomeFragment !! Ni sepatutnya file untuk navigation.
-    // So apa2 dalam ni jangan kacau. Thankyou
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            FirebaseAuth.getInstance().signOut();  // ✅ log out from Firebase
+            FirebaseAuth.getInstance().signOut();
 
             Intent intent = new Intent(HomeActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -25,10 +25,7 @@ public class DashboardActivity extends AppCompatActivity { /* implements Navigat
 
     */private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
-/*
-    // CODE JAVA DEKAT DASHBOARDFRAGMENT BUKAN SINI
-    // jangan ubah file ni
-*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +61,7 @@ public class DashboardActivity extends AppCompatActivity { /* implements Navigat
         int id = item.getItemId();
 
         if (id == R.id.nav_logout2) {
-            FirebaseAuth.getInstance().signOut();  // ✅ log out from Firebase
+            FirebaseAuth.getInstance().signOut();
 
             Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

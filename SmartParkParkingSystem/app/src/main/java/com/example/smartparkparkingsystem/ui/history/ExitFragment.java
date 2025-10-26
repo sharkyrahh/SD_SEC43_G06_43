@@ -28,7 +28,7 @@ import java.util.List;
 public class ExitFragment extends Fragment {
 
     exitAdapter adapter;
-    private ArrayList<exitLog> exitList = new ArrayList<>(); // Use local exitLog
+    private ArrayList<exitLog> exitList = new ArrayList<>();
 
     private FirebaseAuth mAuth;
 
@@ -49,7 +49,7 @@ public class ExitFragment extends Fragment {
     private void loadExit() {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() == null) {
-            return; // Exit if no user is logged in
+            return;
         }
 
         String uid = mAuth.getCurrentUser().getUid();
@@ -58,13 +58,11 @@ public class ExitFragment extends Fragment {
         exitRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<exitLog> tempList = new ArrayList<>(); // Temporary list to hold entries in original order
+                List<exitLog> tempList = new ArrayList<>();
 
                 for (DataSnapshot randomChildSnapshot : snapshot.getChildren()) {
-                    // Get the UID from the exit log
                     String exitUid = randomChildSnapshot.child("UID").getValue(String.class);
 
-                    // Only process entries that belong to the current user
                     if (uid.equals(exitUid)) {
                         String timestamp = randomChildSnapshot.child("timestamp").getValue(String.class);
                         String day = randomChildSnapshot.child("day").getValue(String.class);
@@ -76,7 +74,6 @@ public class ExitFragment extends Fragment {
                     }
                 }
 
-                // Clear the main list and add items in reverse order (most recent first)
                 exitList.clear();
                 for (int i = tempList.size() - 1; i >= 0; i--) {
                     exitList.add(tempList.get(i));
@@ -84,7 +81,6 @@ public class ExitFragment extends Fragment {
 
                 adapter.notifyDataSetChanged();
 
-                // Optional: Show message if no entries found
                 if (exitList.isEmpty()) {
                     Toast.makeText(getContext(), "No exit logs found for your account", Toast.LENGTH_SHORT).show();
                 }
@@ -99,7 +95,6 @@ public class ExitFragment extends Fragment {
 
     public void onItemClick(View view, int position) {
         if (getContext() != null) {
-            //Toast.makeText(getContext(), "exit on " + dateList.get(position) + " at " + timeList.get(position), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -22,7 +22,7 @@ public class logout extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Use your existing fragment_logout.xml
+
         return inflater.inflate(R.layout.nav_header_home, container, false);
     }
 
@@ -30,18 +30,18 @@ public class logout extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // 1) Sign out
+
         FirebaseAuth.getInstance().signOut();
 
-        // 2) Toast
+
         Toast.makeText(requireContext(), "Logout successful", Toast.LENGTH_SHORT).show();
 
-        // 3) Go to Login (MainActivity) and clear back stack
+
         Intent intent = new Intent(requireContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
-        // 4) Finish the hosting activity so back can't return here
+
         requireActivity().finish();
     }
 }

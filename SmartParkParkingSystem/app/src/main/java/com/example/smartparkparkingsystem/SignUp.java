@@ -55,7 +55,6 @@ public class SignUp extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        // Initialize Firebase Auth & Database
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -90,7 +89,7 @@ public class SignUp extends AppCompatActivity {
                 new InputFilter.LengthFilter(4)
         });
 
-        // Navigate to login page
+
         loginLabel.setOnClickListener(v -> {
             Intent intent = new Intent(SignUp.this, MainActivity.class);
             startActivity(intent);
@@ -114,7 +113,7 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        // Sign up logic
+
         signUpButton.setOnClickListener(v -> {
             String name = fullNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
@@ -251,7 +250,6 @@ public class SignUp extends AppCompatActivity {
 
 
             if (!(name.isEmpty() && email.isEmpty() && password.isEmpty() && confirmPassword.isEmpty() && matricCard.isEmpty() && faculty.isEmpty() && plateNumber.isEmpty() && programCode.isEmpty())) {
-                // Firebase Auth SignUp
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -273,7 +271,6 @@ public class SignUp extends AppCompatActivity {
                                                             Toast.makeText(SignUp.this,
                                                                     "Sign up successful! Please verify your email.",
                                                                     Toast.LENGTH_LONG).show();
-                                                            // Move to VerifyEmailActivity
                                                             Intent intent = new Intent(SignUp.this, VerifyEmailActivity.class);
                                                             startActivity(intent);
                                                             finish();

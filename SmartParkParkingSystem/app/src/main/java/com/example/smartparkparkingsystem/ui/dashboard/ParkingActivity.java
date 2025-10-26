@@ -41,14 +41,11 @@ public class ParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize Firebase Database with your URL
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         parkingRef = database.getReference("Parking");
 
-        // Views
         recyclerView = findViewById(R.id.rvParking);
         addParkingBtn = findViewById(R.id.addParking);
         backButton = findViewById(R.id.backButton);
@@ -56,10 +53,9 @@ public class ParkingActivity extends AppCompatActivity {
         fulCount = findViewById(R.id.fullCount);
         resCount = findViewById(R.id.resCount);
 
-        // RecyclerView setup
         parkingList = new ArrayList<>();
         adapter = new ParkingAdapter(parkingList, this, parking -> {
-            // Pass the Name to ViewParkingActivity
+
             Intent intent = new Intent(ParkingActivity.this, ViewParkingActivity.class);
             intent.putExtra("parkingName", parking.getName());
             intent.putExtra("parkingStatus", parking.getStatus());
@@ -71,15 +67,12 @@ public class ParkingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        // Fetch data
         fetchParkingData();
 
-        // Add parking button click
         addParkingBtn.setOnClickListener(v -> {
             startActivity(new Intent(ParkingActivity.this, AddParkingActivity.class));
         });
 
-        // Back button
         backButton.setOnClickListener(v -> finish());
     }
 
@@ -93,9 +86,8 @@ public class ParkingActivity extends AppCompatActivity {
                 for (DataSnapshot parkingSpotSnapshot : snapshot.getChildren()) {
                     String parkingSpotName = parkingSpotSnapshot.getKey();
 
-                    // Check if this has the structure of a Parking object
                     if (parkingSpotSnapshot.hasChild("status")) {
-                        // Manually create Parking object to avoid conversion issues
+
                         Parking parking = new Parking();
                         parking.setName(parkingSpotName);
                         parking.setLocation(getStringValue(parkingSpotSnapshot, "location"));
@@ -105,7 +97,6 @@ public class ParkingActivity extends AppCompatActivity {
 
                         parkingList.add(parking);
 
-                        // Count status
                         String status = parking.getStatus();
                         if (status != null) {
                             if ("Available".equalsIgnoreCase(status)) {
@@ -117,7 +108,7 @@ public class ParkingActivity extends AppCompatActivity {
                             }
                         }
                     } else {
-                        // This is not a valid Parking object, skip it
+
                         System.out.println("Skipping invalid parking data: " + parkingSpotName);
                     }
                 }
@@ -135,7 +126,6 @@ public class ParkingActivity extends AppCompatActivity {
         });
     }
 
-    // Helper method to safely get string values from Firebase
     private String getStringValue(DataSnapshot snapshot, String key) {
         if (snapshot.hasChild(key)) {
             Object value = snapshot.child(key).getValue();

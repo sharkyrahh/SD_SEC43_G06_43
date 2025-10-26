@@ -38,10 +38,9 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Bind XML views
+
         welcomeText = view.findViewById(R.id.welcomeText);
         dateTimeText = view.findViewById(R.id.dateTimeText);
-       // parkingAvailability = view.findViewById(R.id.parkingAvailability);
         findParking = view.findViewById(R.id.findParking);
         bookParking = view.findViewById(R.id.bookParking);
 
@@ -55,13 +54,13 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        // Initialize Firebase
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase
                 .getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference();
 
-        // ✅ Show welcome with user's full name from DB
+
         if (mAuth.getCurrentUser() != null) {
             String userId = mAuth.getCurrentUser().getUid();
             mDatabase.child("users").child(userId).child("fullName")
@@ -75,7 +74,6 @@ public class HomeFragment extends Fragment {
                     });
         }
 
-        // ✅ Show current date & time
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
         String currentDateTime = sdf.format(new Date());
         dateTimeText.setText(currentDateTime);

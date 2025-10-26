@@ -26,17 +26,13 @@ public class EditParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editparking);
 
-        // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/");
         parkingRef = database.getReference("Parking");
 
-        // Initialize views
         initViews();
 
-        // Get data from intent
         getIntentData();
 
-        // Set up click listeners
         setupClickListeners();
     }
 
@@ -52,14 +48,13 @@ public class EditParkingActivity extends AppCompatActivity {
     }
 
     private void getIntentData() {
-        // Get parking data from intent
+
         originalSlotName = getIntent().getStringExtra("parkingName");
         String location = getIntent().getStringExtra("parkingLocation");
         String type = getIntent().getStringExtra("parkingType");
         String status = getIntent().getStringExtra("parkingStatus");
         String reservedBy = getIntent().getStringExtra("reservedBy");
 
-        // Set data to EditText fields
         if (originalSlotName != null) {
             editSlotName.setText(originalSlotName);
         }
@@ -93,14 +88,13 @@ public class EditParkingActivity extends AppCompatActivity {
     }
 
     private void updateParkingSlot() {
-        // Get updated values
+
         String newSlotName = editSlotName.getText().toString().trim();
         String location = editLocation.getText().toString().trim();
         String type = editType.getText().toString().trim();
         String status = editStatus.getText().toString().trim();
         String plateNumber = editPlateNumber.getText().toString().trim();
 
-        // Validate required fields
         if (newSlotName.isEmpty()) {
             editSlotName.setError("Slot name is required");
             editSlotName.requestFocus();
@@ -125,14 +119,14 @@ public class EditParkingActivity extends AppCompatActivity {
             return;
         }
 
-        // Validate status value
+
         if (!isValidStatus(status)) {
             editStatus.setError("Status must be: Available, Full, or Reserved");
             editStatus.requestFocus();
             return;
         }
 
-        // Create updated Parking object
+
         Parking parking = new Parking();
         parking.setName(newSlotName);
         parking.setLocation(location);
@@ -140,7 +134,6 @@ public class EditParkingActivity extends AppCompatActivity {
         parking.setStatus(status);
         parking.setReservedby("Reserved".equalsIgnoreCase(status) ? plateNumber : "");
 
-        // Update in Firebase
         updateParkingInFirebase(newSlotName, parking);
     }
 
@@ -158,7 +151,7 @@ public class EditParkingActivity extends AppCompatActivity {
         }
 
         if (originalSlotName.equals(newSlotName)) {
-            // Slot name didn't change, just update the data
+
             parkingRef.child(originalSlotName).setValue(parking)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(EditParkingActivity.this,
@@ -172,10 +165,9 @@ public class EditParkingActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     });
         } else {
-            // Slot name changed, need to delete old and create new
+
             parkingRef.child(newSlotName).setValue(parking)
                     .addOnSuccessListener(aVoid -> {
-                        // Delete the old slot
                         parkingRef.child(originalSlotName).removeValue()
                                 .addOnSuccessListener(aVoid1 -> {
                                     Toast.makeText(EditParkingActivity.this,

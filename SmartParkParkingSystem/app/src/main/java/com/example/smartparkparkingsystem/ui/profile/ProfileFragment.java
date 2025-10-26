@@ -33,15 +33,14 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        // Initialize Firebase Auth
+
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize Database with your project URL
+
         mDatabase = FirebaseDatabase.getInstance(
                         "https://utm-smartparking-system-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("users");
 
-        // Initialize Views
         fullNameText = view.findViewById(R.id.fullNameText);
         matricNumberText = view.findViewById(R.id.matricNumberText);
         programmeCodeText = view.findViewById(R.id.programmeCodeText);
@@ -51,7 +50,6 @@ public class ProfileFragment extends Fragment {
 
         editBtn = view.findViewById(R.id.editBtn);
 
-        // Set Edit button action
         editBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
@@ -70,7 +68,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        // Retrieve values from database
+
                         String fullName = snapshot.child("fullName").getValue(String.class);
                         String matricCard = snapshot.child("matricCard").getValue(String.class);
                         String programCode = snapshot.child("programCode").getValue(String.class);
@@ -78,7 +76,7 @@ public class ProfileFragment extends Fragment {
                         String email = snapshot.child("email").getValue(String.class);
                         String plateNumber = snapshot.child("plateNumber").getValue(String.class);
 
-                        // Set values to TextViews
+
                         fullNameText.setText(fullName != null ? fullName : "N/A");
                         matricNumberText.setText(matricCard != null ? matricCard : "N/A");
                         programmeCodeText.setText(programCode != null ? programCode : "N/A");
@@ -90,7 +88,6 @@ public class ProfileFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle database error
                 }
             });
         }

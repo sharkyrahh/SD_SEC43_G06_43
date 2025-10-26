@@ -24,11 +24,10 @@ public class changeadminpass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_pass); // reuse pass.xml
+        setContentView(R.layout.activity_change_pass);
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Match your pass.xml IDs
         oldPassInput = findViewById(R.id.pass);
         newPassInput = findViewById(R.id.newpass);
         confirmPassInput = findViewById(R.id.newpass1);

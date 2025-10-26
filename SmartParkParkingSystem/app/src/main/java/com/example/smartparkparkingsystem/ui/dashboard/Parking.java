@@ -4,14 +4,12 @@ public class Parking {
     private String name;
     private String location;
     private String status;
-    private String reservedby;  // Note: lowercase 'b' to match Firebase
+    private String reservedby;
     private String type;
 
-    // Required empty constructor
     public Parking() {
     }
 
-    // Getters and setters - field names must match Firebase exactly
     public String getName() {
         return name;
     }
