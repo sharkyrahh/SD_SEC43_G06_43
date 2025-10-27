@@ -212,7 +212,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvParking"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="650dp"
+            android:layout_weight="1"
             android:clipToPadding="false"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
