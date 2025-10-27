@@ -1,6 +1,7 @@
 package com.example.smartparkparkingsystem;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,15 +56,15 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
         int cardBg;
         switch (statusRaw) {
             case "available":
-                badgeColor = 0xFF4CAF50; // green
+                badgeColor = 0xFF4CAF50; 
                 cardBg = 0xFFE8F5E9;
                 break;
             case "full":
-                badgeColor = 0xFFE53935; // red
+                badgeColor = 0xFFE53935;
                 cardBg = 0xFFFFEBEE;
                 break;
             case "reserved":
-                badgeColor = 0xFFFB8C00; // orange
+                badgeColor = 0xFFFB8C00;
                 cardBg = 0xFFFFF3E0;
                 break;
             default:
@@ -74,6 +75,9 @@ public class slotsAdapter extends RecyclerView.Adapter<slotsAdapter.VH> {
 
         holder.tvSlotStatus.setTextColor(badgeColor);
         holder.cardView.setCardBackgroundColor(cardBg);
+
+        holder.tvSlotCode.setTextColor(0xFF000000);
+        holder.tvSlotLocation.setTextColor(0xFF777777);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onSlotClick(s);
