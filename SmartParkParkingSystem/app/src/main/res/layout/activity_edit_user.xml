@@ -43,7 +43,7 @@
             android:layout_gravity="center_horizontal"
             tools:ignore="HardcodedText" />
 
-        <!-- Full Name -->
+
         <EditText
             android:layout_marginTop="20dp"
             android:id="@+id/editFullName"
@@ -59,7 +59,7 @@
             tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
             android:digits="QWERTYUIOPASDFGHJKLZXCVBNM qwertyuiopasdfghjklzxcvbnm"/>
 
-        <!-- Email -->
+
         <EditText
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize"
             android:digits="1234567890.@QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"/>
 
-        <!-- Card UID -->
+
         <EditText
             android:id="@+id/cardUID"
             android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             android:textColorHint="@color/grey"
             tools:ignore="Autofill,Deprecated,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
-        <!-- Plate Number -->
+
         <EditText
             android:id="@+id/editPlateNumber"
             android:layout_width="match_parent"
@@ -104,7 +104,7 @@
             android:textColorHint="@color/grey"
             tools:ignore="Autofill,HardcodedText,TextContrastCheck,VisualLintTextFieldSize" />
 
-        <!-- Button Save -->
+
         <Button
             android:id="@+id/btnSaveProfile"
             android:layout_width="match_parent"
@@ -115,7 +115,7 @@
             android:text="Save Changes"
             android:textColor="@android:color/white"
             tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
-        <!-- Button Register -->
+
         <Button
             android:id="@+id/btnRegisterRFID"
             android:layout_width="match_parent"

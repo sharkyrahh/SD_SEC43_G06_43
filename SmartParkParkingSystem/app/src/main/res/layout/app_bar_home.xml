@@ -20,7 +20,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Title below the header (left aligned like Verify Email & Edit Profile) -->
+
     <TextView
         android:id="@+id/homeTitle"
         android:layout_width="wrap_content"

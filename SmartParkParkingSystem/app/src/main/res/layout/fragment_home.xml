@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="@android:color/white"
     tools:context=".MainActivity">
-    <!-- Greeting -->
 
     <ImageView
         android:layout_width="match_parent"
@@ -37,8 +36,6 @@
         android:paddingBottom="10dp"
         tools:ignore="HardcodedText" />
 
-    <!-- Date & Time -->
-
 
     <LinearLayout
         android:layout_marginTop="160dp"
@@ -48,7 +45,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="5dp">
-    <!-- Live Parking Availability -->
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,7 +116,6 @@
     </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-    <!-- Quick Action Buttons -->
     <GridLayout
         android:layout_marginTop="300dp"
         android:layout_width="match_parent"
@@ -129,7 +125,6 @@
         android:paddingRight="16dp"
         android:paddingBottom="5dp">
 
-        <!-- Find Parking -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -168,7 +163,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Book Parking -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -266,7 +260,7 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-    <!-- Tip / Info -->
+
     <TextView
         android:layout_marginTop="630dp"
         android:id="@+id/tipsText"

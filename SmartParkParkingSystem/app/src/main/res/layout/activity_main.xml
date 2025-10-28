@@ -29,7 +29,6 @@
         android:layout_marginTop="140dp">
 
 
-
         <TextView
             android:id="@+id/signupTitle"
             android:layout_width="match_parent"
@@ -138,7 +137,7 @@
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
-        <!-- Changed from Button to TextView -->
+
         <TextView
             android:id="@+id/signInAdminText"
             android:layout_width="match_parent"

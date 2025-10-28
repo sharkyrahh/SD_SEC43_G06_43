@@ -111,7 +111,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Parking -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -263,7 +262,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- VIEW PROFILE CARD -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_view_profile"
                     android:layout_width="0dp"
@@ -299,7 +298,7 @@
                 </com.google.android.material.card.MaterialCardView>
             </GridLayout>
 
-            <!-- LOG OUT CARD -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_logout"
                 android:layout_width="match_parent"

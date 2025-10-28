@@ -94,7 +94,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Parking Type -->
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -151,7 +151,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Plate Number -->
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -176,7 +176,7 @@
                 android:maxLength="10"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Save Changes -->
+
             <Button
                 android:id="@+id/btnSaveParking"
                 android:layout_width="match_parent"
@@ -187,7 +187,7 @@
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
 
-            <!-- Delete Parking -->
+
             <Button
                 android:id="@+id/btnDeleteParking"
                 android:layout_width="match_parent"

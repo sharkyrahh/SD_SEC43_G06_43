@@ -92,7 +92,7 @@
             android:textSize="16sp"
             android:padding="14dp" />
 
-        <!-- FORGOT PASSWORD TEXT -->
+
         <Button
             android:id="@+id/forgotPass"
             android:layout_width="match_parent"
@@ -104,7 +104,7 @@
             android:textSize="16sp"
             android:padding="14dp" />
 
-        <!-- USER SIGN IN TEXT -->
+
         <TextView
             android:id="@+id/signinusertext"
             android:layout_width="wrap_content"

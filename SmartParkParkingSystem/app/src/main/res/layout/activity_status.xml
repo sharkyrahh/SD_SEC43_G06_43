@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".StatusActivity">
 
-    <!-- Toolbar -->
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -42,7 +41,6 @@
             tools:ignore="HardcodedText" />
     </LinearLayout>
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSlots"
         android:layout_width="0dp"

@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".ReserveActivity">
 
-    <!-- Toolbar (kept as you had) -->
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -42,7 +41,6 @@
             tools:ignore="HardcodedText" />
     </LinearLayout>
 
-    <!-- RecyclerView: grid of parking slots -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReserveSlots"
         android:layout_width="0dp"

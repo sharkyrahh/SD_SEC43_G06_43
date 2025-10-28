@@ -41,7 +41,7 @@
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             tools:ignore="HardcodedText" />
-            <!-- Full Name -->
+
             <EditText
                 android:id="@+id/editFullName"
                 android:layout_width="match_parent"

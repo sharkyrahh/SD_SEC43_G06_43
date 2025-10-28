@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <!-- Header Bar -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -32,7 +32,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- RecyclerView for Users -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"

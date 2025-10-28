@@ -226,7 +226,6 @@
                 android:textColorHint="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Sign Up Button -->
         <Button
             android:id="@+id/signupButton"
             android:layout_width="match_parent"
@@ -239,7 +238,6 @@
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
-
 
         <TextView
             android:id="@+id/loginLabel"
