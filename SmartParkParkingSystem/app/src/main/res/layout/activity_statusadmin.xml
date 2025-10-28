@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".StatusAdminActivity">
 
+    <!-- Toolbar -->
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -26,20 +27,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back_icon"
-            android:tint="@android:color/white"
-            tools:ignore="ContentDescription,UseAppTint" />
+            app:tint="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"/>
 
         <TextView
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Parking Status"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            tools:ignore="HardcodedText" />
-    </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            tools:ignore="HardcodedText"
+            android:layout_marginTop="100dp"/>
+    </FrameLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSlots"
@@ -47,7 +51,7 @@
         android:layout_height="0dp"
         android:padding="12dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/wave"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

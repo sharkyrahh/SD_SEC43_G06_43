@@ -247,8 +247,5 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (parkingRef != null) {
-            parkingRef.removeEventListener((ValueEventListener) null);
-        }
     }
 }
