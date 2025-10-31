@@ -8,17 +8,20 @@
     android:layout_height="match_parent"
     tools:context=".StatusActivity">
 
-    <!-- Toolbar -->
-    <LinearLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/wave"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/wave"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        tools:ignore="MissingConstraints">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wave"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/backButton"
@@ -43,6 +46,7 @@
     </FrameLayout>
 
 
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSlots"
         android:layout_width="0dp"

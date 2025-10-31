@@ -1,8 +1,6 @@
-//Includes
 #include <MFRC522v2.h>
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
-#include <MFRC522Debug.h>
 #include <LiquidCrystal_I2C.h>
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
@@ -12,7 +10,6 @@
 #include <WiFiUdp.h>
 #include <ESP32Servo.h>
 
-//Defines
 #define WIFI_SSID "kira"
 #define WIFI_PASSWORD "54145414"
 #define API_KEY "AIzaSyA2H51yaBq0Gt2UmnmZhGiSarJz0DU5LJo"
@@ -28,7 +25,6 @@ FirebaseConfig config;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
 
-//global variables
 unsigned long sendDataPrevMills = 0;
 bool signupOK = false;
 bool wifiConnected = false;
@@ -42,65 +38,25 @@ bool registerMode;
 int parkingCount;
 static const int servoPin = 13;
 Servo servo1;
-bool servoMoving = false;
-int servoTarget = 0;
-unsigned long servoStartTime = 0;
-const long servoMoveTime = 1000;
 
-//functions for buzzer
-
-int melody[] = {
-  NOTE_Cs, NOTE_Gs, NOTE_Gs, NOTE_A, NOTE_Gs, 0, NOTE_Bb, NOTE_Cs
-};
-
-int noteDurations[] = {
-  4, 8, 8, 4, 4, 4, 4, 4
-};
-
-//Setup() function
 void setup() {
   Serial.begin(115200);
 
-  // initialize buzzer
   pinMode(BUZZER_PIN, OUTPUT);
   digitalWrite(BUZZER_PIN, LOW);
 
-  Serial.println("Testing buzzer...");
-  
-  // Test buzzer with debug messages
-  Serial.println("Buzzer: Playing test tone 1");
-  tone(BUZZER_PIN, 1000, 500);
-  delay(1000);
-  
-  Serial.println("Buzzer: Playing test tone 2");
-  tone(BUZZER_PIN, 1500, 500);
-  delay(1000);
-  
-  Serial.println("Buzzer: Test complete");
-  noTone(BUZZER_PIN);
-
-
-  // initialize servo
   servo1.attach(servoPin);
   servo1.write(90);
 
-  while (!Serial);
-
- // MFRC522Debug::PCD_DumpVersionToSerial(mfrc522, Serial); -- previous code, kept in case nak reuse
-
- // LCD start up message
   lcd.init();
   lcd.backlight();
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Initializing...");
 
-  // initialization, shows in serial monitor
-  // rfid
   mfrc522.PCD_Init();
   Serial.println("RFID Reader Initialized");
 
-  // wifi
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.println("Connecting to Wi-Fi");
 
@@ -119,7 +75,6 @@ void setup() {
     Serial.println("\nConnected to WiFi");
   }
 
-  // firebase
   config.api_key = API_KEY;
   config.database_url = DATABASE_URL;
   config.timeout.serverResponse = 120000;
@@ -135,12 +90,10 @@ void setup() {
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
-  // time ?? for timestamp
   timeClient.begin();
   timeClient.setTimeOffset(28800);  
   timeClient.setUpdateInterval(60000);
 
-  // to switch display states
   unsigned long currentMillis = millis();
     
   if (currentMillis - previousDisplayTime >= displayInterval) {
@@ -148,13 +101,11 @@ void setup() {
   }
 
   if (displayState == 0) {
-        // parking availability message
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Avail. Parking:");
         lcd.setCursor(0, 1);
 
-        // set available parking
         if (Firebase.RTDB.getInt(&fbdo, "/Parking/parkingCount")) {
         if (fbdo.dataType() == "int") {
         parkingCount = fbdo.intData();
@@ -163,7 +114,7 @@ void setup() {
         delay(2000);
         displayState = 1;
       } else {
-        // tap card message
+
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Please tap your");
@@ -174,22 +125,207 @@ void setup() {
       }
 }
 
-// buzzer funct
-void buzzerSuccess() {
-  tone(BUZZER_PIN, 1000, 200);
-  delay(300);
-  tone(BUZZER_PIN, 1500, 300);
+void buzzerEntry() {
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(200);
+  digitalWrite(BUZZER_PIN, LOW);
+  delay(100);
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(200);
+  digitalWrite(BUZZER_PIN, LOW);
+}
+
+void buzzerExit() {
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(100);
+  digitalWrite(BUZZER_PIN, LOW);
+  delay(50);
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(100);
+  digitalWrite(BUZZER_PIN, LOW);
+  delay(50);
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(100);
+  digitalWrite(BUZZER_PIN, LOW);
 }
 
 void buzzerError() {
-  tone(BUZZER_PIN, 300, 1000);
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(800);
+  digitalWrite(BUZZER_PIN, LOW);
 }
 
-void buzzerBeep() {
-  tone(BUZZER_PIN, 1000, 100);
+void checkForAppTap() {
+  if (Firebase.ready() && signupOK) {
+    if (Firebase.RTDB.getString(&fbdo, "/RFID/UID")) {
+      String appUid = fbdo.stringData();
+      
+      if (Firebase.RTDB.getBool(&fbdo, "/RFID/scanActive")) {
+        bool scanActive = fbdo.boolData();
+        
+        if (scanActive && appUid.length() > 0) {
+          Serial.println("App tap detected: " + appUid);
+          
+          processUid(appUid);
+          
+          Firebase.RTDB.setString(&fbdo, "/RFID/UID", "");
+          Firebase.RTDB.setBool(&fbdo, "/RFID/scanActive", false);
+        }
+      }
+    }
+  }
 }
 
-// time function for timestamp
+void processUid(String uidString) {
+  Serial.println("Processing UID: " + uidString);
+
+  if (registerMode){
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Card Scanned:");
+    lcd.setCursor(0, 1);
+
+    if (uidString.length() > 16) {
+      lcd.print(uidString.substring(0, 16));
+    } else {
+      lcd.print(uidString);
+    }
+
+    if (Firebase.ready() && signupOK && WiFi.status() == WL_CONNECTED) {
+      Firebase.RTDB.setBool(&fbdo, "RFID/scanActive", true);
+      
+      if(Firebase.RTDB.setString(&fbdo, "RFID/UID", uidString) && 
+         Firebase.RTDB.setString(&fbdo, "RFID/timestamp", getFormattedTime())) {
+        
+        Serial.println("Data sent to Firebase");
+        
+        delay(2000);
+        
+        Firebase.RTDB.setString(&fbdo, "RFID/UID", "");
+        Firebase.RTDB.setBool(&fbdo, "RFID/scanActive", false);
+      }
+    }
+  } else {
+    processCardAccess(uidString);
+  }
+}
+
+void processCardAccess(String uidString) {
+  if (Firebase.ready() && signupOK) {
+    String cardPath = "cards/" + uidString;
+
+    if (Firebase.RTDB.get(&fbdo, cardPath.c_str())) {
+      if (fbdo.dataType() == "null") {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Entry Denied");
+        buzzerError(); 
+        delay(2000);
+      } else { 
+        String enteredPath = cardPath + "/hasEntered";
+        if (Firebase.RTDB.getBool(&fbdo, enteredPath.c_str())){
+          bool hasEntered = fbdo.boolData();
+          
+          String userUID;
+          String UIDpath = cardPath + "/UID";
+          if (Firebase.RTDB.getString(&fbdo, UIDpath.c_str())){
+            userUID = fbdo.stringData();
+          }
+
+          String plateNum;
+          String plateNumPath = cardPath + "/plateNum";
+          if (Firebase.RTDB.get(&fbdo, plateNumPath.c_str())){
+            plateNum = fbdo.stringData();
+          }
+
+          String randomChild = generateRandomChildName();
+
+          if (hasEntered){
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Exit Success");
+            buzzerExit();
+
+            String userSlot = findReservedSlot(userUID);
+            if (userSlot != "") {
+              Firebase.RTDB.setString(&fbdo, "/Parking/" + userSlot + "/status", "Available");
+              Firebase.RTDB.setString(&fbdo, "/Parking/" + userSlot + "/reservedBy", "");
+            }
+
+            servo1.write(0);  
+            delay(1000); 
+            Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), false);
+            parkingCount = parkingCount + 1;
+            Firebase.RTDB.setInt(&fbdo, "Parking/parkingCount", parkingCount);
+
+            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/UID", userUID);
+            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/timestamp", getFormattedTime());
+            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/day", getDayOfWeek());
+            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/date", getFormattedDate());
+            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/plateNum", plateNum);
+
+            servo1.write(90); 
+            delay(1000); 
+            
+          } else {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Entry Success");
+            buzzerEntry();
+
+            String hasReservePath = "users/" + userUID + "/hasReserve";
+            if (Firebase.RTDB.getBool(&fbdo, hasReservePath.c_str())) {
+              bool hasReserve = fbdo.boolData();
+              
+              if (hasReserve) {
+                String reservedSlot = findReservedSlot(userUID);
+                if (reservedSlot != "") {
+                  Firebase.RTDB.setString(&fbdo, "/Parking/" + reservedSlot + "/status", "Full");
+                  lcd.setCursor(0, 1);
+                  lcd.print("Reserved: " + reservedSlot);
+                }
+              } else {
+                String availableSlot = findAvailableSlot();
+                if (availableSlot != "") {
+                  Firebase.RTDB.setString(&fbdo, "/Parking/" + availableSlot + "/status", "Full");
+                  Firebase.RTDB.setString(&fbdo, "/Parking/" + availableSlot + "/reservedBy", userUID);
+                } 
+              }
+            }
+
+            servo1.write(0); 
+            delay(1000); 
+
+            Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), true);
+            parkingCount = parkingCount - 1;
+            Firebase.RTDB.setInt(&fbdo, "Parking/parkingCount", parkingCount);
+
+            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/UID", userUID);
+            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/timestamp", getFormattedTime());
+            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/day", getDayOfWeek());
+            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/date", getFormattedDate());
+            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/plateNum", plateNum);
+
+            servo1.write(90); 
+            delay(1000); 
+          } 
+              
+          lcd.setCursor(0, 1);
+          lcd.print(plateNum);
+          delay(2000);
+        } 
+      }
+    } else { 
+      Serial.println("Database error or no cards: " + fbdo.errorReason());
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Entry Denied");
+      buzzerError(); 
+      delay(2000); 
+    }
+  }
+}
+
 String getFormattedTime() {
   timeClient.update();
   
@@ -217,7 +353,6 @@ String getFormattedDate() {
   
   unsigned long epochTime = timeClient.getEpochTime() - TIME_OFFSET;
   
-  // Convert epoch time to date
   time_t rawTime = (time_t)epochTime;
   struct tm *timeInfo = localtime(&rawTime);
   
@@ -233,12 +368,11 @@ String getFormattedDate() {
 String generateRandomChildName() {
   String randomName = "";
   for (int i = 0; i < 16; i++) {
-    randomName += char(random(65, 91)); // A-Z
+    randomName += char(random(65, 91)); 
   }
   return randomName;
 }
 
-// get registerMode bool from database
 void readRegisterMode() {
   if (Firebase.ready() && signupOK) {
     if (Firebase.RTDB.getBool(&fbdo, "/RFID/registerMode")) {
@@ -251,9 +385,66 @@ void readRegisterMode() {
   }
 }
 
-// loop function
+String findReservedSlot(String userUID) {
+  if (Firebase.ready() && signupOK) {
+    if (Firebase.RTDB.getJSON(&fbdo, "/Parking")) {
+      FirebaseJson *json = fbdo.jsonObjectPtr();
+      
+      size_t count = json->iteratorBegin();
+      for (size_t i = 0; i < count; i++) {
+        int type;
+        String key;
+        String value;
+        
+        if (json->iteratorGet(i, type, key, value) == 0) {
+
+          if (type == FirebaseJson::JSON_OBJECT) {
+            String reservedPath = "/Parking/" + key + "/reservedBy";
+            if (Firebase.RTDB.getString(&fbdo, reservedPath.c_str())) {
+              if (fbdo.stringData() == userUID) {
+                json->iteratorEnd();
+                return key; 
+              }
+            }
+          }
+        }
+      }
+      json->iteratorEnd();
+    }
+  }
+  return ""; 
+}
+
+String findAvailableSlot() {
+  if (Firebase.ready() && signupOK) {
+    if (Firebase.RTDB.getJSON(&fbdo, "/Parking")) {
+      FirebaseJson *json = fbdo.jsonObjectPtr();
+      
+      size_t count = json->iteratorBegin();
+      for (size_t i = 0; i < count; i++) {
+        int type;
+        String key;
+        String value;
+        
+        if (json->iteratorGet(i, type, key, value) == 0) {
+          if (type == FirebaseJson::JSON_OBJECT) {
+            String statusPath = "/Parking/" + key + "/status";
+            if (Firebase.RTDB.getString(&fbdo, statusPath.c_str())) {
+              if (fbdo.stringData() == "available") {
+                json->iteratorEnd();
+                return key; 
+              }
+            }
+          }
+        }
+      }
+      json->iteratorEnd();
+    }
+  }
+  return "";
+}
+
 void loop() {
-  // in case wifi disconnected
   if (!wifiConnected) {
     if (WiFi.status() == WL_CONNECTED) {
       wifiConnected = true;
@@ -263,89 +454,79 @@ void loop() {
     return;
   }
 
-  // read registerMode
-   static unsigned long lastReadTime = 0;
+  static unsigned long lastReadTime = 0;
   if (millis() - lastReadTime > 1000) {
     readRegisterMode();
     lastReadTime = millis();
   }
 
-  // initialize rfid i think
   static unsigned long lastReset = 0;
   if (millis() - lastReset > 5000) {
     mfrc522.PCD_Init();
-    lastReset = millis();
+  lastReset = millis();
   }
 
-  // registerMode code
-  if(registerMode){
+  checkForAppTap();
+   
+ if(registerMode){
     if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
-
       unsigned long currentMillis = millis();
       if (displayState == 0) {
-      if (currentMillis - previousDisplayTime >= 2000) { // Show parking for 2 seconds
-        previousDisplayTime = currentMillis;
-        lcd.clear();
-         lcd.setCursor(0, 0);
+        if (currentMillis - previousDisplayTime >= 2000) { 
+          previousDisplayTime = currentMillis;
+          lcd.clear();
+          lcd.setCursor(0, 0);
           lcd.print("Register RFID");
           lcd.setCursor(0, 1);
           lcd.print("Card");
-        displayState = 1;
-      }
-    } else {
-      if (currentMillis - previousDisplayTime >= 2000) { // Show tap card for 2 seconds
-        previousDisplayTime = currentMillis;
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Please tap your");
-        lcd.setCursor(0, 1);
-        lcd.print("card.");
-        displayState = 0;
-      }
-    }
-    return;
+          displayState = 1;
         }
-  }
-
-
-  // normal mode code
-  else{
-  // Only proceed if new card
-  if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
-
-  unsigned long currentMillis = millis();
-
-  if (displayState == 0) {
-      if (currentMillis - previousDisplayTime >= 2000) { // Show parking for 2 seconds
-        previousDisplayTime = currentMillis;
-        lcd.clear();
+      } else {
+        if (currentMillis - previousDisplayTime >= 2000) { 
+          previousDisplayTime = currentMillis;
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("Please tap your");
+          lcd.setCursor(0, 1);
+          lcd.print("card.");
+          displayState = 0;
+        }
+      }
+      return;
+    }
+  } else {
+    if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+      unsigned long currentMillis = millis();
+      if (displayState == 0) {
+        if (currentMillis - previousDisplayTime >= 2000) { 
+          previousDisplayTime = currentMillis;
+          lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("Avail. Parking:");
           lcd.setCursor(0, 1);
-
-          // set parking count
           if (Firebase.RTDB.getInt(&fbdo, "/Parking/parkingCount")) {
-          if (fbdo.dataType() == "int") {
-          parkingCount = fbdo.intData();
-          lcd.print(parkingCount);}}
-        displayState = 1;
+            if (fbdo.dataType() == "int") {
+              parkingCount = fbdo.intData();
+              lcd.print(parkingCount);
+            }
+          }
+          displayState = 1;
+        }
+      } else {
+        if (currentMillis - previousDisplayTime >= 2000) { 
+          previousDisplayTime = currentMillis;
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("Please tap your");
+          lcd.setCursor(0, 1);
+          lcd.print("card.");
+          displayState = 0;
+        }
       }
-    } else {
-      if (currentMillis - previousDisplayTime >= 2000) { // Show tap card for 2 seconds
-        previousDisplayTime = currentMillis;
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Please tap your");
-        lcd.setCursor(0, 1);
-        lcd.print("card.");
-        displayState = 0;
-      }
+      return;
     }
-    return;
-  }
   }
 
-  // Read UID
   String uidString = "";
   for (byte i = 0; i < mfrc522.uid.size; i++) {
     if (mfrc522.uid.uidByte[i] < 0x10) uidString += "0";
@@ -353,146 +534,41 @@ void loop() {
   }
 
   mfrc522.PICC_HaltA();
-
   Serial.println("Scanned UID: " + uidString);
 
-  // RegisterMode = send UID to database
   if (registerMode){
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Card Scanned:");
     lcd.setCursor(0, 1);
-    
-    // Display first 16 characters of UID
+
     if (uidString.length() > 16) {
       lcd.print(uidString.substring(0, 16));
     } else {
       lcd.print(uidString);
     }
 
-  if (Firebase.ready() && signupOK && WiFi.status() == WL_CONNECTED) {
-    Firebase.RTDB.setBool(&fbdo, "RFID/scanActive", true);
-    
-    if(Firebase.RTDB.setString(&fbdo, "RFID/UID", uidString) && 
-       Firebase.RTDB.setString(&fbdo, "RFID/timestamp", getFormattedTime())) {
+    if (Firebase.ready() && signupOK && WiFi.status() == WL_CONNECTED) {
+      Firebase.RTDB.setBool(&fbdo, "RFID/scanActive", true);
       
-      Serial.println("Data sent to Firebase");
-      
-      delay(2000);
-      
-      Firebase.RTDB.setString(&fbdo, "RFID/UID", "");
-      Firebase.RTDB.setBool(&fbdo, "RFID/scanActive", false);
+      if(Firebase.RTDB.setString(&fbdo, "RFID/UID", uidString) && 
+         Firebase.RTDB.setString(&fbdo, "RFID/timestamp", getFormattedTime())) {
+        
+        Serial.println("Data sent to Firebase");
+        
+        delay(2000);
+        
+        Firebase.RTDB.setString(&fbdo, "RFID/UID", "");
+        Firebase.RTDB.setBool(&fbdo, "RFID/scanActive", false);
+      }
     }
-  }
-  }
-
-  // Normal Mode = check if card exist
-  else {
-    if (Firebase.ready() && signupOK) {
-
-    String cardPath = "cards/" + uidString;
-
-    // Not Registered
-    if (Firebase.RTDB.get(&fbdo, cardPath.c_str())) {
-      if (fbdo.dataType() == "null") {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Entry Denied");
-        // ** CODE TO PLAY BUZZER SOUNDS (PLAY BUZZER SOUND(DEVICE))
-      }
-      else { // Registered
-        String enteredPath = cardPath + "/hasEntered";
-        if (Firebase.RTDB.getBool(&fbdo, enteredPath.c_str())){
-          bool hasEntered = fbdo.boolData();
-          
-          // amik UID of user yang dah diregister
-          String userUID;
-          String UIDpath = cardPath + "/UID";
-          if (Firebase.RTDB.getString(&fbdo, UIDpath.c_str())){
-            userUID = fbdo.stringData();
-          }
-
-          String plateNum;
-          String plateNumPath = cardPath + "/plateNum";
-            if (Firebase.RTDB.get(&fbdo, plateNumPath.c_str())){
-            plateNum = fbdo.stringData();
-            }
-
-          String randomChild = generateRandomChildName();
-
-          // Exit
-          if (hasEntered){
-            lcd.clear();
-            lcd.setCursor(0, 0);
-            lcd.print("Exit Success");
-            
-            // test buzzer code
-            buzzerSuccess();
-
-            // OPEN SERVO
-            servo1.write(0);  
-            delay(1000); 
-            Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), false);
-            parkingCount = parkingCount + 1;
-            Firebase.RTDB.setInt(&fbdo, "Parking/parkingCount", parkingCount);
-
-            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/UID", userUID);
-            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/timestamp", getFormattedTime());
-            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/day", getDayOfWeek());
-            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/date", getFormattedDate());
-            Firebase.RTDB.setString(&fbdo, "exitLog/" + randomChild + "/plateNum", plateNum);
-
-            // ** CODE TO CLOSE GATE (CLOSE GATE(DEVICE))
-            servo1.write(90); 
-            delay(1000); 
-            
-          } else {
-          // Enter
-            lcd.clear();
-            lcd.setCursor(0, 0);
-            lcd.print("Entry Success");
-
-            // test buzzer code
-            buzzerSuccess();
-
-            // ** CODE TO OPEN GATE (OPEN GATE (DEVICE))
-            servo1.write(0);  // Move to 180 degrees immediately
-            delay(1000); 
-
-            Firebase.RTDB.setBool(&fbdo, enteredPath.c_str(), true);
-            parkingCount = parkingCount - 1;
-            Firebase.RTDB.setInt(&fbdo, "Parking/parkingCount", parkingCount);
-
-            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/UID", userUID);
-            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/timestamp", getFormattedTime());
-            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/day", getDayOfWeek());
-            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/date", getFormattedDate());
-            Firebase.RTDB.setString(&fbdo, "entryLog/" + randomChild + "/plateNum", plateNum);
-
-            // ** CODE TO CLOSE GATE (CLOSE GATE(DEVICE))
-            servo1.write(90);  // Move to 180 degrees immediately
-            delay(1000); 
-          } // Print PlateNumber
-              
-            lcd.setCursor(0, 1);
-            lcd.print(plateNum);
-            delay(2000);
-        } 
-      }
-    } else { // Not Registered
-        Serial.println("Database error or no cards: " + fbdo.errorReason());
-          lcd.clear();
-          lcd.setCursor(0, 0);
-          lcd.print("Entry Denied");
-          delay(2000); // Show denied message
-          }
+  } else {
+    processCardAccess(uidString);
   }
 
   while (mfrc522.PICC_IsNewCardPresent()) {
     delay(100);
   }
-
   lcd.clear();
   delay(500);
-}
 }
