@@ -48,7 +48,7 @@ Open the application to start using UTM SmartPark.
 
 Username: Shakira
 
-Email: sharkyrahh@gmail.com@gmail.com
+Email: sharkyrahh@gmail.com
 
 Password: 1234567890Qw@@
 
