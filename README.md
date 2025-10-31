@@ -24,9 +24,9 @@ Follow these steps to install and use the app:
 
 📦 Step 1: Download APK
 
-UTM SmartPark (Admin).apk → For users with role Admin or Staff
+UTM SmartPark (Admin).apk → https://github.com/sharkyrahh/SD_SEC43_G06_43/releases/download/v1.0/app-release.apk
 
-UTM SmartPark (User).apk → For all users, including students, staff, and visitors
+UTM SmartPark (User).apk → https://github.com/sharkyrahh/SD_SEC43_G06_43/releases/download/v1.0/app-release.apk
 
 📲 Step 2: Install
 
