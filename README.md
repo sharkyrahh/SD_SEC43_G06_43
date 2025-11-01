@@ -46,17 +46,13 @@ Open the application to start using UTM SmartPark.
 
 🧾 User Account
 
-Username: Shakira
-
 Email: sharkyrahh@gmail.com
 
 Password: 1234567890Qw@@
 
 🧾 Admin Account
 
-Username: Khabilan
-
-Email: khabilan04@graduate.utm.my
+Email: kabilan04@graduate.utm.my
 
 Password: 1234567890Qw@@
 
@@ -79,13 +75,13 @@ Feature	Description
 
 Component	Technology
 
-Frontend	Flutter (Dart)
+Frontend: Java
 
-Backend	Firebase / Node.js
+Backend: Firebase
 
-Database	Firebase Firestore / Realtime Database
+Database: Realtime Database
 
-Hardware	RFID Module, ESP32/Arduino,LCD
+Hardware	RFID Module, ESP32, LCD
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <h1>🚀 7. Future Improvements </h1>
