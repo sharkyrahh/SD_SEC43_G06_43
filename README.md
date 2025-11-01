@@ -6,12 +6,12 @@
 
 <h1>🧭 1. Overview </h1>
 
-UTM SmartPark is a smart parking management system developed to improve the parking experience at Universiti Teknologi Malaysia (UTM).
+UTM SmartPark Parking System is a smart parking management system developed to improve the parking experience at Universiti Teknologi Malaysia (UTM).
 It uses technologies like RFID, camera verification, and real-time monitoring to automate and manage parking efficiently.
 
 The system is designed for:
 
-👨‍🎓 Students
+👨‍🎓 Year 2 Students and above
 
 👩‍🏫 Staff
 
@@ -24,9 +24,7 @@ Follow these steps to install and use the app:
 
 📦 Step 1: Download APK
 
-UTM SmartPark (Admin).apk → https://github.com/sharkyrahh/SD_SEC43_G06_43/releases/download/v1.0/app-release.apk
-
-UTM SmartPark (User).apk → https://github.com/sharkyrahh/SD_SEC43_G06_43/releases/download/v1.0/app-release.apk
+UTM SmartPark Parking System.apk → https://github.com/sharkyrahh/SD_SEC43_G06_43/releases/download/v1.0/app-release.apk
 
 📲 Step 2: Install
 
@@ -34,7 +32,7 @@ Install the selected APK file on your Android device.
 
 🚀 Step 3: Launch
 
-Open the application to start using UTM SmartPark.
+Open the application to start using UTM SmartPark Parking System.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <h1>🔗 3. GitHub Repository </h1>
